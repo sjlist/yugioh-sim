@@ -1,0 +1,6 @@
+TO DO:
+
+ - Make decks in txt files and import them during the sim
+ - Shuffle decks in place and draw from the top of the deck
+ - Break up deck analysis into different files based of functions
+ - Create a file system that relates fioles to functionality aka base functionality like drawing in one folder set and higher level functionality in other folders
