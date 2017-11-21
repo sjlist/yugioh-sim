@@ -1,38 +1,6 @@
 import random
 import time
-
-def make_deck():
-    res_f = 3
-    res_c = 3
-    res_s = 3
-    res_search = 3
-    level5s = 9
-    rtn_d_lords = 3
-    desires = 3
-    upstart = 0
-
-    cardDict = {'Pot of Desires' : desires,
-                'Flare Resonator' : res_f,
-                'Creation Resonator' : res_c,
-                'Synkron Resonator' : res_s,
-                'Resonator Call' : res_search,
-                'Level 5' : level5s,
-                'Return of the Dragon Lords' : rtn_d_lords,
-                'Upstart' : upstart}
-    
-    deck_size = 40
-    deck = []
-
-    for element in cardDict:
-        i = 0
-        while i < cardDict[element]:
-            deck.append(element)
-            i +=  1
-
-    while len(deck) < deck_size:
-        deck.append('Card')
-
-    return deck
+import deck_functionality.py
 
 def play_hand(deck):
     hand_size = 6
@@ -62,6 +30,7 @@ def play_hand(deck):
         elif ('Flare Resonator' in deck):
             add_card('Flare Resonator', deck, hand)
         elif ('Synkron Resonator' in deck):
+
             add_card('Synkron Resonator', deck, hand)
           
     if 'Upstart' in hand:
@@ -191,6 +160,7 @@ def chance_to_brick(number_of_hands):
     fails = 0
     successes = 0
     resultDict = {0 : 0, 1 : 0, 2 : 0, 3 : 0, 4 : 0, 5 : 0, 6 : 0, 7 : 0, 8 : 0, 9 : 0, 10 : 0}        
+
     while tries < number_of_hands:
         deck = make_deck()
         hand = play_hand(deck)
@@ -225,20 +195,4 @@ def chance_to_brick(number_of_hands):
     print('Chance to make 1 lvl 9 sync and 1 lvl 9 sync:  ' + str(resultDict[8]/tries*100))
     print('Chance to make 1 lvl 8 sync and 1 lvl 12 sync: ' + str(resultDict[9]/tries*100))
     print('Chance to make 1 lvl 9 sync and 1 lvl 12 sync: ' + str(resultDict[10]/tries*100))
-    
-def draw_num(num, src, dest):
-    i = 0
-    while i < num:
-        draw = random.sample(src,1)
-        src.remove(draw[0])
-        dest.append(draw[0])
-        i += 1
 
-def banish_rand(num, target):
-    banish = random.sample(target, num)
-    for element in banish:
-        target.remove(element)
-
-def add_card(card, src, dest):
-    src.remove(card)
-    dest.append(card)
