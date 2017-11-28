@@ -15,13 +15,14 @@ class Deck(object):
         self.extra_deck_size = 15
         self.deck_name = ""
         self.file_path = ""
+        self.file_base = "./decks/"
 
     def delete_deck(self):
-        self.file_path = "c:\Users\Sam\Deck_files\\" + str(self.deck_name) + ".txt"
+        self.file_path = self.file_base + str(self.deck_name) + ".txt"
         os.remove(self.file_path)         
 
     def save(self):
-        self.file_path = "c:\Users\Sam\Deck_files\\" + str(self.deck_name) + ".txt"
+        self.file_path = self.file_base + str(self.deck_name) + ".txt"
         print "Saving " + self.deck_name
         print "In: " + self.file_path
         with open(self.file_path, 'w') as f:
@@ -37,7 +38,7 @@ class Deck(object):
     
     def load(self, name):
         self.deck_name = name
-        self.file_path = "c:\Users\Sam\Deck_files\\" + str(self.deck_name) + ".txt"
+        self.file_path = self.file_base + str(self.deck_name) + ".txt"
         file_list = []
         with open(self.file_path, 'r') as f:
             file_data = f.read()
@@ -103,24 +104,48 @@ class Deck(object):
         if pile[name] == 0:
             pile.pop(name)
 
-    def make_main_deck_dict(self):
+    def make_deck_dict(self):
         res_f = 3
         res_c = 3
         res_s = 3
+        cdra = 3
+        primIN = 3
+        solar = 3
+        k1 = 2
+        k2 = 2
+
+        kslum = 1
+        twint = 2
+        galc = 1
         res_search = 3
-        level5s = 9
         rtn_d_lords = 3
         desires = 3
-        upstart = 0
+        soulc = 1
+        raig = 1
 
-        cardDict = {'Pot of Desires' : desires,
-                    'Flare Resonator' : res_f,
+        solw = 1
+        bth = 1
+        comp = 1
+
+        cardDict = {'Flare Resonator' : res_f,
                     'Creation Resonator' : res_c,
                     'Synkron Resonator' : res_s,
+                    'Cyber Dragon' : cdra,
+                    'Primitive Butterfly' : primIN,
+                    'Solar Wind Jammer' : solar,
+                    'Kumongous, the Sticky String Kaiju' : k1,
+                    'Radian, the Multidimensional Kaiju' : k2,
+                    'Interuptted Kaiju Slumber' : kslum,
+                    'Twin Twisters' : 2,
+                    'Galaxy Cyclone' : galc,
                     'Resonator Call' : res_search,
-                    'Level 5' : level5s,
                     'Return of the Dragon Lords' : rtn_d_lords,
-                    'Upstart' : upstart}
+                    'Pot of Desires' : desires,
+                    'Soul Charge' : soulc,
+                    'Raigeki' : raig,
+                    'Bottomless Trap Hole' : bth,
+                    'Compulory Evacuation Device' : comp,
+                    'Solemn Warning' : solw}
         
         deck_size = 40
         deck = []

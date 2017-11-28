@@ -1,0 +1,8 @@
+
+
+Main Deck
+{'Radian, the Multidimensional Kaiju': 2, 'Pot of Desires': 3, 'Soul Charge': 1, 'Synkron Resonator': 3, 'Compulory Evacuation Device': 1, 'Kumongous, the Sticky String Kaiju': 2, 'Twin Twisters': 2, 'Interuptted Kaiju Slumber': 1, 'Solemn Warning': 1, 'Raigeki': 1, 'Creation Resonator': 3, 'Primitive Butterfly': 3, 'Flare Resonator': 3, 'Bottomless Trap Hole': 1, 'Cyber Dragon': 3, 'Galaxy Cyclone': 1, 'Return of the Dragon Lords': 3, 'Solar Wind Jammer': 3, 'Resonator Call': 3}
+Extra Deck
+{}
+Side Deck
+{}

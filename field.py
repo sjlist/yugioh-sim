@@ -6,7 +6,8 @@ def test():
     f.load_deck('Greg')
     f.shuffle(f.deck)
     f.draw_num(5, f.deck, f.hand)
-    
+    print f.hand
+    return f
 
 class Field(object):
     def __init__(self):
@@ -69,4 +70,11 @@ class Field(object):
         src.remove(card)
         dest.append(card)
 
-    
+    def discard_card(self, card):
+        self.grave.insert(0, card)
+        self.hand.remove(card)
+        
+    def discard_rand(self, num):
+        discard = random.sample(self.hand, num)
+        for element in discard:
+            self.discard_card(element)
