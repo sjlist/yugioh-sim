@@ -12,16 +12,17 @@ def save_combo(c, parts):
     c.hand_or_deck = parts[2]
     c.deck         = parts[3]
     c.extra        = parts[4]
-    c.subcombos    = parts[5]
-    c.folder       = parts[6]
+    c.grave        = parts[5]
+    c.subcombos    = parts[6]
+    c.folder       = parts[7]
     c.save()
 
 def edit_combo(c):
-    states =  ['name', 'hand', 'hand_or_deck', 'deck', 'extra', 'subcombos', 'folder', 'none', 'done']
+    states =  ['name', 'hand', 'hand_or_deck', 'deck', 'extra', 'grave', 'subcombos', 'folder', 'none', 'done']
     actions = ['add', 'remove', 'print', 'none', 'done']
     action = 'none'
     repeat = 0
-    parts = [c.name, c.hand, c.hand_or_deck, c.deck, c.extra, c.subcombos, c.folder]
+    parts = [c.name, c.hand, c.hand_or_deck, c.deck, c.extra, c.grave, c.subcombos, c.folder]
 
     c.print_combo()
     state = raw_input("What part of the combo do you want to work on?\n")

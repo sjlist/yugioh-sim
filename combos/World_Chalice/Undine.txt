@@ -8,6 +8,8 @@ Main Deck Requirement
 {'Genex Controller': 1, 'Crystron Rosenix': 1}
 Extra Deck Requirement
 {}
+Grave Requirement
+{}
 Subcombos
 ['']
 Folder

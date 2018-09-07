@@ -8,6 +8,8 @@ Main Deck Requirement
 {}
 Extra Deck Requirement
 {}
+Grave Requirement
+{}
 Subcombos
 ['']
 Folder

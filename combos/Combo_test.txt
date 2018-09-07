@@ -8,6 +8,8 @@ Main Deck Requirment
 {'test': 123}
 Extra Deck Requirment
 {'test': 1234}
+Grave Requirement
+{'test': 12345}
 Subcombos
 ['red', 'blue', 'green']
 Folder

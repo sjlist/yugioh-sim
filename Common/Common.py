@@ -23,5 +23,14 @@ def string2Dict(string):
 
     return d
 
+
 def string2List(string):
     return string[1:-1].replace("'", "").split(', ')
+
+
+def dict2List(dict):
+    l = []
+    for key in dict.keys():
+        l.extend([key] * dict[key])
+
+    return l
