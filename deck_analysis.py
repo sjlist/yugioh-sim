@@ -1,19 +1,19 @@
 import random
 import time
-import deck_functionality.py
+import deck_functionality
 
 def play_hand(deck):
     hand_size = 6
     banish = []
     hand = []
-    
+
     draw_num(hand_size, deck, hand)
-    
+
     while (('Resonator Call' in hand)
      and  (('Flare Resonator' in deck)
        or  ('Creation Resonator' in deck)
        or  ('Synkron Resonator' in deck))):
-        
+
         hand.remove('Resonator Call')
         if (('Creation Resonator' not in hand)
        and  ('Creation Resonator' in deck)):
@@ -32,11 +32,11 @@ def play_hand(deck):
         elif ('Synkron Resonator' in deck):
 
             add_card('Synkron Resonator', deck, hand)
-          
+
     if 'Upstart' in hand:
         hand.remove('Upstart')
         draw_num(1, deck, hand)
-    
+
     if 'Pot of Desires' in hand:
         hand.remove('Pot of Desires')
         banish_rand(10, deck)
@@ -46,7 +46,7 @@ def play_hand(deck):
      and  (('Flare Resonator' in deck)
        or  ('Creation Resonator' in deck)
        or  ('Synkron Resonator' in deck))):
-        
+
         hand.remove('Resonator Call')
         if (('Creation Resonator' not in hand)
        and  ('Creation Resonator' in deck)):
@@ -68,7 +68,7 @@ def play_hand(deck):
     if 'Upstart' in hand:
         hand.remove('Upstart')
         draw_num(1, deck, hand)
-        
+
     return hand
 
 #Legend for test_hand
@@ -83,9 +83,9 @@ def play_hand(deck):
 #8: can make 1 lvl 9 sync and 1 lvl 9 sync
 #9: can make 1 lvl 8 sync and 1 lvl 12 sync
 #10: can make 1 lvl 9 sync and 1 lvl 12 sync
-     
+
 def test_hand(hand):
-    
+
     handDict = {'Flare Resonator' : 0,
                 'Creation Resonator' : 0,
                 'Synkron Resonator' : 0,
@@ -104,14 +104,14 @@ def test_hand(hand):
     and handDict['Synkron Resonator'] >= 2
     and handDict['Return of the Dragon Lords'] >= 1):
         return 10
-    
+
     if (handDict['Level 5'] >= 1
     and handDict['Creation Resonator'] >= 1
     and (handDict['Flare Resonator'] + handDict['Creation Resonator']) >= 2
     and handDict['Synkron Resonator'] >= 1
     and handDict['Return of the Dragon Lords'] >= 1):
         return 9
-    
+
     if (handDict['Level 5'] >= 1
     and (handDict['Flare Resonator'] + handDict['Creation Resonator']) >= 1
     and handDict['Synkron Resonator'] >= 2
@@ -125,41 +125,41 @@ def test_hand(hand):
         return 7
 
     if (handDict['Level 5'] >= 1
-    and handDict['Creation Resonator'] >= 1        
+    and handDict['Creation Resonator'] >= 1
     and (handDict['Flare Resonator'] + handDict['Creation Resonator']) >= 2
     and handDict['Synkron Resonator'] >= 1):
         return 6
 
-    if (handDict['Level 5'] >= 1       
+    if (handDict['Level 5'] >= 1
     and (handDict['Flare Resonator'] + handDict['Creation Resonator']) >= 1
     and handDict['Synkron Resonator'] >= 2):
         return 5
 
-    if (handDict['Level 5'] >= 1       
+    if (handDict['Level 5'] >= 1
     and (handDict['Flare Resonator'] + handDict['Creation Resonator']) >= 1
     and handDict['Synkron Resonator'] >= 1):
         return 4
 
-    if (handDict['Level 5'] >= 1       
+    if (handDict['Level 5'] >= 1
     and ((handDict['Flare Resonator'] + handDict['Creation Resonator']) >= 1)):
         return 3
 
-    if (handDict['Level 5'] >= 1       
+    if (handDict['Level 5'] >= 1
     and handDict['Synkron Resonator'] >= 2):
         return 2
 
-    if (handDict['Level 5'] >= 1       
+    if (handDict['Level 5'] >= 1
     and handDict['Synkron Resonator'] >= 1):
         return 1
-    
+
     return 0
-        
+
 def chance_to_brick(number_of_hands):
     start_time = time.time()
     tries = 0
     fails = 0
     successes = 0
-    resultDict = {0 : 0, 1 : 0, 2 : 0, 3 : 0, 4 : 0, 5 : 0, 6 : 0, 7 : 0, 8 : 0, 9 : 0, 10 : 0}        
+    resultDict = {0 : 0, 1 : 0, 2 : 0, 3 : 0, 4 : 0, 5 : 0, 6 : 0, 7 : 0, 8 : 0, 9 : 0, 10 : 0}
 
     while tries < number_of_hands:
         deck = make_deck()
@@ -167,7 +167,7 @@ def chance_to_brick(number_of_hands):
         result  = test_hand(hand)
 
         resultDict[result] += 1
-        
+
         tries += 1
 
     stop_time = time.time()
@@ -195,4 +195,3 @@ def chance_to_brick(number_of_hands):
     print('Chance to make 1 lvl 9 sync and 1 lvl 9 sync:  ' + str(resultDict[8]/tries*100))
     print('Chance to make 1 lvl 8 sync and 1 lvl 12 sync: ' + str(resultDict[9]/tries*100))
     print('Chance to make 1 lvl 9 sync and 1 lvl 12 sync: ' + str(resultDict[10]/tries*100))
-

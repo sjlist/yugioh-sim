@@ -1,0 +1,14 @@
+
+Combo_test
+Hand Requirement
+{'test': 1}
+Hand or Main Deck Requirement
+{'test': 12}
+Main Deck Requirment
+{'test': 123}
+Extra Deck Requirment
+{'test': 1234}
+Subcombos
+['red', 'blue', 'green']
+Folder
+Transmodify
