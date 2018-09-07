@@ -1,0 +1,14 @@
+
+Undine
+Hand Requirement
+{'Genex Undine': 1}
+Hand or Main Deck Requirement
+{}
+Main Deck Requirement
+{'Genex Controller': 1, 'Crystron Rosenix': 1}
+Extra Deck Requirement
+{}
+Subcombos
+['']
+Folder
+World_Chalice
