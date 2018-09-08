@@ -8,7 +8,7 @@ TO DO:
  - Create Card database that is expandable!!
  - Create analysis system that plays decks based off of options available and not based off of known combos
    - Unless the analysis figures out combos?
- 
+
 
 TO DO (ALTON/ANALYSIS):
 
@@ -16,3 +16,12 @@ TO DO (ALTON/ANALYSIS):
  - Save, Visualize, and Analyize decision trees?
  - Measure consistency-power payoff (Consistent but weak? Inconsistent but strong when it works? Neither? Both?)
  - Be able to compare different decks
+
+
+
+
+
+TODO:
+ - Add field and hand_or_field to combos
+ - Find a better way to do combined section requirements, add two dictionaries together?
+ - Implement movement

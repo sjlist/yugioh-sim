@@ -1,0 +1,18 @@
+
+wl_bf_1
+Folder
+World_Chalice
+Hand Requirement
+{'World Legacy - "World Chalice"': 1}
+Hand or Main Deck Requirement
+{}
+Main Deck Requirement
+{'World Chalice Gaurdragon': 1, 'Beckoned by the World Chalice': 1}
+Extra Deck Requirement
+{}
+Grave Requirement
+{}
+Movement
+{}
+Subcombos
+['brilliant_fusion']

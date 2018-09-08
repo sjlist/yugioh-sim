@@ -1,0 +1,18 @@
+
+lee_BF_1
+Folder
+World_Chalice
+Hand Requirement
+{'Lee the World Chalice Fairy': 1}
+Hand or Main Deck Requirement
+{'World Legacy - "World Chalice"': 1, 'World Chalice Gaurdragon': 1, 'Beckoned by the World Chalice': 1}
+Main Deck Requirement
+{}
+Extra Deck Requirement
+{}
+Grave Requirement
+{}
+Movement
+{}
+Subcombos
+['undine']

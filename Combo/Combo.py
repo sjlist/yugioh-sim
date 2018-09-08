@@ -5,31 +5,48 @@ import os
 
 
 class Combo():
-    def __init__(self, name="", hand_req={}, hand_or_deck={}, deck_req={}, extra_req={}, grave_req={}, subcombos=[], folder=""):
+    def __init__(self, name="", hand_req={}, hand_or_deck={}, deck_req={}, extra_req={}, grave_req={}, movement = {}, subcombos=[], folder="none", hand_or_field = {}, field = {}):
         self.name = name
+        self.folder = folder
         self.hand = hand_req
         self.hand_or_deck = hand_or_deck
         self.deck = deck_req
         self.extra = extra_req
         self.grave = grave_req
+        self.movement = movement
         self.subcombos = subcombos
-        self.folder = folder
+        self.field = field
+        self.hand_or_field = hand_or_field
         self.file_path = ""
 
     def isCombo(self, f):
         for combo in self.subcombos:
             if combo != '':
-                c = self.__init__()
-                c.load(combo, self.folder)
-                c.isCombo(f)
+                c = Combo()
+                c.load(combo, "{}/subcombos".format(self.folder))
+                if not c.isCombo(f):
+                    return False
 
-        return self.allThere(self.hand, f.hand) and self.allThere(self.deck, f.deck) and \
-               self.allThere(self.extra, f.extra) and self.allThere(self.hand_or_deck, f.hand + f.deck) and \
-               self.allThere(self.grave, f.grave)
+        if not self.allThere(self.hand, f.hand):
+            return False
+        if not self.allThere(self.extra, f.extra):
+            return False
+        if not self.allThere(self.deck, f.deck):
+            return False
+        if not self.allThere(self.field, f.m_zone + f.st_zone):
+            return False
+        if not self.allThere(self.hand_or_field, f.m_zone + f.st_zone + f.hand):
+            return False
+        if not self.allThere(self.hand_or_deck, f.hand + f.deck):
+            return False
+        if not self.allThere(self.grave, f.grave):
+            return False
+
+        return True
 
     def allThere(self, combo_req, combo_ava):
         for element in combo_req.keys():
-            if combo_req[element] != combo_ava.count(element):
+            if combo_req[element] > combo_ava.count(element):
                 return False
 
         return True
@@ -42,6 +59,7 @@ class Combo():
         print("Deck Requirement: \n{}".format(self.deck))
         print("Extra Deck Requirement: \n{}".format(self.extra))
         print("Grave Requirement: \n{}".format(self.grave))
+        print("Combo Movement: \n{}".format(self.movement))
         print("Subcombos: \n{}".format(self.subcombos))
         print("Combo Folder: \n{}".format(self.folder))
 
@@ -55,6 +73,8 @@ class Combo():
         with open(self.file_path, 'w') as f:
             f.write('\n')
             f.write(self.name)
+            f.write('\nFolder\n')
+            f.write(str(self.folder))
             f.write('\nHand Requirement\n')
             f.write(str(self.hand))
             f.write('\nHand or Main Deck Requirement\n')
@@ -65,10 +85,10 @@ class Combo():
             f.write(str(self.extra))
             f.write('\nGrave Requirement\n')
             f.write(str(self.grave))
+            f.write('\nMovement\n')
+            f.write(str(self.movement))
             f.write('\nSubcombos\n')
             f.write(str(self.subcombos))
-            f.write('\nFolder\n')
-            f.write(str(self.folder))
             f.write('\n\n')
 
     def load(self, name, folder):
@@ -91,13 +111,15 @@ class Combo():
             i += 1
 
         self.name = deck_raw[0]
-        self.hand = common.string2Dict(deck_raw[2])
-        self.hand_or_deck = common.string2Dict(deck_raw[4])
-        self.deck = common.string2Dict(deck_raw[6])
-        self.extra = common.string2Dict(deck_raw[8])
-        self.grave = common.string2Dict(deck_raw[10])
-        self.subcombos = common.string2List(deck_raw[12])
-        self.folder = deck_raw[14]
+        self.folder = deck_raw[2]
+        self.hand = common.string2Dict(deck_raw[4])
+        self.hand_or_deck = common.string2Dict(deck_raw[6])
+        self.deck = common.string2Dict(deck_raw[8])
+        self.extra = common.string2Dict(deck_raw[10])
+        self.grave = common.string2Dict(deck_raw[12])
+        self.movement = common.string2Dict(deck_raw[14])
+        self.subcombos = common.string2List(deck_raw[16])
+
 
     def add_card(self, pile, name, number):
         if name in pile.keys():
@@ -113,4 +135,3 @@ class Combo():
     def delete_combo(self):
         self.file_path = "./combos/{}/{}.txt".format(self.folder, self.name)
         os.remove(self.file_path)
-

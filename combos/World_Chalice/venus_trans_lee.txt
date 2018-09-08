@@ -1,0 +1,18 @@
+
+venus
+Folder
+World_Chalice
+Hand Requirement
+{}
+Hand or Main Deck Requirement
+{}
+Main Deck Requirement
+{}
+Extra Deck Requirement
+{}
+Grave Requirement
+{}
+Movement
+{}
+Subcombos
+['venus_3']

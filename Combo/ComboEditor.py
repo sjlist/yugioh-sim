@@ -1,7 +1,6 @@
 import Combo
 
-def create_combo():
-    combo_name = raw_input("What is the name of the combo?\n")
+def create_combo(combo_name):
     c = Combo.Combo(combo_name)
     c.save()
     edit_combo(c)
@@ -24,26 +23,27 @@ def edit_combo(c):
     repeat = 0
     parts = [c.name, c.hand, c.hand_or_deck, c.deck, c.extra, c.grave, c.subcombos, c.folder]
 
+    save_combo(c, parts)
     c.print_combo()
     state = raw_input("What part of the combo do you want to work on?\n")
 
     while state != 'done':
 
         while state not in states:
-            print 'Error ' + state + ' is not a valid part of the combo'
-            print 'hand, hand_or_deck, deck, extra, subcombos, and folder are the valid parts of the combo'
+            print('Error {} is not a valid part of the combo'.format(state))
+            print('hand, hand_or_deck, deck, extra, subcombos, and folder are the valid parts of the combo')
             state = raw_input("What part of the combo do you want to work on?\n")
 
-        if state in states[1:6]:
+        if state in states[1:7]:
             part = parts[states.index(state)]
         elif state == 'folder':
-            parts[6] = raw_input("What would you like to change the combo folder to?\n")
+            parts[states.index(state)] = raw_input("What would you like to change the combo folder to?\n")
             c.delete_combo()
             save_combo(c, parts)
         elif state == 'name':
-            print 'Name is: ' + c.name
+            print('Name is: {}'.format(c.name))
             c.delete_combo()
-            parts[0] = raw_input("What would you like to change it to?\n")
+            parts[states.index(state)] = raw_input("What would you like to change it to?\n")
             save_combo(c, parts)
 
         while action != 'done':
@@ -52,7 +52,7 @@ def edit_combo(c):
                 action = 'done'
 
             if action == 'none':
-                action = raw_input("Would you like to add or remove cards from the " + state + " combo requirement?\n")
+                action = raw_input("Would you like to add or remove cards from the {} combo requirement?\n".format(state))
 
             if action == 'print':
                 save_combo(c, parts)
@@ -69,23 +69,23 @@ def edit_combo(c):
 
                 if state == 'subcombos':
                     if card in part:
-                        print "{} is already a subcombo of this combo".format(card)
+                        print("{} is already a subcombo of this combo".format(card))
                         repeat = 0
                     else:
                         part.append(card)
                         repeat = 0
                 else:
                     if card in part:
-                        print 'There are currently ' + str(part[card]) + ' copies of ' + card + ' already in the combo'
+                        print('There are currently {} copies of {} already in the combo'.format(part[card], card))
 
-                    num = int(raw_input("How many copies of " + card + " do you want to add?\n"))
+                    num = int(raw_input("How many copies of {} do you want to add?\n".format(card)))
 
                     if num > 3:
-                        print 'You can only have 3 copies of a card in your combo'
+                        print('You can only have 3 copies of a card in your combo')
                         repeat = 1
                     elif card in part.keys():
                         if (part[card] + num) > 3:
-                            print 'You can only have 3 copies of a card in your combo'
+                            print('You can only have 3 copies of a card in your combo')
                             repeat = 1
                         else:
                             repeat = 0
@@ -108,28 +108,28 @@ def edit_combo(c):
 
                 if state == 'subcombos':
                     if card not in part:
-                        print "{} is not a subcombo of this combo".format(card)
+                        print("{} is not a subcombo of this combo".format(card))
                         repeat = 0
                     else:
                         part.remove(card)
                         repeat = 0
                 elif card in part.keys():
-                    print 'There are ' + str(part[card]) + ' copies of ' + card
+                    print('There are {} copies of {}'.format(part[card], card))
 
-                    num = int(raw_input("How many copies of " + card + " do you want to remove?\n"))
+                    num = int(raw_input("How many copies of {} do you want to remove?\n".format(card)))
                     if num > part[card]:
-                        print 'Error, you are trying to remove more copies than exist'
+                        print('Error, you are trying to remove more copies than exist')
                         repeat = 1
                     else:
                         repeat = 0
                         c.remove_card(part, card, num)
                         save_combo(c, parts)
                 else:
-                    print card + ' is not in the ' + state + ' combo'
+                    print('{} is not in the {} combo'.format(card, state))
 
             if action not in actions:
-                print 'Error: invalid action entered: ' + action
-                print 'Valid actions are:'
+                print('Error: invalid action entered: {}'.format(action))
+                print('Valid actions are:')
                 action = 'none'
                 for element in actions:
                     print element

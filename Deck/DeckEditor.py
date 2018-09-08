@@ -1,7 +1,6 @@
 import Deck
 
-def create_deck():
-    deck_name = raw_input("What is the name of the deck?\n")
+def create_deck(deck_name):
     d = Deck.Deck(deck_name)
     d.save()
     edit_deck(d)

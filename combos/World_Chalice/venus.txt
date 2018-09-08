@@ -1,17 +1,18 @@
 
-Venus_3
+venus
+Folder
+World_Chalice
 Hand Requirement
-{'The Agent of Creation - Venus': 1}
+{}
 Hand or Main Deck Requirement
-{'Mystical Shine Ball': 3}
+{}
 Main Deck Requirement
 {}
 Extra Deck Requirement
 {}
 Grave Requirement
 {}
+Movement
+{}
 Subcombos
-['']
-Folder
-World_Chalice
-
+['venus_3']

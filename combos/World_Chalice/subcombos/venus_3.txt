@@ -1,16 +1,18 @@
 
-Undine
+Venus_3
+Folder
+World_Chalice
 Hand Requirement
-{'Genex Undine': 1}
+{'The Agent of Creation - Venus': 1}
 Hand or Main Deck Requirement
-{}
+{'Mystical Shine Ball': 3}
 Main Deck Requirement
-{'Genex Controller': 1, 'Crystron Rosenix': 1}
+{}
 Extra Deck Requirement
 {}
 Grave Requirement
 {}
+Movement
+{}
 Subcombos
 ['']
-Folder
-World_Chalice

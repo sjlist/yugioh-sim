@@ -1,0 +1,18 @@
+
+Brilliant_Fusion
+Folder
+World_Chalice
+Hand Requirement
+{'Brilliant Fusion': 1}
+Hand or Main Deck Requirement
+{}
+Main Deck Requirement
+{'Gem-Knight Lazuli': 1}
+Extra Deck Requirement
+{'Gem-Knight Seraphinite': 1}
+Grave Requirement
+{}
+Movement
+{}
+Subcombos
+[]

@@ -1,0 +1,18 @@
+
+Venus_3
+Folder
+World_Chalice
+Hand Requirement
+{'Transmodify': 1, 'Lee the World Chalice Fairy': 1}
+Hand or Main Deck Requirement
+{'The Agent of Creation - Venus': 1}
+Main Deck Requirement
+{}
+Extra Deck Requirement
+{}
+Grave Requirement
+{}
+Movement
+{'Transmodify': 'grave', 'Lee the World Chalice Fairy': 'grave', 'The Agent of Creation - Venus': 'field'}
+Subcombos
+['']

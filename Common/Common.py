@@ -1,3 +1,6 @@
+import os
+import glob
+
 def string2Dict(string):
     d = dict()
     value_end = 0
@@ -34,3 +37,17 @@ def dict2List(dict):
         l.extend([key] * dict[key])
 
     return l
+
+def fileExists(folder, file):
+    for path, dirs, files in os.walk('./{}'.format(folder)):
+        for d in dirs:
+            for f in glob.iglob(os.path.join(path, d, '{}'.format(file))):
+                return True
+    return False
+
+def parentFolder(folder, file):
+    for path, dirs, files in os.walk('./{}'.format(folder)):
+        for d in dirs:
+            for f in glob.iglob(os.path.join(path, d, '{}'.format(file))):
+                return True, d
+    return False, ""
