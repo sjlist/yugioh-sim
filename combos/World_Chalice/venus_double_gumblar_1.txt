@@ -1,0 +1,18 @@
+
+venus_double_gumblar_1
+Folder
+World_Chalice
+Subcombos
+['venus_3']
+Movement
+{}
+Hand Requirement
+{}
+Hand or Main Deck Requirement
+{}
+Main Deck Requirement
+{'Eva': 1,  'Lee the World Chalice Fairy': 2, 'Herald of Orange Light': 2, 'World Legacy - "World Chalice"': 1, 'World Chalice Gaurdragon': 1, 'Beckoned by the World Chalice': 1}
+Extra Deck Requirement
+{'Summon Sorceress': 1, 'Linkuriboh': 1, 'Imduk the World Chalice Dragon': 1, 'Knightmare Goblin': 1}
+Grave Requirement
+{}

@@ -17,9 +17,12 @@ class Combo():
         self.subcombos = subcombos
         self.field = field
         self.hand_or_field = hand_or_field
+        self.items = [self.name, self.folder, self.subcombos, self.movement]
+        self.combo_reqs = [self.hand, self.hand_or_deck, self.deck, self.extra, self.grave, self.field, self.hand_or_field]
         self.file_path = ""
 
     def isCombo(self, f):
+        # print self.subcombos
         for combo in self.subcombos:
             if combo != '':
                 c = Combo()
@@ -53,15 +56,17 @@ class Combo():
 
 # SAVE LOAD AND EDITOR FUNCTIONS
     def print_combo(self):
-        print("Combo: {}".format(self.name))
-        print("Hand Requirement: \n{}".format(self.hand))
-        print("Hand or Deck Requirment: \n{}".format(self.hand_or_deck))
-        print("Deck Requirement: \n{}".format(self.deck))
-        print("Extra Deck Requirement: \n{}".format(self.extra))
-        print("Grave Requirement: \n{}".format(self.grave))
-        print("Combo Movement: \n{}".format(self.movement))
-        print("Subcombos: \n{}".format(self.subcombos))
-        print("Combo Folder: \n{}".format(self.folder))
+        print("Combo:\n{}".format(self.name))
+        print("Combo Folder:\n{}".format(self.folder))
+        print("Subcombos:\n{}".format(self.subcombos))
+        print("Movement:\n{}".format(self.movement))
+        print("Hand Requirement:\n{}".format(self.hand))
+        print("Hand or Deck Requirment:\n{}".format(self.hand_or_deck))
+        print("Deck Requirement:\n{}".format(self.deck))
+        print("Extra Deck Requirement:\n{}".format(self.extra))
+        print("Grave Requirement:\n{}".format(self.grave))
+        print("Field Requirement:\n{}".format(self.field))
+        print("Hand or Field Requirment:\n{}".format(self.hand_or_field))
 
     def save(self):
         print self.file_path
@@ -75,6 +80,10 @@ class Combo():
             f.write(self.name)
             f.write('\nFolder\n')
             f.write(str(self.folder))
+            f.write('\nSubcombos\n')
+            f.write(str(self.subcombos))
+            f.write('\nMovement\n')
+            f.write(str(self.movement))
             f.write('\nHand Requirement\n')
             f.write(str(self.hand))
             f.write('\nHand or Main Deck Requirement\n')
@@ -85,11 +94,12 @@ class Combo():
             f.write(str(self.extra))
             f.write('\nGrave Requirement\n')
             f.write(str(self.grave))
-            f.write('\nMovement\n')
-            f.write(str(self.movement))
-            f.write('\nSubcombos\n')
-            f.write(str(self.subcombos))
+            f.write('\nField Requirement\n')
+            f.write(str(self.field))
+            f.write('\nHand or Field Deck Requirement\n')
+            f.write(str(self.hand_or_field))
             f.write('\n\n')
+
 
     def load(self, name, folder):
         self.file_path = "./combos/{}/{}.txt".format(folder, name)
@@ -110,15 +120,31 @@ class Combo():
             deck_raw.append(file_data[lines[i]+1:lines[i+1]])
             i += 1
 
-        self.name = deck_raw[0]
-        self.folder = deck_raw[2]
-        self.hand = common.string2Dict(deck_raw[4])
-        self.hand_or_deck = common.string2Dict(deck_raw[6])
-        self.deck = common.string2Dict(deck_raw[8])
-        self.extra = common.string2Dict(deck_raw[10])
-        self.grave = common.string2Dict(deck_raw[12])
-        self.movement = common.string2Dict(deck_raw[14])
-        self.subcombos = common.string2List(deck_raw[16])
+        self.items[0] = deck_raw[0]
+        self.items[1] = deck_raw[2]
+        self.items[2] = common.string2List(deck_raw[4])
+        self.items[3] = common.string2DictString(deck_raw[6])
+
+        i = 0
+        while (i+len(self.items))*2 < len(deck_raw):
+            self.combo_reqs[i] = common.string2DictInt(deck_raw[(i+len(self.items))*2])
+            i += 1
+
+        self.save_items()
+
+    def save_items(self):
+        self.name = self.items[0]
+        self.folder = self.items[1]
+        self.subcombos = self.items[2]
+        self.movement = self.items[3]
+
+        self.hand = self.combo_reqs[0]
+        self.hand_or_deck = self.combo_reqs[1]
+        self.deck = self.combo_reqs[2]
+        self.extra = self.combo_reqs[3]
+        self.grave = self.combo_reqs[4]
+        self.field = self.combo_reqs[5]
+        self.hand_or_field = self.combo_reqs[6]
 
 
     def add_card(self, pile, name, number):

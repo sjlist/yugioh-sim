@@ -1,7 +1,7 @@
 
 venus_trans_lee
 Folder
-World_Chalice/subcombos
+no_deck/subcombos
 Subcombos
 ['']
 Movement

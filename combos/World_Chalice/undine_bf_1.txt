@@ -2,6 +2,10 @@
 undine_BF_1
 Folder
 World_Chalice
+Subcombos
+['brilliant_fusion', 'undine']
+Movement
+{}
 Hand Requirement
 {}
 Hand or Main Deck Requirement
@@ -12,7 +16,3 @@ Extra Deck Requirement
 {}
 Grave Requirement
 {}
-Movement
-{}
-Subcombos
-['brilliant_fusion', 'undine']

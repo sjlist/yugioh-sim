@@ -2,6 +2,10 @@
 wl_bf_1
 Folder
 World_Chalice
+Subcombos
+['brilliant_fusion']
+Movement
+{}
 Hand Requirement
 {'World Legacy - "World Chalice"': 1}
 Hand or Main Deck Requirement
@@ -12,7 +16,3 @@ Extra Deck Requirement
 {}
 Grave Requirement
 {}
-Movement
-{}
-Subcombos
-['brilliant_fusion']

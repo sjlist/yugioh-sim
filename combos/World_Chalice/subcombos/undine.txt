@@ -1,7 +1,11 @@
 
-Undine
+undine
 Folder
-World_Chalice
+World_Chalice/subcombos
+Subcombos
+['']
+Movement
+{}
 Hand Requirement
 {'Genex Undine': 1}
 Hand or Main Deck Requirement
@@ -12,7 +16,7 @@ Extra Deck Requirement
 {}
 Grave Requirement
 {}
-Movement
+Field Requirement
 {}
-Subcombos
-['']
+Hand or Field Deck Requirement
+{}

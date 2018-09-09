@@ -1,7 +1,7 @@
 import random
 import time
 import os
-from Common.Common import string2Dict
+from Common.Common import string2DictInt
 
 class Deck(object):
     def __init__(self, deck_name = ""):
@@ -78,9 +78,9 @@ class Deck(object):
             i += 1
 
         self.deck_name = deck_raw[0]
-        self.main_deck = string2Dict(deck_raw[2])
-        self.extra_deck = string2Dict(deck_raw[4])
-        self.side_deck = string2Dict(deck_raw[6])
+        self.main_deck = string2DictInt(deck_raw[2])
+        self.extra_deck = string2DictInt(deck_raw[4])
+        self.side_deck = string2DictInt(deck_raw[6])
         self.combo_folder = deck_raw[8]
 
     def print_deck(self):

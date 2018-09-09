@@ -1,7 +1,11 @@
 
-Brilliant_Fusion
+brilliant_fusion
 Folder
-World_Chalice
+World_Chalice/subcombos
+Subcombos
+['']
+Movement
+{}
 Hand Requirement
 {'Brilliant Fusion': 1}
 Hand or Main Deck Requirement
@@ -12,7 +16,7 @@ Extra Deck Requirement
 {'Gem-Knight Seraphinite': 1}
 Grave Requirement
 {}
-Movement
+Field Requirement
 {}
-Subcombos
-[]
+Hand or Field Deck Requirement
+{}

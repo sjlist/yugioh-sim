@@ -1,5 +1,5 @@
 from __future__ import division
-import Field
+import Field.Field as Field
 import os
 import Deck.Deck as Deck
 import Combo.Combo as Combo
@@ -29,6 +29,8 @@ class ComboAnalyzer():
             i += 1
             wasCombo = False
             f = Field.Field(d)
+            f.draw_num(5)
+
             for key in combo_names.keys():
                 if combo_names[key].isCombo(f):
                     combo_chance[key] += 1
@@ -36,7 +38,6 @@ class ComboAnalyzer():
 
             if not wasCombo:
                 combo_chance["Brick"] += 1
-
 
         for key in combo_chance.keys():
             combo_chance[key] = combo_chance[key] / self.MAX_TRIES

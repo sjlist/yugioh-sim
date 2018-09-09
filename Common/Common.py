@@ -1,7 +1,7 @@
 import os
 import glob
 
-def string2Dict(string):
+def string2DictInt(string):
     d = dict()
     value_end = 0
     while True:
@@ -26,10 +26,33 @@ def string2Dict(string):
 
     return d
 
+def string2DictString(string):
+    d = dict()
+    value_end = 0
+    while True:
+        name_start = string.find("'", value_end) + 1
+        name_end = string.find("'", name_start)
+        name = string[name_start:name_end]
+
+        value_start = name_end + 3
+        value_end = string.find(",", value_start)
+
+        if value_end == -1:
+            if name != '{':
+                value = string[value_start+1:len(string)-2]
+                d[name] = value
+                return d
+            else:
+                return d
+
+        value = string[value_start+1:value_end-1]
+
+        d[name] = value
+
+    return d
 
 def string2List(string):
     return string[1:-1].replace("'", "").split(', ')
-
 
 def dict2List(dict):
     l = []

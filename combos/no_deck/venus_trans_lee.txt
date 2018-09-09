@@ -1,7 +1,11 @@
 
-venus
+venus_trans_lee
 Folder
-World_Chalice
+no_deck
+Subcombos
+['venus_trans_lee']
+Movement
+{}
 Hand Requirement
 {}
 Hand or Main Deck Requirement
@@ -12,7 +16,3 @@ Extra Deck Requirement
 {}
 Grave Requirement
 {}
-Movement
-{}
-Subcombos
-['venus_3']
