@@ -54,6 +54,19 @@ def string2DictString(string):
 def string2List(string):
     return string[1:-1].replace("'", "").split(', ')
 
+def string2TupleList(string):
+    if string == '[]':
+        return []
+    list = []
+    elements = string[2:-2].split("], [")
+    for element in elements:
+        i = []
+        items = element.split(", ")
+        for item in items:
+            i.append(item.split("'")[1])
+        list.append(i)
+    return list
+
 def dict2List(dict):
     l = []
     for key in dict.keys():

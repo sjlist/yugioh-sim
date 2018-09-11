@@ -5,7 +5,7 @@ World_Chalice
 Subcombos
 ['undine']
 Movement
-{}
+[]
 Hand Requirement
 {'Lee the World Chalice Fairy': 1}
 Hand or Main Deck Requirement

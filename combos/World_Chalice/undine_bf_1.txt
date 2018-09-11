@@ -5,7 +5,7 @@ World_Chalice
 Subcombos
 ['brilliant_fusion', 'undine']
 Movement
-{}
+[]
 Hand Requirement
 {}
 Hand or Main Deck Requirement

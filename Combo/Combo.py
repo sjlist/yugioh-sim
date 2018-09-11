@@ -3,7 +3,6 @@
 import Common.Common as common
 import os
 
-
 class Combo():
     def __init__(self, name="", hand_req={}, hand_or_deck={}, deck_req={}, extra_req={}, grave_req={}, movement = {}, subcombos=[], folder="none", hand_or_field = {}, field = {}):
         self.name = name
@@ -22,7 +21,6 @@ class Combo():
         self.file_path = ""
 
     def isCombo(self, f):
-        # print self.subcombos
         for combo in self.subcombos:
             if combo != '':
                 c = Combo()
@@ -45,6 +43,15 @@ class Combo():
         if not self.allThere(self.grave, f.grave):
             return False
 
+        if self.movement == []:
+            return True
+        else:
+            return self.playCombo(f)
+
+    def playCombo(self, f):
+        for action in self.movement:
+            if not f.move_card(action):
+                return False
         return True
 
     def allThere(self, combo_req, combo_ava):
@@ -123,7 +130,7 @@ class Combo():
         self.items[0] = deck_raw[0]
         self.items[1] = deck_raw[2]
         self.items[2] = common.string2List(deck_raw[4])
-        self.items[3] = common.string2DictString(deck_raw[6])
+        self.items[3] = common.string2TupleList(deck_raw[6])
 
         i = 0
         while (i+len(self.items))*2 < len(deck_raw):

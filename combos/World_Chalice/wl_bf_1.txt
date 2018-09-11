@@ -5,7 +5,7 @@ World_Chalice
 Subcombos
 ['brilliant_fusion']
 Movement
-{}
+[]
 Hand Requirement
 {'World Legacy - "World Chalice"': 1}
 Hand or Main Deck Requirement

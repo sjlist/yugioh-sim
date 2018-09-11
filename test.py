@@ -1,10 +1,8 @@
-import deck_analysis as DA
+from Common.Common import string2TupleList
 
-a = DA.ComboAnalyzer("World_Chalice_Undine", 10000)
-a.analyze_combos()
-# {'Lee the World Chalice Fairy': 'grave', 'The Agent of Creation - Venus': 'field', 'Transmodify': 'grave'}
-#
-# import Combo.Combo as Combo
-#
-# c = Combo.Combo()
-# c.load("venus_trans_lee", "World_Chalice/subcombos")
+d = [['1', '2', '3', '1'], ['4', '5', '6'], ['7', '8', '9'], ['10', '11', '12']]
+ds = str(d)
+a = string2TupleList(ds)
+print d
+print a
+print a == d

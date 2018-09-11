@@ -31,4 +31,6 @@ class ComboTest:
                 print("Failed testing {}/{} on requirement {} with error state {}".format(self.combo.folder, self.combo.name, requirement, error_state))
                 sys.exit()
 
+        #TODO add movement tests, that at least the actions are all legal
+
         print("{}/{} passed".format(self.combo.folder, self.combo.name))

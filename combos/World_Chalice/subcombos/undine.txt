@@ -5,7 +5,7 @@ World_Chalice/subcombos
 Subcombos
 ['']
 Movement
-{}
+[]
 Hand Requirement
 {'Genex Undine': 1}
 Hand or Main Deck Requirement
