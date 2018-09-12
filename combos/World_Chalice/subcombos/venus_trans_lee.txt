@@ -1,11 +1,16 @@
-
+Name
 venus_trans_lee
 Folder
-no_deck/subcombos
+World_Chalice/subcombos
 Subcombos
 ['']
 Movement
-[['Lee the World Chalice Fairy', 'hand', 'm_zone', '-1', '0'], ['World Legacy - "World Chalice"', 'deck', 'hand'], ['Transmodify', 'hand', 'st_zone', '-1', '0'], ['Lee the World Chalice Fairy', 'm_zone', 'grave', '0', '-1'], ['The Agent of Creation - Venus', 'deck', 'm_zone', '-1', '0'], ['Transmodify', 'st_zone', 'grave', '0', '-1']]
+['Lee the World Chalice Fairy', 'hand', 'm_zone', '-1', '0']
+['World Legacy - "World Chalice"', 'deck', 'hand']
+['Transmodify', 'hand', 'st_zone', '-1', '0']
+['Lee the World Chalice Fairy', 'm_zone', 'grave', '0', '-1']
+['The Agent of Creation - Venus', 'deck', 'm_zone', '-1', '0']
+['Transmodify', 'st_zone', 'grave', '0', '-1']
 Hand Requirement
 {'Lee the World Chalice Fairy': 1, 'Transmodify': 1}
 Hand or Main Deck Requirement

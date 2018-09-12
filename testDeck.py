@@ -1,4 +1,4 @@
 import deck_analysis as DA
 
-a = DA.ComboAnalyzer("World_Chalice_Undine", 10000, "trans_lee_gumblar_4_p2")
+a = DA.ComboAnalyzer("World_Chalice_Undine", 10, "trans_lee_gumblar_3_p1")
 a.analyze_combos()
