@@ -1,5 +1,6 @@
 import random
 import Common.Common as Common
+from Common.Common import bcolors
 import sys
 
 class Field:
@@ -73,7 +74,7 @@ class Field:
             if action[1] == 'remove':
                 self._put_card('TOKEN', self.m_zone, int(action[2]), [], -1)
                 return True
-            print("{} is not a token action".format(action[1]))
+            print("{}{} is not a token action{}".format(bcolors.FAIL, action[1], bcolors.ENDC))
             return False
 
         if action[0] == 'discard':
@@ -97,7 +98,7 @@ class Field:
 
         if len(action) == 3:
             if not card in src:
-                print("{} is not in the {}".format(card, action[1]))
+                print("{}{} is not in the {}{}".format(bcolors.FAIL, card, action[1], bcolors.ENDC))
                 self.print_field()
                 return False
             self._move_card(card, src, dest)
@@ -105,14 +106,14 @@ class Field:
             src_loc = int(action[3])
             dest_loc = int(action[4])
             if src_loc != -1 and src[src_loc] != card:
-                print("{} is not in the {} zone {}".format(card, action[1], src_loc))
+                print("{}{} is not in the {} zone {}{}".format(bcolors.FAIL, card, action[1], src_loc, bcolors.ENDC))
                 return False
             if dest_loc != -1 and dest[dest_loc] != "":
-                print("{} is already in the {} zone {}".format(dest[dest_loc], action[2], dest_loc))
+                print("{}{} is already in the {} zone {}{}".format(bcolors.FAIL, dest[dest_loc], action[2], dest_loc, bcolors.ENDC))
                 return False
             self._put_card(card, src, src_loc, dest, dest_loc)
         else:
-            print("{} is not a valid action".format(action))
+            print("{}{} is not a valid action{}".format(bcolors.FAIL, action, bcolors.ENDC))
             return False
         return True
 
@@ -124,20 +125,19 @@ class Field:
         self.banished = self.banished + f.banished
         for i in range(0, len(self.m_zone)):
             if self.m_zone[i] != "" and f.m_zone[i] != "":
-                print "Failed to combine fields, m_zone {} was full on both fields".format(i)
+                print("{}Failed to combine fields, m_zone {} was full on both fields{}".format(bcolors.FAIL, i, bcolors.ENDC))
                 return False
             if self.m_zone[i] == "":
                 self.m_zone[i] = f.m_zone[i]
 
         for i in range(0, len(self.st_zone)):
             if self.st_zone[i] != "" and f.st_zone[i] != "":
-                print "Failed to combine fields, st_zone {} was full on both fields".format(i)
+                print("{}Failed to combine fields, st_zone {} was full on both fields{}".format(bcolors.FAIL, i, bcolors.ENDC))
                 return False
             if self.st_zone[i] == "":
                 self.st_zone[i] = f.st_zone[i]
 
         return True
-
 
     def print_field(self):
         print ("Deck:\n{}\n".format(self.deck))

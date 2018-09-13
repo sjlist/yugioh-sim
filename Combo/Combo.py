@@ -46,35 +46,37 @@ class Combo():
         if self.movement == [] or self.movement == [[]]:
             return True
         else:
-            return self.playCombo(f)
+            return self.playCombo(f)[0]
 
     def inCombo(self, card):
         for req in self.combo_reqs:
-            if card in req.keys():
+            if card != 'ANYCARD' and card in req.keys():
                 return True
         return False
 
     def playCombo(self, f):
         for action in self.movement:
             if not action:
-                return True
+                return True, action
             if action[0] == 'discard' and action[1] == 'ANYCARD':
                 count = 0
                 while action[1] == 'ANYCARD':
                     if count == len(f.hand):
-                        return False
+                        print f.hand
+                        return False, action
 
                     if not self.inCombo(f.hand[count]):
                         action[1] = f.hand[count]
                     count += 1
 
             if not f.move_card(action):
-                return False
+                print "here 2"
+                return False, action
 
             if len(action) == 2 and action[0] == 'discard':
                 action[1] = 'ANYCARD'
 
-        return True
+        return True, action
 
     def allThere(self, combo_req, combo_ava):
         for element in combo_req.keys():
@@ -88,17 +90,28 @@ class Combo():
 
 # SAVE LOAD AND EDITOR FUNCTIONS
     def print_combo(self):
-        print("Name:\n{}".format(self.name))
-        print("Combo Folder:\n{}".format(self.folder))
-        print("Subcombos:\n{}".format(self.subcombos))
-        print("Movement:\n{}".format(self.movement))
-        print("Hand Requirement:\n{}".format(self.hand))
-        print("Hand or Deck Requirment:\n{}".format(self.hand_or_deck))
-        print("Deck Requirement:\n{}".format(self.deck))
-        print("Extra Deck Requirement:\n{}".format(self.extra))
-        print("Grave Requirement:\n{}".format(self.grave))
-        print("Field Requirement:\n{}".format(self.field))
-        print("Hand or Field Requirment:\n{}".format(self.hand_or_field))
+        print("{}Name:{}".format(common.bcolors.OKBLUE, common.bcolors.ENDC))
+        print("{}{}{}".format(common.bcolors.WARNING, self.name, common.bcolors.ENDC))
+        print("{}Combo Folder:{}".format(common.bcolors.OKBLUE, common.bcolors.ENDC))
+        print("{}{}{}".format(common.bcolors.WARNING, self.folder, common.bcolors.ENDC))
+        print("{}Subcombos:{}".format(common.bcolors.OKBLUE, common.bcolors.ENDC))
+        print("{}{}{}".format(common.bcolors.WARNING, self.subcombos, common.bcolors.ENDC))
+        print("{}Movement:{}".format(common.bcolors.OKBLUE, common.bcolors.ENDC))
+        print("{}{}{}".format(common.bcolors.WARNING, self.movement, common.bcolors.ENDC))
+        print("{}Hand Requirement:{}".format(common.bcolors.OKBLUE, common.bcolors.ENDC))
+        print("{}{}{}".format(common.bcolors.WARNING, self.hand, common.bcolors.ENDC))
+        print("{}Hand or Deck Requirment:{}".format(common.bcolors.OKBLUE, common.bcolors.ENDC))
+        print("{}{}{}".format(common.bcolors.WARNING, self.hand_or_deck, common.bcolors.ENDC))
+        print("{}Deck Requirement:{}".format(common.bcolors.OKBLUE, common.bcolors.ENDC))
+        print("{}{}{}".format(common.bcolors.WARNING, self.deck, common.bcolors.ENDC))
+        print("{}Extra Deck Requirement:{}".format(common.bcolors.OKBLUE, common.bcolors.ENDC))
+        print("{}{}{}".format(common.bcolors.WARNING, self.extra, common.bcolors.ENDC))
+        print("{}Grave Requirement:{}".format(common.bcolors.OKBLUE, common.bcolors.ENDC))
+        print("{}{}{}".format(common.bcolors.WARNING, self.grave, common.bcolors.ENDC))
+        print("{}Field Requirement:{}".format(common.bcolors.OKBLUE, common.bcolors.ENDC))
+        print("{}{}{}".format(common.bcolors.WARNING, self.field, common.bcolors.ENDC))
+        print("{}Hand or Field Requirment:{}".format(common.bcolors.OKBLUE, common.bcolors.ENDC))
+        print("{}{}{}".format(common.bcolors.WARNING, self.hand_or_field, common.bcolors.ENDC))
 
     def save(self):
         print self.file_path

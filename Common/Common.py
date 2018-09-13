@@ -1,6 +1,18 @@
 import os
 import glob
 
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
 def string2DictInt(string):
     d = dict()
     value_end = 0
@@ -25,6 +37,7 @@ def string2DictInt(string):
         d[name] = value
 
     return d
+
 
 def string2DictString(string):
     d = dict()
@@ -51,12 +64,14 @@ def string2DictString(string):
 
     return d
 
+
 def string2List(string):
     list = string[1:-1].replace("'", "").split(', ')
     if list == ['']:
         return []
     else:
         return list
+
 
 def string2TupleList(string):
     if string == '[]':
@@ -71,12 +86,14 @@ def string2TupleList(string):
         list.append(i)
     return list
 
+
 def dict2List(dict):
     l = []
     for key in dict.keys():
         l.extend([key] * dict[key])
 
     return l
+
 
 def fileExists(folder, file):
     for path, dirs, files in os.walk('./{}'.format(folder)):
@@ -85,12 +102,14 @@ def fileExists(folder, file):
                 return True
     return False
 
+
 def parentFolder(folder, file):
     for path, dirs, files in os.walk('./{}'.format(folder)):
         for d in dirs:
             for f in glob.iglob(os.path.join(path, d, '{}'.format(file))):
                 return True, d
     return False, ""
+
 
 def numItemsDict(d):
     num = 0

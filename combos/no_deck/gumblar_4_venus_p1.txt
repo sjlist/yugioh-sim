@@ -1,7 +1,7 @@
 Name
 venus_gumblar_4_p1
 Folder
-no_deck
+World_Chalice
 Subcombos
 ['venus_3']
 Movement
@@ -22,8 +22,8 @@ Movement
 ['Mystical Shine Ball', 'm_zone', 'grave', '2', '-1']
 ['Imduk the World Chalice Dragon', 'extra', 'm_zone', '-1', '2']
 ['Imduk the World Chalice Dragon', 'm_zone', 'grave', '2', '-1']
-['Knightmare Goblin', 'extra', 'm_zone', '-1', '2']
 ['Linkuriboh', 'm_zone', 'grave', '4', '-1']
+['Knightmare Goblin', 'extra', 'm_zone', '-1', '2']
 ['Lee the World Chalice Fairy', 'hand', 'm_zone', '-1', '3']
 ['discard', 'ANYCARD']
 ['World Legacy - "World Chalice"', 'deck', 'hand']
@@ -49,7 +49,7 @@ Movement
 ['Lee the World Chalice Fairy', 'deck', 'hand']
 ['Herald of Orange Light', 'deck', 'hand']
 Hand Requirement
-{}
+{'ANYCARD': 4}
 Hand or Main Deck Requirement
 {}
 Main Deck Requirement

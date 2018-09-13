@@ -3,6 +3,8 @@ import Field.Field as Field
 import os
 import Deck.Deck as Deck
 import Combo.Combo as Combo
+from Common.Common import bcolors
+from tabulate import tabulate
 import sys
 
 class ComboAnalyzer():
@@ -54,7 +56,12 @@ class ComboAnalyzer():
         self.print_chances(combo_chance)
 
     def print_chances(self, combo_chance):
-        for key in combo_chance.keys():
+        l = []
+        sorted_chances = sorted(combo_chance, key=combo_chance.__getitem__)
+        sorted_chances.reverse()
+        for key in sorted_chances:
             if combo_chance[key] != 0 and key != 'Brick':
-                print ("The chance of opening {} is {}%".format(key, combo_chance[key]*100))
-        print ("The chance of opening {} is {}%".format('Brick', combo_chance['Brick']*100))
+                l.append([key, combo_chance[key]*100])
+        l.append(['Brick', combo_chance['Brick']*100])
+        print tabulate(l, headers=['Combo', '% Chance'])
+
