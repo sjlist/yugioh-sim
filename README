@@ -22,6 +22,4 @@ TO DO (ALTON/ANALYSIS):
 
 
 TODO:
- - Add field and hand_or_field to combos
- - Find a better way to do combined section requirements, add two dictionaries together?
- - Implement movement
+ - Implement ANYCARD requirements for combos

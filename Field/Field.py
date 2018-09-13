@@ -101,6 +101,29 @@ class Field:
             return False
         return True
 
+    def combine(self, f):
+        self.deck = self.deck + f.deck
+        self.hand = self.hand + f.hand
+        self.grave = self.grave + f.grave
+        self.extra = self.extra + f.extra
+        self.banished = self.banished + f.banished
+        for i in range(0, len(self.m_zone)):
+            if self.m_zone[i] != "" and f.m_zone[i] != "":
+                print "Failed to combine fields, m_zone {} was full on both fields".format(i)
+                return False
+            if self.m_zone[i] == "":
+                self.m_zone[i] = f.m_zone[i]
+
+        for i in range(0, len(self.st_zone)):
+            if self.st_zone[i] != "" and f.st_zone[i] != "":
+                print "Failed to combine fields, st_zone {} was full on both fields".format(i)
+                return False
+            if self.st_zone[i] == "":
+                self.st_zone[i] = f.st_zone[i]
+
+        return True
+
+
     def print_field(self):
         print ("Deck:\n{}\n".format(self.deck))
         print ("Hand:\n{}\n".format(self.hand))

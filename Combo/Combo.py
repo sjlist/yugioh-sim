@@ -43,13 +43,14 @@ class Combo():
         if not self.allThere(self.grave, f.grave):
             return False
 
-        if self.movement == []:
+        if self.movement == [] or self.movement == [['']]:
             return True
         else:
             return self.playCombo(f)
 
     def playCombo(self, f):
         for action in self.movement:
+            f.print_field()
             if not f.move_card(action):
                 return False
         return True
@@ -142,6 +143,7 @@ class Combo():
         self.save_items()
 
     def load_new(self, name, folder):
+        self.items[3] = []
         self.file_path = "./combos/{}/{}.txt".format(folder, name)
         with open(self.file_path, 'r') as f:
             file_data = f.read()
@@ -165,7 +167,6 @@ class Combo():
                 self.load_item(line, action)
 
         self.save_items()
-        print len(self.movement)
 
     def load_item(self, line_raw, action):
         if action == 'Name':

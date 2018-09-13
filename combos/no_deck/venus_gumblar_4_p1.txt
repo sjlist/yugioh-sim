@@ -1,7 +1,7 @@
 Name
-venus_gumblar_4_p2
+venus_gumblar_4_p1
 Folder
-World_Chalice
+no_deck
 Subcombos
 ['venus_3']
 Movement
@@ -46,14 +46,14 @@ Movement
 ['discard', 'random', '2']
 ['Mystical Shine Ball', 'grave', 'banished']
 ['Mystical Shine Ball', 'grave', 'banished']
-['The Agent of Creation - Venus', 'deck', 'hand']
+['Lee the World Chalice Fairy', 'deck', 'hand']
 ['Herald of Orange Light', 'deck', 'hand']
 Hand Requirement
 {}
 Hand or Main Deck Requirement
 {}
 Main Deck Requirement
-{'Eva': 1,  'Lee the World Chalice Fairy': 1, 'Herald of Orange Light': 2, 'World Legacy - "World Chalice"': 1, 'World Chalice Gaurdragon': 1, 'Beckoned by the World Chalice': 1, 'The Agent of Creation - Venus': 1}
+{'Eva': 1,  'Lee the World Chalice Fairy': 2, 'Herald of Orange Light': 2, 'World Legacy - "World Chalice"': 1, 'World Chalice Gaurdragon': 1, 'Beckoned by the World Chalice': 1}
 Extra Deck Requirement
 {'Summon Sorceress': 1, 'Linkuriboh': 1, 'Imduk the World Chalice Dragon': 1, 'Knightmare Goblin': 1, 'Firewall Dragon': 1, 'Topologic Gumblar Dragon': 1}
 Grave Requirement

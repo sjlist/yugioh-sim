@@ -25,6 +25,7 @@ class ComboTest:
         return (True, [])
 
     def testCombo(self):
+        print("Testing {}/{} requirements".format(self.combo.folder, self.combo.name))
         for requirement in self.combo.combo_reqs:
             (result, error_state) = self.testReq(requirement)
             if not result:
@@ -33,4 +34,24 @@ class ComboTest:
 
         #TODO add movement tests, that at least the actions are all legal
 
-        print("{}/{} passed".format(self.combo.folder, self.combo.name))
+        print("{}/{} passed requirement check".format(self.combo.folder, self.combo.name))
+
+        deck = Deck.Deck("UnittTest_{}".format(self.combo.name))
+        f = Field.Field(deck)
+        for subcombo in self.combo.subcombos:
+            sc = Combo.Combo()
+            sc.load(subcombo, "{}/subcombos".format(self.combo.folder))
+            f.deck = f.deck + Common.dict2List(sc.deck) + Common.dict2List(sc.hand_or_deck)
+            f.extra = f.extra + Common.dict2List(sc.extra)
+            f.grave = f.grave + Common.dict2List(sc.grave)
+            f.hand = f.hand + Common.dict2List(sc.hand)
+            sc.playCombo(f)
+            f.print_field()
+
+        f.deck = f.deck + Common.dict2List(self.combo.deck) + Common.dict2List(self.combo.hand_or_deck)
+        f.extra = f.extra + Common.dict2List(self.combo.extra)
+        f.grave = f.grave + Common.dict2List(self.combo.grave)
+        f.hand = f.hand + Common.dict2List(self.combo.hand)
+        self.combo.playCombo(f)
+
+        f.print_field()

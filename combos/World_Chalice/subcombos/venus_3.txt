@@ -1,11 +1,11 @@
-
+Name
 venus_3
 Folder
 World_Chalice/subcombos
 Subcombos
 ['']
 Movement
-[['The Agent of Creation - Venus', 'hand', 'm_zone', '-1', '0']]
+['The Agent of Creation - Venus', 'hand', 'm_zone', '-1', '0']
 Hand Requirement
 {'The Agent of Creation - Venus': 1}
 Hand or Main Deck Requirement
