@@ -73,8 +73,13 @@ class Field:
             if action[1] == 'random':
                 self.discard_rand(int(action[2]))
             else:
-                card = self.hand[int(action[1])]
+                try:
+                    card = self.hand[int(action[1])]
+                except ValueError:
+                    card = action[1]
+
                 self._move_card(card, src, dest)
+
             return True
 
         src = self.get_pile(action[1])

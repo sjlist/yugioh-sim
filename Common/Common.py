@@ -52,7 +52,11 @@ def string2DictString(string):
     return d
 
 def string2List(string):
-    return string[1:-1].replace("'", "").split(', ')
+    list = string[1:-1].replace("'", "").split(', ')
+    if list == ['']:
+        return []
+    else:
+        return list
 
 def string2TupleList(string):
     if string == '[]':

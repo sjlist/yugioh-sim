@@ -43,17 +43,15 @@ class Combo():
         if not self.allThere(self.grave, f.grave):
             return False
 
-        if self.movement == [] or self.movement == [['']]:
+        if self.movement == [] or self.movement == [[]]:
             return True
         else:
             return self.playCombo(f)
 
     def playCombo(self, f):
         for action in self.movement:
-            f.print_field()
-            print self.name
-            print self.movement
-            print action
+            if action == []:
+                return True
             if not f.move_card(action):
                 return False
         return True
@@ -115,39 +113,6 @@ class Combo():
             f.write('\n\n')
 
     def load(self, name, folder):
-        # self.load_old(name, folder)
-        self.load_new(name, folder)
-
-    def load_old(self, name, folder):
-        self.file_path = "./combos/{}/{}.txt".format(folder, name)
-        with open(self.file_path, 'r') as f:
-            file_data = f.read()
-
-        loc = 0
-        lines = [0]
-        while loc != -1:
-            loc = file_data.find("\n", loc + 1)
-            lines.append(loc)
-
-        i = 0
-        deck_raw = []
-        while i < len(lines) - 1:
-            deck_raw.append(file_data[lines[i]+1:lines[i+1]])
-            i += 1
-
-        self.items[0] = deck_raw[1]
-        self.items[1] = deck_raw[3]
-        self.items[2] = common.string2List(deck_raw[5])
-        self.items[3] = common.string2TupleList(deck_raw[7])
-
-        i = 1
-        while (i+len(self.items))*2 < len(deck_raw):
-            self.combo_reqs[i] = common.string2DictInt(deck_raw[(i+len(self.items))*2])
-            i += 1
-
-        self.save_items()
-
-    def load_new(self, name, folder):
         self.items[3] = []
         self.file_path = "./combos/{}/{}.txt".format(folder, name)
         with open(self.file_path, 'r') as f:

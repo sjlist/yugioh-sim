@@ -3,7 +3,7 @@ brilliant_fusion
 Folder
 World_Chalice/subcombos
 Subcombos
-['']
+[]
 Movement
 []
 Hand Requirement

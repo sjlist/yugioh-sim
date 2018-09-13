@@ -3,7 +3,7 @@ venus_trans_lee
 Folder
 World_Chalice/subcombos
 Subcombos
-['']
+[]
 Movement
 ['Lee the World Chalice Fairy', 'hand', 'm_zone', '-1', '0']
 ['World Legacy - "World Chalice"', 'deck', 'hand']
