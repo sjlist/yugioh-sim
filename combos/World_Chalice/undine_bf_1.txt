@@ -5,15 +5,14 @@ World_Chalice
 Subcombos
 ['brilliant_fusion', 'undine']
 Movement
-
-['Brilliant Fusion', 'hand', 'st_zone', '-1', '0']
+[]
 Hand Requirement
 {}
 Hand or Main Deck Requirement
 {}
 Main Deck Requirement
-{''}
+{}
 Extra Deck Requirement
-{'Reprodocus': 1}
+{}
 Grave Requirement
 {}
