@@ -49,7 +49,7 @@ Movement
 ['The Agent of Creation - Venus', 'deck', 'hand']
 ['Herald of Orange Light', 'deck', 'hand']
 Hand Requirement
-{}
+{'ANYCARD': 4}
 Hand or Main Deck Requirement
 {}
 Main Deck Requirement

@@ -87,3 +87,9 @@ def parentFolder(folder, file):
             for f in glob.iglob(os.path.join(path, d, '{}'.format(file))):
                 return True, d
     return False, ""
+
+def numItemsDict(d):
+    num = 0
+    for key in d.keys():
+        num+= d[key]
+    return num

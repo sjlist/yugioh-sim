@@ -51,13 +51,18 @@ class Combo():
     def playCombo(self, f):
         for action in self.movement:
             f.print_field()
+            print self.name
+            print self.movement
+            print action
             if not f.move_card(action):
                 return False
         return True
 
     def allThere(self, combo_req, combo_ava):
         for element in combo_req.keys():
-            if combo_req[element] > combo_ava.count(element):
+            if element == 'ANYCARD' and common.numItemsDict(combo_req) > len(combo_ava):
+                return False
+            elif combo_req[element] > combo_ava.count(element):
                 return False
 
         return True

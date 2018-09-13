@@ -41,6 +41,7 @@ class ComboTest:
         for subcombo in self.combo.subcombos:
             sc = Combo.Combo()
             sc.load(subcombo, "{}/subcombos".format(self.combo.folder))
+            f.hand = f.hand + Common.dict2List(sc.hand)
             f.deck = f.deck + Common.dict2List(sc.deck) + Common.dict2List(sc.hand_or_deck)
             f.extra = f.extra + Common.dict2List(sc.extra)
             f.grave = f.grave + Common.dict2List(sc.grave)
@@ -48,6 +49,7 @@ class ComboTest:
             sc.playCombo(f)
             f.print_field()
 
+        f.hand = f.hand + Common.dict2List(self.combo.hand)
         f.deck = f.deck + Common.dict2List(self.combo.deck) + Common.dict2List(self.combo.hand_or_deck)
         f.extra = f.extra + Common.dict2List(self.combo.extra)
         f.grave = f.grave + Common.dict2List(self.combo.grave)
