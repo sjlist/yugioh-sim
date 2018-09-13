@@ -48,18 +48,39 @@ class Combo():
         else:
             return self.playCombo(f)
 
+    def inCombo(self, card):
+        for req in self.combo_reqs:
+            if card in req.keys():
+                return True
+        return False
+
     def playCombo(self, f):
         for action in self.movement:
-            if action == []:
+            if not action:
                 return True
+            if action[0] == 'discard' and action[1] == 'ANYCARD':
+                count = 0
+                while action[1] == 'ANYCARD':
+                    if count == len(f.hand):
+                        return False
+
+                    if not self.inCombo(f.hand[count]):
+                        action[1] = f.hand[count]
+                    count += 1
+
             if not f.move_card(action):
                 return False
+
+            if len(action) == 2 and action[0] == 'discard':
+                action[1] = 'ANYCARD'
+
         return True
 
     def allThere(self, combo_req, combo_ava):
         for element in combo_req.keys():
-            if element == 'ANYCARD' and common.numItemsDict(combo_req) > len(combo_ava):
-                return False
+            if element == 'ANYCARD':
+                if common.numItemsDict(combo_req) > len(combo_ava):
+                    return False
             elif combo_req[element] > combo_ava.count(element):
                 return False
 

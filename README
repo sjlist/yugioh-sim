@@ -22,4 +22,4 @@ TO DO (ALTON/ANALYSIS):
 
 
 TODO:
- - Implement ANYCARD requirements for combos
+ - Adjust anycard combo checking to be smarter on what cards to discard

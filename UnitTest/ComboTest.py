@@ -44,7 +44,6 @@ class ComboTest:
                 sc.load(subcombo, "{}/subcombos".format(self.combo.folder))
                 f.hand = f.hand + Common.dict2List(sc.hand)
                 f.deck = f.deck + Common.dict2List(sc.deck) + Common.dict2List(sc.hand_or_deck)
-                print f.deck
                 f.extra = f.extra + Common.dict2List(sc.extra)
                 f.grave = f.grave + Common.dict2List(sc.grave)
                 sc.playCombo(f)
@@ -56,7 +55,5 @@ class ComboTest:
         f.grave = f.grave + Common.dict2List(self.combo.grave)
 
         self.combo.playCombo(f)
-
-        f.print_field()
         print("{}/{} passed movement check".format(self.combo.folder, self.combo.name))
 

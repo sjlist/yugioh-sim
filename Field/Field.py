@@ -65,7 +65,16 @@ class Field:
 
     def move_card(self, action):
         # Actions are lists of length 3 or 5, [card, src, dest, src loc, dest loc]
-        card = action[0]
+
+        if action[0] == 'TOKEN':
+            if action[1] == 'summon':
+                self._put_card('TOKEN', ['TOKEN'], 0, self.m_zone, int(action[2]))
+                return True
+            if action[1] == 'remove':
+                self._put_card('TOKEN', self.m_zone, int(action[2]), [], -1)
+                return True
+            print("{} is not a token action".format(action[1]))
+            return False
 
         if action[0] == 'discard':
             src = self.hand
@@ -82,6 +91,7 @@ class Field:
 
             return True
 
+        card = action[0]
         src = self.get_pile(action[1])
         dest = self.get_pile(action[2])
 

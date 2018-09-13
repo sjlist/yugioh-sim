@@ -1,14 +1,13 @@
 Name
-undine_BF_1
+gumblar_4_undine_wl_1
 Folder
 World_Chalice
 Subcombos
-['brilliant_fusion', 'undine']
+['undine']
 Movement
-
-['Brilliant Fusion', 'hand', 'st_zone', '-1', '0']
+[]
 Hand Requirement
-{}
+{'World Legacy - "World Chalice"': 1}
 Hand or Main Deck Requirement
 {}
 Main Deck Requirement
