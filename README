@@ -24,6 +24,6 @@ TO DO (ALTON/ANALYSIS):
 TODO:
  - Adjust anycard combo checking to be smarter on what cards to discard
  - Make actions smarter so you dont need to add -1s everywhere
- - optional combos
  - super combos (analytics)
  - Valid possible Combos for a deck
+ - try throw catch errors instead of weird returns

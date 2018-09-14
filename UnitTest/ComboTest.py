@@ -4,7 +4,7 @@ import Field.Field as Field
 import Common.Common as Common
 from Common.Common import bcolors
 from itertools import combinations
-import sys
+from copy import deepcopy
 
 
 class ComboTest:
@@ -26,43 +26,48 @@ class ComboTest:
 
         return True, []
 
-    def testCombo(self):
+    def testCombo(self, field=None):
         print("{}Testing {}/{} requirements{}".format(bcolors.OKBLUE, self.combo.folder, self.combo.name, bcolors.ENDC))
         for requirement in self.combo.combo_reqs:
             (result, error_state) = self.testReq(requirement)
             if not result:
                 print("{}Failed testing {}/{} on requirement {} with error state {}{}".format(bcolors.FAIL, self.combo.folder, self.combo.name, requirement, error_state, bcolors.ENDC))
-                sys.exit()
+                return False, field
 
         print("{}{}/{} passed requirement check{}".format(bcolors.OKGREEN, self.combo.folder, self.combo.name, bcolors.ENDC))
 
         deck = Deck.Deck("UnitTest_{}".format(self.combo.name))
-        f = Field.Field(deck)
+        if field is None:
+            field = Field.Field(deck)
+
         for subcombo in self.combo.subcombos:
-            if subcombo:
-                print("{}Setting up Subcombo {}{}".format(bcolors.OKBLUE, subcombo[0], bcolors.ENDC))
-                sc = Combo.Combo()
-                sc.load(subcombo[0], "{}/subcombos".format(self.combo.folder))
+            if subcombo[0]:
+                subcombo_test = ComboTest(subcombo[0], "{}/subcombos".format(self.combo.folder))
+                result, res_field = subcombo_test.testCombo(deepcopy(field))
+                if result:
+                    if subcombo[1] == 'o':
+                        print("{}Ignoring field state from {}/{} due to optional subcombo{}".format(bcolors.WARNING, subcombo_test.combo.folder, subcombo_test.combo.name, bcolors.ENDC))
+                    if subcombo[1] == 'r':
+                        field = res_field
+                elif subcombo[1] == 'o':
+                    print("{}Failed movement check on {}/{} ignoring due to optional subcombo{}".format(bcolors.WARNING, self.combo.folder, self.combo.name, bcolors.ENDC))
+                elif subcombo[1] == 'r':
+                    print("{}Failed testing {}/{} on movement check, action {}{}".format(bcolors.FAIL, self.combo.folder, self.combo.name, error_state, bcolors.ENDC))
+                    return False, field
 
-                f.hand = f.hand + Common.dict2List(sc.hand)
-                f.deck = f.deck + Common.dict2List(sc.deck) + Common.dict2List(sc.hand_or_deck)
-                f.extra = f.extra + Common.dict2List(sc.extra)
-                f.grave = f.grave + Common.dict2List(sc.grave)
-                result, error_state = sc.playCombo(f)
-                if not result:
-                    print("{}Failed testing {}/{} on subcombo {}'s movement check, action {}{}".format(bcolors.FAIL, self.combo.folder, self.combo.name, sc.name, error_state, bcolors.ENDC))
-                    sys.exit()
-                print("{}Subcombo {} set up{}".format(bcolors.OKGREEN, subcombo[0], bcolors.ENDC))
+        if self.combo.movement != [[]]:
+            field.hand = field.hand + Common.dict2List(self.combo.hand)
+            field.deck = field.deck + Common.dict2List(self.combo.deck) + Common.dict2List(self.combo.hand_or_deck)
+            field.extra = field.extra + Common.dict2List(self.combo.extra)
+            field.grave = field.grave + Common.dict2List(self.combo.grave)
 
-        f.hand = f.hand + Common.dict2List(self.combo.hand)
-        f.deck = f.deck + Common.dict2List(self.combo.deck) + Common.dict2List(self.combo.hand_or_deck)
-        f.extra = f.extra + Common.dict2List(self.combo.extra)
-        f.grave = f.grave + Common.dict2List(self.combo.grave)
+            result, error_state = self.combo.playCombo(field)
+            if not result:
+                print("{}Failed testing {}/{} on movement check, action {}{}".format(bcolors.FAIL, self.combo.folder, self.combo.name, error_state, bcolors.ENDC))
+                return False, field
 
-        result, error_state = self.combo.playCombo(f)
-        if not result:
-            print("{}Failed testing {}/{} on movement check, action {}{}".format(bcolors.FAIL, self.combo.folder, self.combo.name, error_state, bcolors.ENDC))
-            sys.exit()
-        f.print_field()
-
-        print("{}{}/{} passed movement check{}".format(bcolors.OKGREEN, self.combo.folder, self.combo.name, bcolors.ENDC))
+            print("{}{}/{} passed movement check{}".format(bcolors.OKGREEN, self.combo.folder, self.combo.name, bcolors.ENDC))
+            return True, field
+        else:
+            print("{}{}/{} skipped movement check{}".format(bcolors.WARNING, self.combo.folder, self.combo.name, bcolors.ENDC))
+            return True, field

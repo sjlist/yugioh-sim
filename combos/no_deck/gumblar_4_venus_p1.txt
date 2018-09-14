@@ -3,7 +3,7 @@ venus_gumblar_4_p1
 Folder
 World_Chalice
 Subcombos
-['venus_3']
+[['venus_3', 'r']]
 Movement
 ['Mystical Shine Ball', 'deck', 'm_zone', '-1', '1']
 ['Mystical Shine Ball', 'deck', 'm_zone', '-1', '2']

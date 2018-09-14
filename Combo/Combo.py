@@ -3,6 +3,7 @@
 import Common.Common as common
 import os
 from copy import deepcopy
+from Common.Errors import *
 
 class Combo():
     def __init__(self, name="", hand_req={}, hand_or_deck={}, deck_req={}, extra_req={},\
@@ -38,8 +39,13 @@ class Combo():
                     f_opt = deepcopy(f)
                     c = Combo()
                     c.load(combo[0], "{}/subcombos".format(self.folder))
-                    if c.isCombo(f):
+                    try:
+                        c.isCombo(f)
                         f = deepcopy(f_opt)
+                    except CardMissing:
+                        pass
+                    except ZoneError:
+                        pass
 
         if not self.allThere(self.hand, f.hand):
             return False
@@ -88,7 +94,7 @@ class Combo():
 
             if len(action) == 2 and action[0] == 'discard':
                 action[1] = 'ANYCARD'
-        return True, action
+        return True, []
 
     def allThere(self, combo_req, combo_ava):
         for element in combo_req.keys():
@@ -126,7 +132,6 @@ class Combo():
         print("{}{}{}".format(common.bcolors.WARNING, self.hand_or_field, common.bcolors.ENDC))
 
     def save(self):
-        print self.file_path
         self.file_path = "./combos/{}/{}.txt".format(self.folder, self.name)
         if not os.path.exists("./combos/{}".format(self.folder)):
             os.makedirs("./combos/{}".format(self.folder))
@@ -240,8 +245,7 @@ class Combo():
         self.name = self.items[0]
         self.folder = self.items[1]
         self.subcombos = self.items[2]
-        self.optionalCombos = self.items[3]
-        self.movement = self.items[4]
+        self.movement = self.items[3]
 
         self.hand = self.combo_reqs[0]
         self.hand_or_deck = self.combo_reqs[1]

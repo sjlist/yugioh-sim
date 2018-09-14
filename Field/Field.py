@@ -2,6 +2,8 @@ import random
 import Common.Common as Common
 from Common.Common import bcolors
 import sys
+from Common.Errors import *
+
 
 class Field:
     def __init__(self, deck):
@@ -16,34 +18,64 @@ class Field:
     def draw_num(self, num):
         i = 0
         while i < num:
-            draw = random.sample(self.deck,1)[0]
-            self.do_action([draw, 'deck', 'hand'])
+            try:
+                draw = random.sample(self.deck, 1)[0]
+            except ValueError:
+                raise
+
+            try:
+                self._move_card(draw, self.deck, self.hand)
+            except CardMissing:
+                raise
             i += 1
 
     def banish_rand(self, num, target):
         banish = random.sample(target, num)
         for element in banish:
-            self.do_action([element, target, 'banished'])
+            try:
+                self._move_card(element, target, self.banished)
+            except CardMissing as e:
+                print("Cannot banish {} not in the pile\nPile: {}".format(e.card, e.pile))
+                raise
 
     def discard_rand(self, num):
         hand = random.sample(self.hand, num)
         for element in hand:
-            self._move_card(element, self.hand, self.grave)
+            try:
+                self._move_card(element, self.hand, self.grave)
+            except CardMissing as e:
+                print("Cannot discard {} not in the hand".format(e.card))
+                raise
 
     def _move_card(self, card, src, dest):
+        if card not in src:
+            raise CardMissing("Missing a card from the src pile", card, src)
+
         src.remove(card)
         dest.append(card)
 
     def _put_card(self, card, src, src_loc, dest, dest_loc):
         if src_loc == -1:
-            src.remove(card)
+            if card in src:
+                src.remove(card)
+            else:
+                raise CardMissing("Missing a card from the src pile", card, src)
         else:
-            src[src_loc] = ""
+            if src[src_loc] != "":
+                src[src_loc] = ""
+            else:
+                raise ZoneError("Field Zone is empty", src_loc, src)
 
         if dest_loc == -1:
-            dest.append(card)
+            if card in dest:
+                dest.remove(card)
+            else:
+                raise CardMissing("Missing a card from the dest pile", card, dest)
         else:
-            dest[dest_loc] = card
+            if dest[dest_loc] == "":
+                dest[dest_loc] = card
+            else:
+                raise ZoneError("Field Zone is full", dest_loc, dest)
 
     def get_pile(self, pile):
         if pile == 'deck':
@@ -61,34 +93,54 @@ class Field:
         if pile == 'st_zone':
             return self.st_zone
 
-        print("{} not a pile".format(pile))
-        sys.exit()
+        raise PileError(pile)
 
     def do_action(self, action):
         # Actions are lists of length 3 or 5, [card, src, dest, src loc, dest loc]
 
+        if action[0] == 'summon':
+            card = action[1]
+            pile = self.get_pile(action[2])
+            try:
+                self._put_card(card, pile, -1, self.m_zone, int(action[3]))
+            except ZoneError as e:
+                print("{}\nZone: {}\nPile:\n{}".format(e.message, e.zone, e.pile))
+                raise
+            except CardMissing as e:
+                print("{}\nCard: {}\nPile: {}".format(e.message, e.card, e.pile))
+                raise
+
+            return True
+
         if action[0] == 'draw':
-            if len(f.deck) == int(action[1]):
-                print("{}Cannot draw, not enough cards in deck{}".format(bcolors.FAIL, bcolors.ENDC))
-                return False
-            f.draw_num(int(action[1]))
+            try:
+                self.draw_num(int(action[1]))
+            except ValueError:
+                print("Not enough cards left in deck to draw {} card(s)".format(int(action[1])))
+                raise
+
             return True
 
         if action[0] == 'TOKEN':
             if action[1] == 'summon':
-                if self.m_zone[int(action[2])] != "":
-                    print("{}{} is already in m_zone {}{}".format(bcolors.FAIL, self.m_zone[int(action[2])], int(action[2]), bcolors.ENDC))
-                    return False
-                self._put_card('TOKEN', ['TOKEN'], 0, self.m_zone, int(action[2]))
+                try:
+                    self._put_card('TOKEN', ['TOKEN'], 0, self.m_zone, int(action[2]))
+                except ZoneError as e:
+                    print("{}\nZone: {}\nPile:\n{}".format(e.message, e.zone, e.pile))
+                    raise
+
                 return True
+
             if action[1] == 'remove':
-                if self.m_zone[int(action[2])] != "TOKEN":
-                    print("{}A token is not in m_zone {}{}".format(bcolors.FAIL, int(action[2]), bcolors.ENDC))
-                    return False
-                self._put_card('TOKEN', self.m_zone, int(action[2]), [], -1)
+                try:
+                    self._put_card('TOKEN', self.m_zone, int(action[2]), [], -1)
+                except ZoneError as e:
+                    print("{}\nZone: {}\nPile:\n{}".format(e.message, e.zone, e.pile))
+                    raise
+
                 return True
-            print("{}{} is not a token action{}".format(bcolors.FAIL, action[1], bcolors.ENDC))
-            return False
+
+            raise InvalidOption("Invalid option passed in for a token", action[1])
 
         if action[0] == 'discard':
             src = self.hand
@@ -105,30 +157,35 @@ class Field:
 
             return True
 
+        # This is a catch all option for now. Should not be needed in the long run
         card = action[0]
         src = self.get_pile(action[1])
         dest = self.get_pile(action[2])
 
         if len(action) == 3:
-            if not card in src:
-                print("{}{} is not in the {}{}".format(bcolors.FAIL, card, action[1], bcolors.ENDC))
-                self.print_field()
-                return False
-            self._move_card(card, src, dest)
-        elif len(action) == 5:
+            try:
+                self._move_card(card, src, dest)
+            except CardMissing as e:
+                print("{}\nCard: {}\nPile: {}".format(e.message, e.card, e.pile))
+                raise
+
+            return True
+
+        if len(action) == 5:
             src_loc = int(action[3])
             dest_loc = int(action[4])
-            if src_loc != -1 and src[src_loc] != card:
-                print("{}{} is not in the {} zone {}{}".format(bcolors.FAIL, card, action[1], src_loc, bcolors.ENDC))
-                return False
-            if dest_loc != -1 and dest[dest_loc] != "":
-                print("{}{} is already in the {} zone {}{}".format(bcolors.FAIL, dest[dest_loc], action[2], dest_loc, bcolors.ENDC))
-                return False
-            self._put_card(card, src, src_loc, dest, dest_loc)
-        else:
-            print("{}{} is not a valid action{}".format(bcolors.FAIL, action, bcolors.ENDC))
-            return False
-        return True
+            try:
+                self._put_card(card, src, src_loc, dest, dest_loc)
+            except ZoneError as e:
+                print("{}\nZone: {}\nPile:\n{}".format(e.message, e.zone, e.pile))
+                raise
+            except CardMissing as e:
+                print("{}\nCard: {}\nPile: {}".format(e.message, e.card, e.pile))
+                raise
+
+            return True
+
+        raise InvalidOption("Invalid option passed into do_action", action)
 
     def combine(self, f):
         self.deck = self.deck + f.deck

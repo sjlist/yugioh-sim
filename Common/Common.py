@@ -66,11 +66,11 @@ def string2DictString(string):
 
 
 def string2List(string):
-    list = string[1:-1].replace("'", "").split(', ')
-    if list == ['']:
+    _list = string[1:-1].replace("'", "").split(', ')
+    if _list == ['']:
         return []
     else:
-        return list
+        return _list
 
 
 def string2TupleList(string):
@@ -87,26 +87,26 @@ def string2TupleList(string):
     return list
 
 
-def dict2List(dict):
+def dict2List(_dict):
     l = []
-    for key in dict.keys():
-        l.extend([key] * dict[key])
+    for key in _dict.keys():
+        l.extend([key] * _dict[key])
 
     return l
 
 
-def fileExists(folder, file):
+def fileExists(folder, _file):
     for path, dirs, files in os.walk('./{}'.format(folder)):
         for d in dirs:
-            for f in glob.iglob(os.path.join(path, d, '{}'.format(file))):
+            if os.path.isfile("./{}/{}".format(d, _file)):
                 return True
     return False
 
 
-def parentFolder(folder, file):
+def parentFolder(folder, _file):
     for path, dirs, files in os.walk('./{}'.format(folder)):
         for d in dirs:
-            for f in glob.iglob(os.path.join(path, d, '{}'.format(file))):
+            if os.path.isfile("./{}/{}".format(d, _file)):
                 return True, d
     return False, ""
 
@@ -114,5 +114,5 @@ def parentFolder(folder, file):
 def numItemsDict(d):
     num = 0
     for key in d.keys():
-        num+= d[key]
+        num += d[key]
     return num

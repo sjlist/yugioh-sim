@@ -5,13 +5,15 @@ World_Chalice/subcombos
 Subcombos
 []
 Movement
+['Upstart Goblin', 'hand', 'st_zone', '-1', '0']
 ['draw', '1']
+['Upstart Goblin', 'st_zone', 'grave', '0', '-1']
 Hand Requirement
 {'Upstart Goblin': 1}
 Hand or Main Deck Requirement
 {}
 Main Deck Requirement
-{}
+{'ANYCARD': 1}
 Extra Deck Requirement
 {}
 Grave Requirement
