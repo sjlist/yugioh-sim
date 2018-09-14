@@ -1,9 +1,9 @@
 Name
-trans_lee_gumblar_3_p1
+gumblar_3_trans_lee_p1
 Folder
 World_Chalice
 Subcombos
-['venus_trans_lee']
+[['upstart_goblin', 'o'], ['venus_trans_lee', 'r']]
 Movement
 ['Mystical Shine Ball', 'deck', 'm_zone', '-1', '1']
 ['Mystical Shine Ball', 'deck', 'm_zone', '-1', '2']

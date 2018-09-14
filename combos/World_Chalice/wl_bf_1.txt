@@ -3,7 +3,7 @@ wl_bf_1
 Folder
 World_Chalice
 Subcombos
-['brilliant_fusion']
+[['upstart_goblin', 'o'], ['brilliant_fusion', 'r']]
 Movement
 []
 Hand Requirement

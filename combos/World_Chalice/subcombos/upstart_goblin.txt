@@ -1,13 +1,13 @@
 Name
-undine_BF_1
+upstart_goblin
 Folder
-World_Chalice
+World_Chalice/subcombos
 Subcombos
-[['upstart_goblin', 'o'], ['brilliant_fusion', 'r'], ['undine', 'r']]
-Movement
 []
+Movement
+['draw', '1']
 Hand Requirement
-{}
+{'Upstart Goblin': 1}
 Hand or Main Deck Requirement
 {}
 Main Deck Requirement
@@ -15,4 +15,8 @@ Main Deck Requirement
 Extra Deck Requirement
 {}
 Grave Requirement
+{}
+Field Requirement
+{}
+Hand or Field Deck Requirement
 {}

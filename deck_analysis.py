@@ -18,7 +18,6 @@ class ComboAnalyzer():
         d.load(self.deck_name)
         combo_names = {}
         combo_chance = {}
-
         if os.path.isfile("./combos/{}/{}.txt".format(d.combo_folder, self.combo)):
             combo_names[self.combo] = Combo.Combo()
             combo_names[self.combo].load(self.combo, d.combo_folder)
@@ -64,4 +63,3 @@ class ComboAnalyzer():
                 l.append([key, combo_chance[key]*100])
         l.append(['Brick', combo_chance['Brick']*100])
         print tabulate(l, headers=['Combo', '% Chance'])
-

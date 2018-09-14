@@ -3,7 +3,7 @@ gumblar_4_undine_wl_1
 Folder
 World_Chalice
 Subcombos
-['undine']
+[['upstart_goblin', 'o'], ['undine', 'r']]
 Movement
 ['Genex Controller', 'm_zone', 'grave', '4', '-1']
 ['Imduk the World Chalice Dragon', 'extra', 'm_zone', '-1', '4']

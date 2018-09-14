@@ -67,6 +67,13 @@ class Field:
     def do_action(self, action):
         # Actions are lists of length 3 or 5, [card, src, dest, src loc, dest loc]
 
+        if action[0] == 'draw':
+            if len(f.deck) == int(action[1]):
+                print("{}Cannot draw, not enough cards in deck{}".format(bcolors.FAIL, bcolors.ENDC))
+                return False
+            f.draw_num(int(action[1]))
+            return True
+
         if action[0] == 'TOKEN':
             if action[1] == 'summon':
                 if self.m_zone[int(action[2])] != "":

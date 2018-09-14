@@ -40,9 +40,9 @@ class ComboTest:
         f = Field.Field(deck)
         for subcombo in self.combo.subcombos:
             if subcombo:
-                print("{}Setting up Subcombo {}{}".format(bcolors.OKBLUE, subcombo, bcolors.ENDC))
+                print("{}Setting up Subcombo {}{}".format(bcolors.OKBLUE, subcombo[0], bcolors.ENDC))
                 sc = Combo.Combo()
-                sc.load(subcombo, "{}/subcombos".format(self.combo.folder))
+                sc.load(subcombo[0], "{}/subcombos".format(self.combo.folder))
 
                 f.hand = f.hand + Common.dict2List(sc.hand)
                 f.deck = f.deck + Common.dict2List(sc.deck) + Common.dict2List(sc.hand_or_deck)
@@ -52,7 +52,7 @@ class ComboTest:
                 if not result:
                     print("{}Failed testing {}/{} on subcombo {}'s movement check, action {}{}".format(bcolors.FAIL, self.combo.folder, self.combo.name, sc.name, error_state, bcolors.ENDC))
                     sys.exit()
-                print("{}Subcombo {} set up{}".format(bcolors.OKGREEN, subcombo, bcolors.ENDC))
+                print("{}Subcombo {} set up{}".format(bcolors.OKGREEN, subcombo[0], bcolors.ENDC))
 
         f.hand = f.hand + Common.dict2List(self.combo.hand)
         f.deck = f.deck + Common.dict2List(self.combo.deck) + Common.dict2List(self.combo.hand_or_deck)

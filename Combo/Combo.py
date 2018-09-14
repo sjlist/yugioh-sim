@@ -2,9 +2,11 @@
 # Hand, deck, and extra deck are all dictionaries
 import Common.Common as common
 import os
+from copy import deepcopy
 
 class Combo():
-    def __init__(self, name="", hand_req={}, hand_or_deck={}, deck_req={}, extra_req={}, grave_req={}, movement=[], subcombos=[], optionalCombos=[], folder="none", hand_or_field={}, field={}):
+    def __init__(self, name="", hand_req={}, hand_or_deck={}, deck_req={}, extra_req={},\
+                 grave_req={}, movement=[], subcombos=[], optionalCombos=[], folder="none", hand_or_field={}, field={}):
         self.name = name
         self.folder = folder
         self.hand = hand_req
@@ -23,11 +25,21 @@ class Combo():
 
     def isCombo(self, f):
         for combo in self.subcombos:
-            if combo != '':
-                c = Combo()
-                c.load(combo, "{}/subcombos".format(self.folder))
-                if not c.isCombo(f):
-                    return False
+            if combo != []:
+                if combo[1] == 'r':
+                    c = Combo()
+                    c.load(combo[0], "{}/subcombos".format(self.folder))
+                    if not c.isCombo(f):
+                        return False
+                # Optional combo handling, make a deep copy of the field. Test to see if the combo works,
+                # if it doesnt, do nothing to the main combo path.
+                # If it does work, pass the field state back to the main combo path
+                elif combo[1] == 'o':
+                    f_opt = deepcopy(f)
+                    c = Combo()
+                    c.load(combo[0], "{}/subcombos".format(self.folder))
+                    if c.isCombo(f):
+                        f = deepcopy(f_opt)
 
         if not self.allThere(self.hand, f.hand):
             return False
@@ -121,18 +133,16 @@ class Combo():
         print "Saving " + self.name
         print "In: " + self.file_path
         with open(self.file_path, 'w') as f:
-            f.write('Name:\n')
+            f.write('Name\n')
             f.write(self.name)
             f.write('\nFolder\n')
             f.write(str(self.folder))
             f.write('\nSubcombos\n')
             f.write(str(self.subcombos))
-            f.write('\nOptional Subcombos\n')
-            f.write(str(self.optionalCombos))
             f.write('\nMovement\n')
             for element in self.movement:
-                f.write(str(element))
-            f.write('\nHand Requirement\n')
+                f.write(str(element) + '\n')
+            f.write('Hand Requirement\n')
             f.write(str(self.hand))
             f.write('\nHand or Main Deck Requirement\n')
             f.write(str(self.hand_or_deck))
@@ -149,7 +159,7 @@ class Combo():
             f.write('\n\n')
 
     def load(self, name, folder):
-        self.items[4] = []
+        self.items[3] = []
         self.file_path = "./combos/{}/{}.txt".format(folder, name)
         with open(self.file_path, 'r') as f:
             file_data = f.read()
@@ -180,11 +190,9 @@ class Combo():
         if action == 'Folder':
             self.items[1] = line_raw
         if action == 'Subcombos':
-            self.items[2] = common.string2List(line_raw)
-        if action == 'Optional Subcombos':
-            self.items[3] = common.string2List(line_raw)
+            self.items[2] = common.string2TupleList(line_raw)
         if action == 'Movement':
-            self.items[4].append(common.string2List(line_raw))
+            self.items[3].append(common.string2List(line_raw))
         if action == 'Hand Requirement':
             self.combo_reqs[0] = common.string2DictInt(line_raw)
         if action == 'Hand or Main Deck Requirement':
