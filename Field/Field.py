@@ -17,13 +17,13 @@ class Field:
         i = 0
         while i < num:
             draw = random.sample(self.deck,1)[0]
-            self.move_card([draw, 'deck', 'hand'])
+            self.do_action([draw, 'deck', 'hand'])
             i += 1
 
     def banish_rand(self, num, target):
         banish = random.sample(target, num)
         for element in banish:
-            self.move_card([element, target, 'banished'])
+            self.do_action([element, target, 'banished'])
 
     def discard_rand(self, num):
         hand = random.sample(self.hand, num)
@@ -64,14 +64,20 @@ class Field:
         print("{} not a pile".format(pile))
         sys.exit()
 
-    def move_card(self, action):
+    def do_action(self, action):
         # Actions are lists of length 3 or 5, [card, src, dest, src loc, dest loc]
 
         if action[0] == 'TOKEN':
             if action[1] == 'summon':
+                if self.m_zone[int(action[2])] != "":
+                    print("{}{} is already in m_zone {}{}".format(bcolors.FAIL, self.m_zone[int(action[2])], int(action[2]), bcolors.ENDC))
+                    return False
                 self._put_card('TOKEN', ['TOKEN'], 0, self.m_zone, int(action[2]))
                 return True
             if action[1] == 'remove':
+                if self.m_zone[int(action[2])] != "TOKEN":
+                    print("{}A token is not in m_zone {}{}".format(bcolors.FAIL, int(action[2]), bcolors.ENDC))
+                    return False
                 self._put_card('TOKEN', self.m_zone, int(action[2]), [], -1)
                 return True
             print("{}{} is not a token action{}".format(bcolors.FAIL, action[1], bcolors.ENDC))
@@ -140,10 +146,10 @@ class Field:
         return True
 
     def print_field(self):
-        print ("Deck:\n{}\n".format(self.deck))
-        print ("Hand:\n{}\n".format(self.hand))
-        print ("Grave:\n{}\n".format(self.grave))
-        print ("Banished:\n{}\n".format(self.banished))
-        print ("Monster Zone:\n{}\n".format(self.m_zone))
-        print ("ST Zones:\n{}\n".format(self.st_zone))
-        print ("Extra Deck:\n{}".format(self.extra))
+        print("Deck:\n{}\n".format(self.deck))
+        print("Hand:\n{}\n".format(self.hand))
+        print("Grave:\n{}\n".format(self.grave))
+        print("Banished:\n{}\n".format(self.banished))
+        print("Monster Zone:\n{}\n".format(self.m_zone))
+        print("ST Zones:\n{}\n".format(self.st_zone))
+        print("Extra Deck:\n{}".format(self.extra))

@@ -2,6 +2,7 @@ import random
 import time
 import os
 from Common.Common import string2DictInt
+import Combo.Combo as Combo
 
 class Deck(object):
     def __init__(self, deck_name = ""):
@@ -32,6 +33,9 @@ class Deck(object):
         self.main_deck_size = main_size
         self.extra_deck_size = extra_size
         self.side_deck_size = side_size
+
+    def combosPossible(self):
+        return True
 
 #### SAVE LOAD AND EDITOR FUNCTIONS ####
     def delete_deck(self):

@@ -43,6 +43,7 @@ class ComboTest:
                 print("{}Setting up Subcombo {}{}".format(bcolors.OKBLUE, subcombo, bcolors.ENDC))
                 sc = Combo.Combo()
                 sc.load(subcombo, "{}/subcombos".format(self.combo.folder))
+
                 f.hand = f.hand + Common.dict2List(sc.hand)
                 f.deck = f.deck + Common.dict2List(sc.deck) + Common.dict2List(sc.hand_or_deck)
                 f.extra = f.extra + Common.dict2List(sc.extra)
@@ -62,6 +63,6 @@ class ComboTest:
         if not result:
             print("{}Failed testing {}/{} on movement check, action {}{}".format(bcolors.FAIL, self.combo.folder, self.combo.name, error_state, bcolors.ENDC))
             sys.exit()
+        f.print_field()
 
         print("{}{}/{} passed movement check{}".format(bcolors.OKGREEN, self.combo.folder, self.combo.name, bcolors.ENDC))
-

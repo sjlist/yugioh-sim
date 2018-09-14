@@ -4,7 +4,7 @@ import Common.Common as common
 import os
 
 class Combo():
-    def __init__(self, name="", hand_req={}, hand_or_deck={}, deck_req={}, extra_req={}, grave_req={}, movement = [], subcombos=[], folder="none", hand_or_field = {}, field = {}):
+    def __init__(self, name="", hand_req={}, hand_or_deck={}, deck_req={}, extra_req={}, grave_req={}, movement=[], subcombos=[], optionalCombos=[], folder="none", hand_or_field={}, field={}):
         self.name = name
         self.folder = folder
         self.hand = hand_req
@@ -14,9 +14,10 @@ class Combo():
         self.grave = grave_req
         self.movement = movement
         self.subcombos = subcombos
+        self.optionalCombos = optionalCombos
         self.field = field
         self.hand_or_field = hand_or_field
-        self.items = [self.name, self.folder, self.subcombos, self.movement]
+        self.items = [self.name, self.folder, self.subcombos, self.optionalCombos, self.movement]
         self.combo_reqs = [self.hand, self.hand_or_deck, self.deck, self.extra, self.grave, self.field, self.hand_or_field]
         self.file_path = ""
 
@@ -62,20 +63,19 @@ class Combo():
                 count = 0
                 while action[1] == 'ANYCARD':
                     if count == len(f.hand):
-                        print f.hand
                         return False, action
 
-                    if not self.inCombo(f.hand[count]):
+                    if not self.inCombo(f.hand[count]) or f.hand[count] == 'ANYCARD':
                         action[1] = f.hand[count]
+                        break
+
                     count += 1
 
-            if not f.move_card(action):
-                print "here 2"
+            if not f.do_action(action):
                 return False, action
 
             if len(action) == 2 and action[0] == 'discard':
                 action[1] = 'ANYCARD'
-
         return True, action
 
     def allThere(self, combo_req, combo_ava):
@@ -127,6 +127,8 @@ class Combo():
             f.write(str(self.folder))
             f.write('\nSubcombos\n')
             f.write(str(self.subcombos))
+            f.write('\nOptional Subcombos\n')
+            f.write(str(self.optionalCombos))
             f.write('\nMovement\n')
             for element in self.movement:
                 f.write(str(element))
@@ -147,7 +149,7 @@ class Combo():
             f.write('\n\n')
 
     def load(self, name, folder):
-        self.items[3] = []
+        self.items[4] = []
         self.file_path = "./combos/{}/{}.txt".format(folder, name)
         with open(self.file_path, 'r') as f:
             file_data = f.read()
@@ -179,8 +181,10 @@ class Combo():
             self.items[1] = line_raw
         if action == 'Subcombos':
             self.items[2] = common.string2List(line_raw)
+        if action == 'Optional Subcombos':
+            self.items[3] = common.string2List(line_raw)
         if action == 'Movement':
-            self.items[3].append(common.string2List(line_raw))
+            self.items[4].append(common.string2List(line_raw))
         if action == 'Hand Requirement':
             self.combo_reqs[0] = common.string2DictInt(line_raw)
         if action == 'Hand or Main Deck Requirement':
@@ -202,6 +206,8 @@ class Combo():
         if item_name == 'Folder':
             return True
         if item_name == 'Subcombos':
+            return True
+        if item_name == 'Optional Subcombos':
             return True
         if item_name == 'Movement':
             return True
@@ -226,7 +232,8 @@ class Combo():
         self.name = self.items[0]
         self.folder = self.items[1]
         self.subcombos = self.items[2]
-        self.movement = self.items[3]
+        self.optionalCombos = self.items[3]
+        self.movement = self.items[4]
 
         self.hand = self.combo_reqs[0]
         self.hand_or_deck = self.combo_reqs[1]

@@ -55,9 +55,8 @@ Hand Requirement
 Hand or Main Deck Requirement
 {}
 Main Deck Requirement
-{'Lee the World Chalice Fairy': 1, 'World Chalice Gaurdragon': 2, 'Eva': 1, 'Watapon': 1}
+{'Lee the World Chalice Fairy': 2, 'World Chalice Gaurdragon': 2, 'Eva': 1, 'Watapon': 1}
 Extra Deck Requirement
-{'Reprodocus': 1, 'Imduk the World Chalice Dragon': 1, 'Summon Sorceress': 1, 'Knightmare Pheonix': 1, 'Firewall Dragon': 1, 'Linkuriboh': 1, 'Topologic Gumblar Dragon': 1}
+{'Reprodocus': 1, 'Imduk the World Chalice Dragon': 2, 'Summon Sorceress': 1, 'Knightmare Pheonix': 1, 'Firewall Dragon': 1, 'Linkuriboh': 1, 'Topologic Gumblar Dragon': 1}
 Grave Requirement
 {}
-
