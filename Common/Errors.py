@@ -30,3 +30,15 @@ class InvalidOption(Error):
     def __init__(self, action, message):
         self.message = message
         self.action = action
+
+
+class SummonError(Error):
+    """ Exception thrown when an invalid summon is attempted """
+    def __init__(self, message):
+        self.message = message
+
+
+class InvalidEffect(Error):
+    """ Exception thrown when an invalid effect is attempted """
+    def __init__(self, message):
+        self.message = message

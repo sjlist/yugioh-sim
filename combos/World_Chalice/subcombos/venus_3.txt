@@ -5,7 +5,7 @@ World_Chalice/subcombos
 Subcombos
 []
 Movement
-['summon', 'The Agent of Creation - Venus', 'hand', '0']
+['normal_summon', 'The Agent of Creation - Venus', 'hand', '0']
 Hand Requirement
 {'The Agent of Creation - Venus': 1}
 Hand or Main Deck Requirement

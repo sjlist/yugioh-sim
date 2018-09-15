@@ -5,11 +5,11 @@ World_Chalice/subcombos
 Subcombos
 []
 Movement
-['summon', 'Lee the World Chalice Fairy', 'hand', '0']
+['normal_summon', 'Lee the World Chalice Fairy', 'hand', '0']
 ['World Legacy - "World Chalice"', 'deck', 'hand']
 ['Transmodify', 'hand', 'st_zone', '-1', '0']
 ['Lee the World Chalice Fairy', 'm_zone', 'grave', '0', '-1']
-['summon', 'The Agent of Creation - Venus', 'deck', '0']
+['special_summon', 'The Agent of Creation - Venus', 'deck', '0']
 ['Transmodify', 'st_zone', 'grave', '0', '-1']
 Hand Requirement
 {'Lee the World Chalice Fairy': 1, 'Transmodify': 1}

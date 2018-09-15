@@ -14,7 +14,16 @@ class Field:
         self.banished = []
         self.m_zone = ["", "", "", "", "", "", ""]
         self.st_zone = ["", "", "", "", ""]
+        self.normal_summons = [0, 1]
 
+    def summon(self, card, pile_name, zone):
+            pile = self.get_pile(pile_name)
+            try:
+                self._put_card(card, pile, -1, self.m_zone, zone)
+            except (ZoneError, CardMissing):
+                raise
+
+            return True
     def draw_num(self, num):
         i = 0
         while i < num:
@@ -92,12 +101,21 @@ class Field:
 
     def do_action(self, action):
         # Actions are lists of length 3 or 5, [card, src, dest, src loc, dest loc]
-
-        if action[0] == 'summon':
-            card = action[1]
-            pile = self.get_pile(action[2])
+        if action[0] == 'normal_summon':
+            if self.normal_summons[0] == self.normal_summons[1]:
+                print self.normal_summons
+                raise SummonError("Normal Summons used up")
             try:
-                self._put_card(card, pile, -1, self.m_zone, int(action[3]))
+                self.summon(action[1], action[2], int(action[3]))
+                self.normal_summons[0] += 1
+            except (ZoneError, CardMissing):
+                raise
+
+            return True
+
+        if action[0] == 'special_summon':
+            try:
+                self.summon(action[1], action[2], int(action[3]))
             except (ZoneError, CardMissing):
                 raise
 
@@ -148,6 +166,11 @@ class Field:
 
             return True
 
+        if action[0] == 'increase_normal_summons':
+            if self.normal_summons[1] == 2:
+                raise EffectError("Cannot increase normal summons to more than 2")
+            self.normal_summons[1] += 1
+            return True
         # This is a catch all option for now. Should not be needed in the long run
         card = action[0]
         src = self.get_pile(action[1])

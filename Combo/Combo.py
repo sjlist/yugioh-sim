@@ -93,7 +93,7 @@ class Combo():
 
             try:
                 f.do_action(action)
-            except (CardMissing, ValueError, InvalidOption, ZoneError, PileError):
+            except (CardMissing, ValueError, InvalidOption, ZoneError, PileError, SummonError):
                 return False, action
 
             # Undoing hacky discard
