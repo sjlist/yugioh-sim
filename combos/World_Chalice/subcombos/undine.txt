@@ -5,14 +5,14 @@ World_Chalice/subcombos
 Subcombos
 []
 Movement
-['Genex Undine', 'hand', 'm_zone', '-1', '1']
+['summon', 'Genex Undine', 'hand', '1']
 ['Crystron Rosenix', 'deck', 'grave']
 ['Genex Controller', 'deck', 'hand']
 ['Crystron Rosenix', 'grave', 'banished']
 ['TOKEN', 'summon', '2']
 ['TOKEN', 'remove', '2']
-['Link Spider', 'extra', 'm_zone', '-1', '6']
-['Genex Controller', 'hand', 'm_zone', '-1', '4']
+['summon', 'Link Spider', 'extra', '6']
+['summon', 'Genex Controller', 'hand', '4']
 Hand Requirement
 {'Genex Undine': 1}
 Hand or Main Deck Requirement

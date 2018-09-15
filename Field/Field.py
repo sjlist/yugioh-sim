@@ -34,8 +34,7 @@ class Field:
         for element in banish:
             try:
                 self._move_card(element, target, self.banished)
-            except CardMissing as e:
-                print("Cannot banish {} not in the pile\nPile: {}".format(e.card, e.pile))
+            except CardMissing:
                 raise
 
     def discard_rand(self, num):
@@ -43,8 +42,7 @@ class Field:
         for element in hand:
             try:
                 self._move_card(element, self.hand, self.grave)
-            except CardMissing as e:
-                print("Cannot discard {} not in the hand".format(e.card))
+            except CardMissing:
                 raise
 
     def _move_card(self, card, src, dest):
@@ -67,10 +65,7 @@ class Field:
                 raise ZoneError("Field Zone is empty", src_loc, src)
 
         if dest_loc == -1:
-            if card in dest:
-                dest.remove(card)
-            else:
-                raise CardMissing("Missing a card from the dest pile", card, dest)
+            dest.append(card)
         else:
             if dest[dest_loc] == "":
                 dest[dest_loc] = card
@@ -103,11 +98,7 @@ class Field:
             pile = self.get_pile(action[2])
             try:
                 self._put_card(card, pile, -1, self.m_zone, int(action[3]))
-            except ZoneError as e:
-                print("{}\nZone: {}\nPile:\n{}".format(e.message, e.zone, e.pile))
-                raise
-            except CardMissing as e:
-                print("{}\nCard: {}\nPile: {}".format(e.message, e.card, e.pile))
+            except (ZoneError, CardMissing):
                 raise
 
             return True
@@ -116,7 +107,6 @@ class Field:
             try:
                 self.draw_num(int(action[1]))
             except ValueError:
-                print("Not enough cards left in deck to draw {} card(s)".format(int(action[1])))
                 raise
 
             return True
@@ -125,8 +115,7 @@ class Field:
             if action[1] == 'summon':
                 try:
                     self._put_card('TOKEN', ['TOKEN'], 0, self.m_zone, int(action[2]))
-                except ZoneError as e:
-                    print("{}\nZone: {}\nPile:\n{}".format(e.message, e.zone, e.pile))
+                except ZoneError:
                     raise
 
                 return True
@@ -134,8 +123,7 @@ class Field:
             if action[1] == 'remove':
                 try:
                     self._put_card('TOKEN', self.m_zone, int(action[2]), [], -1)
-                except ZoneError as e:
-                    print("{}\nZone: {}\nPile:\n{}".format(e.message, e.zone, e.pile))
+                except (ZoneError, CardMissing):
                     raise
 
                 return True
@@ -153,7 +141,10 @@ class Field:
                 except ValueError:
                     card = action[1]
 
-                self._move_card(card, src, dest)
+                try:
+                    self._move_card(card, src, dest)
+                except CardMissing:
+                    raise
 
             return True
 
@@ -165,8 +156,7 @@ class Field:
         if len(action) == 3:
             try:
                 self._move_card(card, src, dest)
-            except CardMissing as e:
-                print("{}\nCard: {}\nPile: {}".format(e.message, e.card, e.pile))
+            except CardMissing:
                 raise
 
             return True
@@ -176,11 +166,7 @@ class Field:
             dest_loc = int(action[4])
             try:
                 self._put_card(card, src, src_loc, dest, dest_loc)
-            except ZoneError as e:
-                print("{}\nZone: {}\nPile:\n{}".format(e.message, e.zone, e.pile))
-                raise
-            except CardMissing as e:
-                print("{}\nCard: {}\nPile: {}".format(e.message, e.card, e.pile))
+            except (ZoneError, CardMissing):
                 raise
 
             return True

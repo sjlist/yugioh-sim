@@ -5,6 +5,7 @@ import os
 from copy import deepcopy
 from Common.Errors import *
 
+
 class Combo():
     def __init__(self, name="", hand_req={}, hand_or_deck={}, deck_req={}, extra_req={},\
                  grave_req={}, movement=[], subcombos=[], optionalCombos=[], folder="none", hand_or_field={}, field={}):
@@ -26,7 +27,7 @@ class Combo():
 
     def isCombo(self, f):
         for combo in self.subcombos:
-            if combo != []:
+            if combo:
                 if combo[1] == 'r':
                     c = Combo()
                     c.load(combo[0], "{}/subcombos".format(self.folder))
@@ -77,6 +78,7 @@ class Combo():
         for action in self.movement:
             if not action:
                 return True, action
+            # Hacky way to do discarding... maybe handle in field?
             if action[0] == 'discard' and action[1] == 'ANYCARD':
                 count = 0
                 while action[1] == 'ANYCARD':
@@ -89,11 +91,15 @@ class Combo():
 
                     count += 1
 
-            if not f.do_action(action):
+            try:
+                f.do_action(action)
+            except (CardMissing, ValueError, InvalidOption, ZoneError, PileError):
                 return False, action
 
+            # Undoing hacky discard
             if len(action) == 2 and action[0] == 'discard':
                 action[1] = 'ANYCARD'
+
         return True, []
 
     def allThere(self, combo_req, combo_ava):
