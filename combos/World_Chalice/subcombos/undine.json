@@ -1,1 +1,29 @@
-{"Name": "undine", "extra": {"Link Spider": 1}, "hand": {"Genex Undine": 1}, "hand_or_field": {}, "Folder": "World_Chalice/subcombos", "grave": {}, "subcombos": [], "deck": {"Genex Controller": 1, "Crystron Rosenix": 1}, "hand_or_deck": {}, "field": {}, "movement": [["normal_summon", "Genex Undine", "hand", "1"], ["send_to_grave", "Crystron Rosenix", "deck"], ["Genex Controller", "deck", "hand"], ["Crystron Rosenix", "grave", "banished"], ["TOKEN", "summon", "2"], ["TOKEN", "remove", "2"], ["special_summon", "Link Spider", "extra", "6"], ["special_summon", "Genex Controller", "hand", "4"]]}
+{
+  "Name": "undine",
+  "extra": {
+    "Link Spider": 1
+  },
+  "hand": {
+    "Genex Undine": 1
+  },
+  "hand_or_field": {},
+  "Folder": "World_Chalice/subcombos",
+  "grave": {},
+  "subcombos": [],
+  "deck": {
+    "Genex Controller": 1,
+    "Crystron Rosenix": 1
+  },
+  "hand_or_deck": {},
+  "field": {},
+  "movement": [
+    ["normal_summon", "Genex Undine", "hand", "1"],
+    ["send_to_grave", "Crystron Rosenix", "deck"],
+    ["Genex Controller", "deck", "hand"],
+    ["Crystron Rosenix", "grave", "banished"],
+    ["TOKEN", "summon", "2"],
+    ["TOKEN", "remove", "2"],
+    ["special_summon", "Link Spider", "extra", "6"],
+    ["special_summon", "Genex Controller", "hand", "4"]
+  ]
+}

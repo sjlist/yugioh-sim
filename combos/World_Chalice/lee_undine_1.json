@@ -1,1 +1,24 @@
-{"Name": "lee_undine_1", "extra": {}, "hand": {"Lee the World Chalice Fairy": 1}, "hand_or_field": {}, "Folder": "World_Chalice", "grave": {}, "subcombos": [["upstart_goblin", "o"], ["undine", "r"]], "deck": {"Beckoned by the World Chalice": 1, "World Chalice Gaurdragon": 1, "World Legacy - \"World Chalice\"": 1}, "hand_or_deck": {}, "field": {}, "movement": [[]]}
+{
+  "Name": "lee_undine_1",
+  "extra": {},
+  "hand": {
+    "Lee the World Chalice Fairy": 1
+  },
+  "hand_or_field": {},
+  "Folder": "World_Chalice",
+  "grave": {},
+  "subcombos": [
+    ["upstart_goblin", "o"],
+    ["undine", "r"]
+  ],
+  "deck": {
+    "Beckoned by the World Chalice": 1,
+    "World Chalice Gaurdragon": 1,
+    "World Legacy - \"World Chalice\"": 1
+  },
+  "hand_or_deck": {},
+  "field": {},
+  "movement": [
+    []
+  ]
+}

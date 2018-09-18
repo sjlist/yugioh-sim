@@ -44,7 +44,7 @@ class ComboAnalyzer():
             for key in combo_names.keys():
                 f = Field.Field(d)
                 f.draw_num(5)
-                if combo_names[key].isCombo(f, True):
+                if combo_names[key].isCombo(f, False):
                     combo_chance[key] += 1
                     wasCombo = True
 

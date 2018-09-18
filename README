@@ -25,8 +25,4 @@ TODO:
  - Adjust anycard combo checking to be smarter on what cards to discard
  - super combos (analytics)
  - refactor combos to stop using the default move commands (USE ACTION TYPES) IP
- - profile exectuion time
  - add toggable debugging stuff
- - Dont execute top level combo movements, they are useless
- - save load is too slow and complicated to add on to
-    - work around for slow, pre running analysis, load all combos and save as pickles. Then use pickle for the analysis
