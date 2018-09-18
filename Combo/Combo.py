@@ -2,7 +2,8 @@
 # Hand, deck, and extra deck are all dictionaries
 import Common.Common as common
 import os
-from copy import deepcopy
+import cPickle as pickle
+import json
 from Common.Errors import *
 
 
@@ -18,14 +19,13 @@ class Combo():
         self.grave = grave_req
         self.movement = movement
         self.subcombos = subcombos
-        self.optionalCombos = optionalCombos
         self.field = field
         self.hand_or_field = hand_or_field
-        self.items = [self.name, self.folder, self.subcombos, self.optionalCombos, self.movement]
+        self.items = [self.name, self.folder, self.subcombos, self.movement]
         self.combo_reqs = [self.hand, self.hand_or_deck, self.deck, self.extra, self.grave, self.field, self.hand_or_field]
         self.file_path = ""
 
-    def isCombo(self, f):
+    def isCombo(self, f, runMoves=True):
         for combo in self.subcombos:
             if combo:
                 if combo[1] == 'r':
@@ -37,15 +37,13 @@ class Combo():
                 # if it doesnt, do nothing to the main combo path.
                 # If it does work, pass the field state back to the main combo path
                 elif combo[1] == 'o':
-                    f_opt = deepcopy(f)
+                    pickle.dump(f, open('field_temp.pkl', 'wb'), protocol=pickle.HIGHEST_PROTOCOL)
                     c = Combo()
                     c.load(combo[0], "{}/subcombos".format(self.folder))
                     try:
                         c.isCombo(f)
-                        f = deepcopy(f_opt)
-                    except CardMissing:
-                        pass
-                    except ZoneError:
+                    except (CardMissing, ZoneError):
+                        f = pickle.load(open("field_temp.pkl"))
                         pass
 
         if not self.allThere(self.hand, f.hand):
@@ -65,8 +63,10 @@ class Combo():
 
         if self.movement == [] or self.movement == [[]]:
             return True
-        else:
+        elif runMoves:
             return self.playCombo(f)[0]
+        else:
+            return True
 
     def inCombo(self, card):
         for req in self.combo_reqs:
@@ -138,128 +138,26 @@ class Combo():
         print("{}{}{}".format(common.bcolors.WARNING, self.hand_or_field, common.bcolors.ENDC))
 
     def save(self):
-        self.file_path = "./combos/{}/{}.txt".format(self.folder, self.name)
-        if not os.path.exists("./combos/{}".format(self.folder)):
-            os.makedirs("./combos/{}".format(self.folder))
-        print "Saving " + self.name
-        print "In: " + self.file_path
-        with open(self.file_path, 'w') as f:
-            f.write('Name\n')
-            f.write(self.name)
-            f.write('\nFolder\n')
-            f.write(str(self.folder))
-            f.write('\nSubcombos\n')
-            f.write(str(self.subcombos))
-            f.write('\nMovement\n')
-            for element in self.movement:
-                f.write(str(element) + '\n')
-            f.write('Hand Requirement\n')
-            f.write(str(self.hand))
-            f.write('\nHand or Main Deck Requirement\n')
-            f.write(str(self.hand_or_deck))
-            f.write('\nMain Deck Requirement\n')
-            f.write(str(self.deck))
-            f.write('\nExtra Deck Requirement\n')
-            f.write(str(self.extra))
-            f.write('\nGrave Requirement\n')
-            f.write(str(self.grave))
-            f.write('\nField Requirement\n')
-            f.write(str(self.field))
-            f.write('\nHand or Field Deck Requirement\n')
-            f.write(str(self.hand_or_field))
-            f.write('\n\n')
+        jsonOBJ = {'Name': self.name, 'Folder': self.folder, 'hand': self.hand, 'hand_or_deck': self.hand_or_deck,
+                   'deck': self.deck, 'extra': self.extra, 'movement': self.movement, 'subcombos': self.subcombos,
+                   'grave': self.grave, 'field': self.field, 'hand_or_field': self.hand_or_field}
+        json.dump(jsonOBJ, open("./combos/{}/{}.json".format(self.folder, self.name), 'w'))
 
     def load(self, name, folder):
-        self.items[3] = []
-        self.file_path = "./combos/{}/{}.txt".format(folder, name)
-        with open(self.file_path, 'r') as f:
-            file_data = f.read()
-
-        loc = 0
-        lines = [-1]
-        while loc != -1:
-            loc = file_data.find("\n", loc + 1)
-            lines.append(loc)
-
-        i = 0
-        deck_raw = []
-        while i < len(lines) - 1:
-            deck_raw.append(file_data[lines[i]+1:lines[i+1]])
-            i += 1
-
-        for line in deck_raw:
-            if self.is_item_name(line):
-                action = line
-            elif line != "":
-                self.load_item(line, action)
-
-        self.save_items()
-
-    def load_item(self, line_raw, action):
-        if action == 'Name':
-            self.items[0] = line_raw
-        if action == 'Folder':
-            self.items[1] = line_raw
-        if action == 'Subcombos':
-            self.items[2] = common.string2TupleList(line_raw)
-        if action == 'Movement':
-            self.items[3].append(common.string2List(line_raw))
-        if action == 'Hand Requirement':
-            self.combo_reqs[0] = common.string2DictInt(line_raw)
-        if action == 'Hand or Main Deck Requirement':
-            self.combo_reqs[1] = common.string2DictInt(line_raw)
-        if action == 'Main Deck Requirement':
-            self.combo_reqs[2] = common.string2DictInt(line_raw)
-        if action == 'Extra Deck Requirement':
-            self.combo_reqs[3] = common.string2DictInt(line_raw)
-        if action == 'Grave Requirement':
-            self.combo_reqs[4] = common.string2DictInt(line_raw)
-        if action == 'Field Requirement':
-            self.combo_reqs[5] = common.string2DictInt(line_raw)
-        if action == 'Hand or Field Deck Requirement':
-            self.combo_reqs[6] = common.string2DictInt(line_raw)
-
-    def is_item_name(self, item_name):
-        if item_name == 'Name':
-            return True
-        if item_name == 'Folder':
-            return True
-        if item_name == 'Subcombos':
-            return True
-        if item_name == 'Optional Subcombos':
-            return True
-        if item_name == 'Movement':
-            return True
-        if item_name == 'Hand Requirement':
-            return True
-        if item_name == 'Hand or Main Deck Requirement':
-            return True
-        if item_name == 'Main Deck Requirement':
-            return True
-        if item_name == 'Extra Deck Requirement':
-            return True
-        if item_name == 'Grave Requirement':
-            return True
-        if item_name == 'Field Requirement':
-            return True
-        if item_name == 'Hand or Field Deck Requirement':
-            return True
-
-        return False
-
-    def save_items(self):
-        self.name = self.items[0]
-        self.folder = self.items[1]
-        self.subcombos = self.items[2]
-        self.movement = self.items[3]
-
-        self.hand = self.combo_reqs[0]
-        self.hand_or_deck = self.combo_reqs[1]
-        self.deck = self.combo_reqs[2]
-        self.extra = self.combo_reqs[3]
-        self.grave = self.combo_reqs[4]
-        self.field = self.combo_reqs[5]
-        self.hand_or_field = self.combo_reqs[6]
+        jsonOBJ = json.load(open("./combos/{}/{}.json".format(folder, name)))
+        self.name = jsonOBJ['Name']
+        self.folder = jsonOBJ['Folder']
+        self.hand = jsonOBJ['hand']
+        self.hand_or_deck = jsonOBJ['hand_or_deck']
+        self.deck = jsonOBJ['deck']
+        self.extra = jsonOBJ['extra']
+        self.grave = jsonOBJ['grave']
+        self.movement = jsonOBJ['movement']
+        self.subcombos = jsonOBJ['subcombos']
+        self.field = jsonOBJ['field']
+        self.hand_or_field = jsonOBJ['hand_or_field']
+        self.items = [self.name, self.folder, self.subcombos, self.movement]
+        self.combo_reqs = [self.hand, self.hand_or_deck, self.deck, self.extra, self.grave, self.field, self.hand_or_field]
 
     def add_card(self, pile, name, number):
         if name in pile.keys():

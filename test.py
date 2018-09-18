@@ -1,8 +1,8 @@
-from Common.Common import string2TupleList
+import cPickle as pickle
+import Combo.Combo as combo
 
-d = [['1', '2', '3', '1'], ['4', '5', '6'], ['7', '8', '9'], ['10', '11', '12']]
-ds = str(d)
-a = string2TupleList(ds)
-print d
-print a
-print a == d
+c = combo.Combo()
+c.load("undine_bf_1", "World_Chalice")
+pickle.dump(c, open('simple2.pkl', 'w'), protocol=pickle.HIGHEST_PROTOCOL)
+t = pickle.load(open("simple2.pkl"))
+print t.name

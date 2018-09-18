@@ -23,7 +23,12 @@ class Field:
             except (ZoneError, CardMissing):
                 raise
 
-            return True
+    def field_to_grave(self, card, loc, pile):
+        try:
+            self._put_card(card, pile, loc, self.grave, -1)
+        except (ZoneError, CardMissing):
+            raise
+
     def draw_num(self, num):
         i = 0
         while i < num:
@@ -121,6 +126,30 @@ class Field:
 
             return True
 
+        if action[0] == 'send_to_grave':
+            # action: action_name, card, zone location/pile
+            #     def field_to_grave(self, card, loc, pile_name):
+            try:
+                loc = int(action[2])
+                if action[1] == self.m_zone[loc]:
+                    pile = self.m_zone
+                elif action[1] == self.st_zone[loc]:
+                    pile = self.st_zone
+
+                self.field_to_grave(action[1], int(action[2]), pile)
+
+            except ValueError:
+                try:
+                    pile = self.get_pile(action[2])
+                    self._move_card(action[1], pile, self.grave)
+                except (ZoneError, CardMissing):
+                    raise
+
+            except (ZoneError, CardMissing):
+                raise
+
+            return True
+
         if action[0] == 'draw':
             try:
                 self.draw_num(int(action[1]))
@@ -168,7 +197,7 @@ class Field:
 
         if action[0] == 'increase_normal_summons':
             if self.normal_summons[1] == 2:
-                raise EffectError("Cannot increase normal summons to more than 2")
+                raise InvalidEffect("Cannot increase normal summons to more than 2")
             self.normal_summons[1] += 1
             return True
         # This is a catch all option for now. Should not be needed in the long run

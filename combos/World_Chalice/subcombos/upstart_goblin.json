@@ -1,0 +1,1 @@
+{"Name": "upstart_goblin", "extra": {}, "hand": {"Upstart Goblin": 1}, "hand_or_field": {}, "Folder": "World_Chalice/subcombos", "grave": {}, "subcombos": [], "deck": {"ANYCARD": 1}, "hand_or_deck": {}, "field": {}, "movement": [["Upstart Goblin", "hand", "st_zone", "-1", "0"], ["draw", "1"], ["send_to_grave", "Upstart Goblin", "0"]]}

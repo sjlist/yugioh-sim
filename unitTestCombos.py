@@ -10,7 +10,8 @@ for path, subdirs, files in os.walk("./combos/"):
         folder = pathlib.Path(*p.parts[1:])
         print "Next Combo: {}".format(name)
         ct = CT.ComboTest(name.split(".")[0], folder)
-        res, _ = ct.testCombo()
+        res, f = ct.testCombo()
+        # f.print_field()
         if not res:
             sys.exit()
         print

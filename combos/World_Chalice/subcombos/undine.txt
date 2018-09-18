@@ -6,7 +6,7 @@ Subcombos
 []
 Movement
 ['normal_summon', 'Genex Undine', 'hand', '1']
-['Crystron Rosenix', 'deck', 'grave']
+['send_to_grave', 'Crystron Rosenix', 'deck']
 ['Genex Controller', 'deck', 'hand']
 ['Crystron Rosenix', 'grave', 'banished']
 ['TOKEN', 'summon', '2']

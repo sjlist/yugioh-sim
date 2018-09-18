@@ -23,8 +23,10 @@ TO DO (ALTON/ANALYSIS):
 
 TODO:
  - Adjust anycard combo checking to be smarter on what cards to discard
- - Make actions smarter so you dont need to add -1s everywhere IP
  - super combos (analytics)
- - Valid possible Combos for a deck
- - try throw catch errors instead of weird returns more?
- - refactor combos to stop using the default move commands (USE ACTION TYPES)
+ - refactor combos to stop using the default move commands (USE ACTION TYPES) IP
+ - profile exectuion time
+ - add toggable debugging stuff
+ - Dont execute top level combo movements, they are useless
+ - save load is too slow and complicated to add on to
+    - work around for slow, pre running analysis, load all combos and save as pickles. Then use pickle for the analysis

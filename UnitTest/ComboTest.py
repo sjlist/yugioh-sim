@@ -4,7 +4,7 @@ import Field.Field as Field
 import Common.Common as Common
 from Common.Common import bcolors
 from itertools import combinations
-from copy import deepcopy
+import cPickle as pickle
 
 
 class ComboTest:
@@ -43,12 +43,12 @@ class ComboTest:
         for subcombo in self.combo.subcombos:
             if subcombo[0]:
                 subcombo_test = ComboTest(subcombo[0], "{}/subcombos".format(self.combo.folder))
-                result, res_field = subcombo_test.testCombo(deepcopy(field))
+                pickle.dump(field, open('field_temp.pkl', 'wb'), protocol=pickle.HIGHEST_PROTOCOL)
+                result, error_state = subcombo_test.testCombo(field)
                 if result:
                     if subcombo[1] == 'o':
                         print("{}Ignoring field state from {}/{} due to optional subcombo{}".format(bcolors.WARNING, subcombo_test.combo.folder, subcombo_test.combo.name, bcolors.ENDC))
-                    if subcombo[1] == 'r':
-                        field = res_field
+                        field = pickle.load(open("field_temp.pkl"))
                 elif subcombo[1] == 'o':
                     print("{}Failed movement check on {}/{} ignoring due to optional subcombo{}".format(bcolors.WARNING, self.combo.folder, self.combo.name, bcolors.ENDC))
                 elif subcombo[1] == 'r':
