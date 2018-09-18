@@ -1,8 +1,7 @@
-import random
-import time
 import os
 from Common.Common import string2DictInt
-import Combo.Combo as Combo
+import json
+
 
 class Deck(object):
     def __init__(self, deck_name = ""):
@@ -39,53 +38,26 @@ class Deck(object):
 
 #### SAVE LOAD AND EDITOR FUNCTIONS ####
     def delete_deck(self):
-        self.file_path = "./decks/" + str(self.deck_name) + ".txt"
+        self.file_path = "./decks/" + str(self.deck_name) + ".json"
         os.remove(self.file_path)
 
     def save(self):
-        print self.file_path
-        self.file_path = "./decks/" + str(self.deck_name) + ".txt"
-        print "Saving " + self.deck_name
-        print "In: " + self.file_path
-        with open(self.file_path, 'w') as f:
-            f.write('\n')
-            f.write(self.deck_name)
-            f.write('\nMain Deck\n')
-            f.write(str(self.main_deck))
-            f.write('\nExtra Deck\n')
-            f.write(str(self.extra_deck))
-            f.write('\nSide Deck\n')
-            f.write(str(self.side_deck))
-            f.write('\nCombo Folder\n')
-            f.write(str(self.combo_folder))
-            f.write('\n')
+        jsonOBJ = {
+                    'Name': self.deck_name,
+                    'main_deck': self.main_deck,
+                    'side_deck': self.side_deck,
+                    'extra_deck': self.extra_deck,
+                    'combo_folder': self.combo_folder
+                  }
+        json.dump(jsonOBJ, open("./decks/{}.json".format(self.deck_name), 'w'))
 
     def load(self, name):
-        self.deck_name = name
-        self.file_path = "./decks/" + str(self.deck_name) + ".txt"
-        file_list = []
-        with open(self.file_path, 'r') as f:
-            file_data = f.read()
-
-        loc = 0
-        lines = [0]
-        while loc != -1:
-            loc = file_data.find("\n", loc + 1)
-            lines.append(loc)
-
-        lines.remove(-1)
-
-        i = 0
-        deck_raw = []
-        while i < len(lines) - 1:
-            deck_raw.append(file_data[lines[i]+1:lines[i+1]])
-            i += 1
-
-        self.deck_name = deck_raw[0]
-        self.main_deck = string2DictInt(deck_raw[2])
-        self.extra_deck = string2DictInt(deck_raw[4])
-        self.side_deck = string2DictInt(deck_raw[6])
-        self.combo_folder = deck_raw[8]
+        jsonOBJ = json.load(open("./decks/{}.json".format(name)))
+        self.main_deck = jsonOBJ['main_deck']
+        self.side_deck = jsonOBJ['side_deck']
+        self.extra_deck = jsonOBJ['extra_deck']
+        self.deck_name = jsonOBJ['Name']
+        self.combo_folder = jsonOBJ['combo_folder']
 
     def print_deck(self):
         self.count_size()

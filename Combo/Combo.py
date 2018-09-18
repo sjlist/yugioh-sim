@@ -138,9 +138,19 @@ class Combo():
         print("{}{}{}".format(common.bcolors.WARNING, self.hand_or_field, common.bcolors.ENDC))
 
     def save(self):
-        jsonOBJ = {'Name': self.name, 'Folder': self.folder, 'hand': self.hand, 'hand_or_deck': self.hand_or_deck,
-                   'deck': self.deck, 'extra': self.extra, 'movement': self.movement, 'subcombos': self.subcombos,
-                   'grave': self.grave, 'field': self.field, 'hand_or_field': self.hand_or_field}
+        jsonOBJ = {
+                   'Name': self.name,
+                   'Folder': self.folder,
+                   'hand': self.hand,
+                   'hand_or_deck': self.hand_or_deck,
+                   'deck': self.deck,
+                   'extra': self.extra,
+                   'movement': self.movement,
+                   'subcombos': self.subcombos,
+                   'grave': self.grave,
+                   'field': self.field,
+                   'hand_or_field': self.hand_or_field
+                   }
         json.dump(jsonOBJ, open("./combos/{}/{}.json".format(self.folder, self.name), 'w'))
 
     def load(self, name, folder):

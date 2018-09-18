@@ -4,7 +4,7 @@ pr = cProfile.Profile()
 pr.enable()
 
 import deck_analysis as DA
-a = DA.ComboAnalyzer("World_Chalice_Undine", 10000)
+a = DA.ComboAnalyzer("World_Chalice_Undine_Watapon", 1000)
 a.analyze_combos()
 
 pr.disable()
