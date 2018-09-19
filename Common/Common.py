@@ -2,6 +2,7 @@ import os
 import glob
 
 
+# Color class for pretty printing
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -13,6 +14,7 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 
+# Convert a string into a dictionary with a int as a value
 def string2DictInt(string):
     d = dict()
     value_end = 0
@@ -39,6 +41,7 @@ def string2DictInt(string):
     return d
 
 
+# Convert a string into a dictionary with a string as a value
 def string2DictString(string):
     d = dict()
     value_end = 0
@@ -65,6 +68,7 @@ def string2DictString(string):
     return d
 
 
+# convert a string into a list
 def string2List(string):
     _list = string[1:-1].replace("'", "").split(', ')
     if _list == ['']:
@@ -73,6 +77,7 @@ def string2List(string):
         return _list
 
 
+# Convert a string into a tuple list
 def string2TupleList(string):
     if string == '[]':
         return []
@@ -87,6 +92,7 @@ def string2TupleList(string):
     return list
 
 
+# Convert a dictionary into a list, assumes the values of the dictionary are ints
 def dict2List(_dict):
     l = []
     for key in _dict.keys():
@@ -95,6 +101,7 @@ def dict2List(_dict):
     return l
 
 
+# Check if a file exists
 def fileExists(folder, _file):
     for path, dirs, files in os.walk('./{}'.format(folder)):
         for d in dirs:
@@ -103,6 +110,7 @@ def fileExists(folder, _file):
     return False
 
 
+# Find the first parent folder of a file
 def parentFolder(folder, _file):
     for path, dirs, files in os.walk('./{}'.format(folder)):
         for d in dirs:
@@ -111,6 +119,7 @@ def parentFolder(folder, _file):
     return False, ""
 
 
+# Count the number of items in the dictionary, assuming the values in the dict are ints
 def numItemsDict(d):
     num = 0
     for key in d.keys():

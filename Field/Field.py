@@ -1,7 +1,6 @@
 import random
 import Common.Common as Common
 from Common.Common import bcolors
-import sys
 from Common.Errors import *
 
 
@@ -16,19 +15,23 @@ class Field:
         self.st_zone = ["", "", "", "", ""]
         self.normal_summons = [0, 1]
 
+    # summon a card from a pile into a zone number
     def summon(self, card, pile_name, zone):
-            pile = self.get_pile(pile_name)
-            try:
-                self._put_card(card, pile, -1, self.m_zone, zone)
-            except (ZoneError, CardMissing):
-                raise
+        # No error catching on pile errors, just error out
+        pile = self.get_pile(pile_name)
+        try:
+            self._put_card(card, pile, -1, self.m_zone, zone)
+        except (ZoneError, CardMissing):
+            raise
 
+    # Send a card from the field (either m_zone or st_zone) to the grave
     def field_to_grave(self, card, loc, pile):
         try:
             self._put_card(card, pile, loc, self.grave, -1)
         except (ZoneError, CardMissing):
             raise
 
+    # draw some number of cards from the deck to the hand
     def draw_num(self, num):
         i = 0
         while i < num:
@@ -43,14 +46,16 @@ class Field:
                 raise
             i += 1
 
-    def banish_rand(self, num, target):
-        banish = random.sample(target, num)
+    # Banish num cards randomly from a pile
+    def banish_rand(self, num, pile):
+        banish = random.sample(pile, num)
         for element in banish:
             try:
-                self._move_card(element, target, self.banished)
+                self._move_card(element, pile, self.banished)
             except CardMissing:
                 raise
 
+    # discard num random cards from the hand
     def discard_rand(self, num):
         hand = random.sample(self.hand, num)
         for element in hand:
@@ -59,6 +64,7 @@ class Field:
             except CardMissing:
                 raise
 
+    # move a card from src pile to dest pile
     def _move_card(self, card, src, dest):
         if card not in src:
             raise CardMissing("Missing a card from the src pile", card, src)
@@ -66,6 +72,7 @@ class Field:
         src.remove(card)
         dest.append(card)
 
+    # put a card from a zone to a dest zone
     def _put_card(self, card, src, src_loc, dest, dest_loc):
         if src_loc == -1:
             if card in src:
@@ -86,6 +93,7 @@ class Field:
             else:
                 raise ZoneError("Field Zone is full", dest_loc, dest)
 
+    # get the pile from a pile name
     def get_pile(self, pile):
         if pile == 'deck':
             return self.deck
@@ -104,9 +112,11 @@ class Field:
 
         raise PileError(pile)
 
+    # do an action
     def do_action(self, action):
         # Actions are lists of length 3 or 5, [card, src, dest, src loc, dest loc]
         if action[0] == 'normal_summon':
+            # action: ['normal_summon', CARD, M_ZONE_LOC]
             if self.normal_summons[0] == self.normal_summons[1]:
                 print self.normal_summons
                 raise SummonError("Normal Summons used up")
@@ -119,6 +129,7 @@ class Field:
             return True
 
         if action[0] == 'special_summon':
+            # action: ['special_summon', CARD, M_ZONE_LOC]
             try:
                 self.summon(action[1], action[2], int(action[3]))
             except (ZoneError, CardMissing):
@@ -127,8 +138,7 @@ class Field:
             return True
 
         if action[0] == 'send_to_grave':
-            # action: action_name, card, zone location/pile
-            #     def field_to_grave(self, card, loc, pile_name):
+            # action: ['send_to_grave', card, zone_location/pile]
             try:
                 loc = int(action[2])
                 if action[1] == self.m_zone[loc]:
@@ -151,6 +161,7 @@ class Field:
             return True
 
         if action[0] == 'draw':
+            # action ['draw', NUM]
             try:
                 self.draw_num(int(action[1]))
             except ValueError:
@@ -159,6 +170,7 @@ class Field:
             return True
 
         if action[0] == 'TOKEN':
+            # action: ['TOKEN', 'summon'/'remove', M_ZONE]
             if action[1] == 'summon':
                 try:
                     self._put_card('TOKEN', ['TOKEN'], 0, self.m_zone, int(action[2]))
@@ -178,6 +190,7 @@ class Field:
             raise InvalidOption("Invalid option passed in for a token", action[1])
 
         if action[0] == 'discard':
+            # action: ['discard', CARD/'random', NUM(IF RANDOM)]
             src = self.hand
             dest = self.grave
             if action[1] == 'random':
@@ -196,6 +209,7 @@ class Field:
             return True
 
         if action[0] == 'increase_normal_summons':
+            # action: ['increase_normal_summons']
             if self.normal_summons[1] == 2:
                 raise InvalidEffect("Cannot increase normal summons to more than 2")
             self.normal_summons[1] += 1
@@ -206,6 +220,8 @@ class Field:
         dest = self.get_pile(action[2])
 
         if len(action) == 3:
+            # Generic move from pile to pile
+            # [CARD, SRC_PILE, DEST_PILE]
             try:
                 self._move_card(card, src, dest)
             except CardMissing:
@@ -214,6 +230,9 @@ class Field:
             return True
 
         if len(action) == 5:
+            # Specific card placement action, can do any pile movement
+            # action: [CARD, SRC_PILE, DEST_PILE, SRC_LOC, DEST_LOC]
+            # if using a pile without a zone, use -1 as the location
             src_loc = int(action[3])
             dest_loc = int(action[4])
             try:
@@ -225,6 +244,7 @@ class Field:
 
         raise InvalidOption("Invalid option passed into do_action", action)
 
+    # combine two fields
     def combine(self, f):
         self.deck = self.deck + f.deck
         self.hand = self.hand + f.hand
@@ -247,6 +267,7 @@ class Field:
 
         return True
 
+    # Print the field state
     def print_field(self):
         print("Deck:\n{}\n".format(self.deck))
         print("Hand:\n{}\n".format(self.hand))

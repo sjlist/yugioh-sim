@@ -17,7 +17,7 @@ class ComboTest:
         for i in xrange(1, len(req_list) + 1):
             perms = list(combinations(req_list, i))
             for p in perms:
-                result = self.combo.allThere(req, list(p))
+                result = self.combo.all_there(req, list(p))
                 if result and i < len(req_list):
                     return False, list(p)
 
@@ -61,7 +61,7 @@ class ComboTest:
             field.extra = field.extra + Common.dict2List(self.combo.extra)
             field.grave = field.grave + Common.dict2List(self.combo.grave)
 
-            result, error_state = self.combo.playCombo(field)
+            result, error_state = self.combo.play_combo(field)
             if not result:
                 print("{}Failed testing {}/{} on movement check, action {}{}".format(bcolors.FAIL, self.combo.folder, self.combo.name, error_state, bcolors.ENDC))
                 return False, field

@@ -7,7 +7,7 @@ from copy import deepcopy
 from tabulate import tabulate
 
 
-class ComboAnalyzer():
+class Combo_Analyzer():
     def __init__(self, deck_name, MAX_TRIES, combo=""):
         self.deck_name = deck_name
         self.MAX_TRIES = MAX_TRIES
@@ -28,7 +28,7 @@ class ComboAnalyzer():
                     name = element.split(".")[0]
                     c = Combo.Combo()
                     c.load(name, d.combo_folder)
-                    if self.canCombo(d, c):
+                    if self.can_combo(d, c):
                         combo_names[name] = deepcopy(c)
                         combo_chance[name] = 0
 
@@ -37,18 +37,18 @@ class ComboAnalyzer():
         i = 0
         while i < self.MAX_TRIES:
             i += 1
-            wasCombo = False
+            was_combo = False
             f = Field.Field(d)
             f.draw_num(5)
 
             for key in combo_names.keys():
                 f = Field.Field(d)
                 f.draw_num(5)
-                if combo_names[key].isCombo(f, False):
+                if combo_names[key].is_combo(f, False):
                     combo_chance[key] += 1
-                    wasCombo = True
+                    was_combo = True
 
-            if not wasCombo:
+            if not was_combo:
                 combo_chance["Brick"] += 1
 
         for key in combo_chance.keys():
@@ -66,7 +66,7 @@ class ComboAnalyzer():
         l.append(['Brick', combo_chance['Brick']*100])
         print tabulate(l, headers=['Combo', '% Chance'])
 
-    def canCombo(self, d, c):
+    def can_combo(self, d, c):
         for req in c.combo_reqs:
             for key in req.keys():
                 if key in d.main_deck:

@@ -1,5 +1,4 @@
 import os
-from Common.Common import string2DictInt
 import json
 
 
@@ -33,10 +32,7 @@ class Deck(object):
         self.extra_deck_size = extra_size
         self.side_deck_size = side_size
 
-    def combosPossible(self):
-        return True
-
-#### SAVE LOAD AND EDITOR FUNCTIONS ####
+# SAVE LOAD AND EDITOR FUNCTIONS
     def delete_deck(self):
         self.file_path = "./decks/" + str(self.deck_name) + ".json"
         os.remove(self.file_path)
@@ -59,6 +55,7 @@ class Deck(object):
         self.deck_name = jsonOBJ['Name']
         self.combo_folder = jsonOBJ['combo_folder']
 
+# Editor Functions
     def print_deck(self):
         self.count_size()
         print "Deck Name: " + self.deck_name

@@ -26,4 +26,5 @@ TODO:
  - super combos (analytics)
  - refactor combos to stop using the default move commands (USE ACTION TYPES) IP
  - add toggable debugging stuff
- - move deck files to jsons
+ - redo editors
+ - speed up isCombo
