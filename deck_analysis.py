@@ -3,15 +3,19 @@ import Field.Field as Field
 import os
 import Deck.Deck as Deck
 import Combo.Combo as Combo
+from Common.Errors import *
 from copy import deepcopy
 from tabulate import tabulate
-
+import cProfile
+import pstats
+import StringIO
 
 class Combo_Analyzer():
-    def __init__(self, deck_name, MAX_TRIES, combo=""):
+    def __init__(self, deck_name, MAX_TRIES, combo="", time_combos=False):
         self.deck_name = deck_name
         self.MAX_TRIES = MAX_TRIES
         self.combo = combo
+        self.time_combos = time_combos
 
     def analyze_combos(self):
         d = Deck.Deck()
@@ -32,7 +36,14 @@ class Combo_Analyzer():
                         combo_names[name] = deepcopy(c)
                         combo_chance[name] = 0
 
+        if self.time_combos:
+            for value in combo_names.values():
+                self.analyze_combo_timing(d, value)
+
         combo_chance["Brick"] = 0
+
+        pr = cProfile.Profile()
+        pr.enable()
 
         i = 0
         while i < self.MAX_TRIES:
@@ -51,10 +62,18 @@ class Combo_Analyzer():
             if not was_combo:
                 combo_chance["Brick"] += 1
 
+
+        pr.disable()
+        s = StringIO.StringIO()
+        sortby = 'tottime'
+        ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+        ps.print_stats(10)
+
         for key in combo_chance.keys():
             combo_chance[key] = combo_chance[key] / self.MAX_TRIES
 
         self.print_chances(combo_chance)
+        print s.getvalue()
 
     def print_chances(self, combo_chance):
         l = []
@@ -79,3 +98,92 @@ class Combo_Analyzer():
                     return False
 
         return True
+
+    def time_combo(self, c, d):
+        f = Field.Field(d)
+        f.draw_num(5)
+
+        move_times = {}
+
+        if not c.is_combo(f, False):
+            return move_times
+
+        action_number = 0
+        for action in c.movement:
+            if not action:
+                break
+
+            pr = cProfile.Profile()
+            pr.enable()
+
+
+            # Hacky way to do discarding... maybe handle in field?
+            # Trying to not discard a card that is in the combo if the discarding is a choice
+            if action[0] == 'discard' and action[1] == 'ANYCARD':
+                count = 0
+                while action[1] == 'ANYCARD':
+                    if count == len(f.hand):
+                        return move_times
+
+                    if not c.in_combo(f.hand[count]) or f.hand[count] == 'ANYCARD':
+                        action[1] = f.hand[count]
+                        break
+
+                    count += 1
+
+            try:
+                f.do_action(action)
+            except (CardMissing, ValueError, InvalidOption, ZoneError, PileError, SummonError):
+                break
+
+            # Undoing hacky discard
+            if len(action) == 2 and action[0] == 'discard':
+                action[1] = 'ANYCARD'
+
+            pr.disable()
+            s = StringIO.StringIO()
+            sortby = 'tottime'
+            ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+
+            move_times[action_number] = ps.total_tt
+
+            action_number += 1
+
+        return move_times
+
+    def analyze_combo_timing(self, d, c, MAX_TRIES=100):
+        move_times = {}
+        t = {}
+        tries = 0
+        for element in c.movement:
+            move_times[tries] = 0
+            tries += 1
+
+        tries = 0
+        successes = 0
+        while tries < MAX_TRIES:
+            tries += 1
+            t = self.time_combo(c, d)
+            if t:
+                for key in t.keys():
+                    move_times[key] = move_times.get(key) + t[key]
+                    successes += 1
+
+        sorted_chances = sorted(move_times, key=move_times.__getitem__)
+        sorted_chances.reverse()
+
+        sorted_list = []
+        total_time = 0
+        if len(move_times) != 1 and move_times[0] != 0:
+            for element in sorted_chances:
+                sorted_list.append([c.movement[element], move_times[element]/ move_times[sorted_chances[0]]])
+                total_time += move_times[element]
+
+            for key in move_times.keys():
+                move_times[key] = move_times[key] / move_times[sorted_chances[0]]
+
+            sorted_list.append(['Total Time for {}'.format(c.name), total_time])
+            print tabulate(sorted_list, headers=['Move', 'Movement Time'])
+
+        else:
+            print "No timing data for combo {}".format(c.name)

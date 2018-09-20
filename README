@@ -24,7 +24,11 @@ TO DO (ALTON/ANALYSIS):
 TODO:
  - Adjust anycard combo checking to be smarter on what cards to discard
  - super combos (analytics)
- - refactor combos to stop using the default move commands (USE ACTION TYPES) IP
  - add toggable debugging stuff
  - redo editors
- - speed up isCombo
+ - speed up is_combo
+    - do timing analysis of is_combo
+    - dicarding is slow
+ - implement new actions and update combos to use them
+    - banish (pile and zone)
+    - search
