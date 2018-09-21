@@ -25,9 +25,9 @@ class Field:
             raise
 
     # Send a card from the field (either m_zone or st_zone) to the grave
-    def field_to_grave(self, card, loc, pile):
+    def field_to_pile(self, card, loc, pile, target):
         try:
-            self._put_card(card, pile, loc, self.grave, -1)
+            self._put_card(card, pile, loc, target, -1)
         except (ZoneError, CardMissing):
             raise
 
@@ -115,6 +115,32 @@ class Field:
     # do an action
     def do_action(self, action):
         # Actions are lists of length 3 or 5, [card, src, dest, src loc, dest loc]
+
+        if action[0] == 'banish_zone':
+            # action: ['banish', CARD, pile/zone]
+            try:
+                loc = int(action[2])
+                if action[1] == self.m_zone[loc]:
+                    pile = self.m_zone
+                elif action[1] == self.st_zone[loc]:
+                    pile = self.st_zone
+
+                self.field_to_pile(action[1], int(action[2]), pile, self.banished)
+
+            except (ZoneError, CardMissing):
+               raise
+
+            return True
+
+        if action[0] == 'banish_pile':
+            try:
+                pile = self.get_pile(action[2])
+                self._move_card(action[1], pile, self.banished)
+            except (ZoneError, CardMissing):
+                raise
+
+            return True
+
         if action[0] == 'normal_summon':
             # action: ['normal_summon', CARD, M_ZONE_LOC]
             if self.normal_summons[0] == self.normal_summons[1]:
@@ -137,7 +163,16 @@ class Field:
 
             return True
 
-        if action[0] == 'send_to_grave':
+        if action[0] == 'send_to_grave_pile':
+            try:
+                pile = self.get_pile(action[2])
+                self._move_card(action[1], pile, self.grave)
+            except (ZoneError, CardMissing):
+                raise
+
+            return True
+
+        if action[0] == 'send_to_grave_zone':
             # action: ['send_to_grave', card, zone_location/pile]
             try:
                 loc = int(action[2])
@@ -146,14 +181,7 @@ class Field:
                 elif action[1] == self.st_zone[loc]:
                     pile = self.st_zone
 
-                self.field_to_grave(action[1], int(action[2]), pile)
-
-            except ValueError:
-                try:
-                    pile = self.get_pile(action[2])
-                    self._move_card(action[1], pile, self.grave)
-                except (ZoneError, CardMissing):
-                    raise
+                self.field_to_pile(action[1], int(action[2]), pile, self.grave)
 
             except (ZoneError, CardMissing):
                 raise
@@ -214,6 +242,17 @@ class Field:
                 raise InvalidEffect("Cannot increase normal summons to more than 2")
             self.normal_summons[1] += 1
             return True
+
+        if action[0] == 'add_to_hand':
+            # action: ['add_to_hand', CARD, pile]
+            try:
+                pile = self.get_pile(action[2])
+                self._move_card(action[1], pile, self.hand)
+            except CardMissing:
+                raise
+
+            return True
+
         # This is a catch all option for now. Should not be needed in the long run
         card = action[0]
         src = self.get_pile(action[1])

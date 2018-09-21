@@ -107,8 +107,10 @@ class Combo():
             # try to do the action, catch any errors, return false if errored
             try:
                 f.do_action(action)
-            except (CardMissing, ValueError, InvalidOption, ZoneError, PileError, SummonError):
+            except (CardMissing, ValueError, ZoneError, SummonError):
                 return False, action
+            except (InvalidOption, PileError):
+                raise
 
             # Undoing hacky discard
             if len(action) == 2 and action[0] == 'discard':

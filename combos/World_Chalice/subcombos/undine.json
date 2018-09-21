@@ -18,9 +18,9 @@
   "field": {},
   "movement": [
     ["normal_summon", "Genex Undine", "hand", "1"],
-    ["send_to_grave", "Crystron Rosenix", "deck"],
-    ["Genex Controller", "deck", "hand"],
-    ["Crystron Rosenix", "grave", "banished"],
+    ["send_to_grave_pile", "Crystron Rosenix", "deck"],
+    ["add_to_hand", "Genex Controller", "deck"],
+    ["banish_pile", "Crystron Rosenix", "grave"],
     ["TOKEN", "summon", "2"],
     ["TOKEN", "remove", "2"],
     ["special_summon", "Link Spider", "extra", "6"],

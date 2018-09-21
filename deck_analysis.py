@@ -11,18 +11,19 @@ import pstats
 import StringIO
 
 class Combo_Analyzer():
-    def __init__(self, deck_name, MAX_TRIES, combo="", time_combos=False):
+    def __init__(self, deck_name, MAX_TRIES, combo="", time_combos=False, calculate_chances=True):
         self.deck_name = deck_name
         self.MAX_TRIES = MAX_TRIES
         self.combo = combo
         self.time_combos = time_combos
+        self.calculate_chances = calculate_chances
 
     def analyze_combos(self):
         d = Deck.Deck()
         d.load(self.deck_name)
         combo_names = {}
         combo_chance = {}
-        if os.path.isfile("./combos/{}/{}.txt".format(d.combo_folder, self.combo)):
+        if os.path.isfile("./combos/{}/{}.json".format(d.combo_folder, self.combo)):
             combo_names[self.combo] = Combo.Combo()
             combo_names[self.combo].load(self.combo, d.combo_folder)
             combo_chance[self.combo] = 0
@@ -42,38 +43,8 @@ class Combo_Analyzer():
 
         combo_chance["Brick"] = 0
 
-        pr = cProfile.Profile()
-        pr.enable()
-
-        i = 0
-        while i < self.MAX_TRIES:
-            i += 1
-            was_combo = False
-            f = Field.Field(d)
-            f.draw_num(5)
-
-            for key in combo_names.keys():
-                f = Field.Field(d)
-                f.draw_num(5)
-                if combo_names[key].is_combo(f, False):
-                    combo_chance[key] += 1
-                    was_combo = True
-
-            if not was_combo:
-                combo_chance["Brick"] += 1
-
-
-        pr.disable()
-        s = StringIO.StringIO()
-        sortby = 'tottime'
-        ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
-        ps.print_stats(10)
-
-        for key in combo_chance.keys():
-            combo_chance[key] = combo_chance[key] / self.MAX_TRIES
-
-        self.print_chances(combo_chance)
-        print s.getvalue()
+        if self.calculate_chances:
+            self.calculate_combo_changes(combo_names, combo_chance, d)
 
     def print_chances(self, combo_chance):
         l = []
@@ -104,7 +75,6 @@ class Combo_Analyzer():
         f.draw_num(5)
 
         move_times = {}
-
         if not c.is_combo(f, False):
             return move_times
 
@@ -134,7 +104,7 @@ class Combo_Analyzer():
             try:
                 f.do_action(action)
             except (CardMissing, ValueError, InvalidOption, ZoneError, PileError, SummonError):
-                break
+                raise
 
             # Undoing hacky discard
             if len(action) == 2 and action[0] == 'discard':
@@ -151,7 +121,7 @@ class Combo_Analyzer():
 
         return move_times
 
-    def analyze_combo_timing(self, d, c, MAX_TRIES=100):
+    def analyze_combo_timing(self, d, c):
         move_times = {}
         t = {}
         tries = 0
@@ -161,7 +131,7 @@ class Combo_Analyzer():
 
         tries = 0
         successes = 0
-        while tries < MAX_TRIES:
+        while tries < self.MAX_TRIES:
             tries += 1
             t = self.time_combo(c, d)
             if t:
@@ -187,3 +157,43 @@ class Combo_Analyzer():
 
         else:
             print "No timing data for combo {}".format(c.name)
+
+    def calculate_combo_changes(self, combo_names, combo_chance, d):
+        pr = cProfile.Profile()
+        pr.enable()
+
+        i = 0
+        percent = 0
+        percent_increment = 10
+        while i < self.MAX_TRIES:
+            if i > (self.MAX_TRIES - 2) * percent * percent_increment / 100:
+                total_done = percent_increment * percent
+                print("{}% Done".format(total_done))
+                percent += 1
+            i += 1
+            was_combo = False
+            f = Field.Field(d)
+            f.draw_num(5)
+
+            for key in combo_names.keys():
+                f = Field.Field(d)
+                f.draw_num(5)
+                if combo_names[key].is_combo(f, False):
+                    combo_chance[key] += 1
+                    was_combo = True
+
+            if not was_combo:
+                combo_chance["Brick"] += 1
+
+
+        pr.disable()
+        s = StringIO.StringIO()
+        sortby = 'tottime'
+        ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+        ps.print_stats(10)
+
+        for key in combo_chance.keys():
+            combo_chance[key] = combo_chance[key] / self.MAX_TRIES
+
+        self.print_chances(combo_chance)
+        print s.getvalue()

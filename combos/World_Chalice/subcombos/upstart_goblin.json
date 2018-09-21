@@ -16,6 +16,6 @@
   "movement": [
     ["Upstart Goblin", "hand", "st_zone", "-1", "0"],
     ["draw", "1"],
-    ["send_to_grave", "Upstart Goblin", "0"]
+    ["send_to_grave_zone", "Upstart Goblin", "0"]
   ]
 }
