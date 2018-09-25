@@ -31,4 +31,4 @@ TODO:
     - dicarding is slow
 #  - implement new actions and update combos to use them
  - add end states for combo unit tests
- - progress tracker in calculations
+ - load in combos once and not every time the combo is called

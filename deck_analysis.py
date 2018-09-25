@@ -188,9 +188,9 @@ class Combo_Analyzer():
 
         pr.disable()
         s = StringIO.StringIO()
-        sortby = 'tottime'
+        sortby = 'cumtime'
         ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
-        ps.print_stats(10)
+        ps.print_stats(20)
 
         for key in combo_chance.keys():
             combo_chance[key] = combo_chance[key] / self.MAX_TRIES
