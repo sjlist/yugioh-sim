@@ -98,7 +98,7 @@ class Combo():
                     if count == len(f.hand):
                         return False, action
 
-                    if not self.in_combo(f.hand[count]) or f.hand[count] == 'ANYCARD':
+                    if not self.in_combo(f.hand[count].name) or f.hand[count].name == 'ANYCARD':
                         action[1] = f.hand[count]
                         break
 
@@ -124,7 +124,7 @@ class Combo():
             if element == 'ANYCARD':
                 if common.numItemsDict(combo_req) > len(combo_ava):
                     return False
-            elif combo_req[element] > combo_ava.count(element):
+            elif combo_req[element] > sum(1 for card in combo_ava if card.name == element):
                 return False
 
         return True

@@ -32,3 +32,4 @@ TODO:
 #  - implement new actions and update combos to use them
  - add end states for combo unit tests
  - load in combos once and not every time the combo is called
+ - implement monster, spell, and trap card types

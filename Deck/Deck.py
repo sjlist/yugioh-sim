@@ -1,6 +1,6 @@
 import os
 import json
-
+import Card
 
 class Deck(object):
     def __init__(self, deck_name = ""):
@@ -19,11 +19,13 @@ class Deck(object):
         extra_size = 0
         side_size = 0
 
-        for element in self.main_deck:
-            main_size += self.main_deck[element]
+        for type in self.main_deck:
+            for element in self.main_deck[type]:
+                main_size += self.main_deck[type][element]
 
-        for element in self.extra_deck:
-            extra_size += self.extra_deck[element]
+        for type in self.extra_deck:
+            for element in self.extra_deck[type]:
+                extra_size += self.extra_deck[type][element]
 
         for element in self.side_deck:
             side_size += self.side_deck[element]
@@ -31,6 +33,22 @@ class Deck(object):
         self.main_deck_size = main_size
         self.extra_deck_size = extra_size
         self.side_deck_size = side_size
+
+    def init_main(self):
+        main_list = []
+        for type in self.main_deck:
+            for element in self.main_deck[type]:
+                main_list.append(Card.Card(element, type))
+
+        return main_list
+
+    def init_extra(self):
+        extra_list = []
+        for type in self.extra_deck:
+            for element in self.extra_deck[type]:
+                extra_list.append(Card.Card(element, type))
+
+        return extra_list
 
 # SAVE LOAD AND EDITOR FUNCTIONS
     def delete_deck(self):
@@ -61,11 +79,13 @@ class Deck(object):
         print "Deck Name: " + self.deck_name
         print "Combo Folder : " + self.combo_folder
         print "\nMain Deck: " + str(self.main_deck_size) + " cards"
-        for element in self.main_deck:
-            print element + ": " + str(self.main_deck[element])
+        for type in self.main_deck:
+            for element in self.main_deck[type]:
+                print element + ": " + str(self.main_deck[type][element])
         print "\nExtra Deck: " + str(self.extra_deck_size) + " cards"
-        for element in self.extra_deck:
-            print element + ": " + str(self.extra_deck[element])
+        for type in self.extra_deck:
+            for element in self.extra_deck[type]:
+                print element + ": " + str(self.extra_deck[type][element])
         print "\nSide Deck: " + str(self.side_deck_size) + " cards"
         for element in self.side_deck:
             print element + ": " + str(self.side_deck[element])

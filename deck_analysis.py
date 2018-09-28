@@ -33,7 +33,9 @@ class Combo_Analyzer():
                     name = element.split(".")[0]
                     c = Combo.Combo()
                     c.load(name, d.combo_folder)
+                    print c.name
                     if self.can_combo(d, c):
+                        print c.name
                         combo_names[name] = deepcopy(c)
                         combo_chance[name] = 0
 
@@ -59,13 +61,22 @@ class Combo_Analyzer():
     def can_combo(self, d, c):
         for req in c.combo_reqs:
             for key in req.keys():
-                if key in d.main_deck:
-                    if d.main_deck[key] < req[key]:
-                        return False
-                elif key in d.extra_deck:
-                    if d.extra_deck[key] < req[key]:
-                        return False
-                elif key != "ANYCARD":
+                card_found = False
+                for type in d.main_deck:
+                    if key in d.main_deck[type]:
+                        if d.main_deck[type][key] < req[key]:
+                            return False
+                        else:
+                            card_found = True
+
+                for type in d.extra_deck:
+                    if key in d.extra_deck[type]:
+                        if d.extra_deck[type][key] < req[key]:
+                            return False
+                        else:
+                            card_found = True
+
+                if key != "ANYCARD" and not card_found:
                     return False
 
         return True

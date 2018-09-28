@@ -6,10 +6,10 @@ from Common.Errors import *
 
 class Field:
     def __init__(self, deck):
-        self.deck = Common.dict2List(deck.main_deck)
+        self.deck = deck.init_main()
         self.hand = []
         self.grave = []
-        self.extra = Common.dict2List(deck.extra_deck)
+        self.extra = deck.init_extra()
         self.banished = []
         self.m_zone = ["", "", "", "", "", "", ""]
         self.st_zone = ["", "", "", "", ""]
@@ -306,12 +306,20 @@ class Field:
 
         return True
 
-    # Print the field state
+    def print_zone(self, zone, name):
+        l = []
+        for card in zone:
+            if card != "":
+                l.append(card.name)
+        print("{}:\n{}\n".format(name, l))
+
+
+# Print the field state
     def print_field(self):
-        print("Deck:\n{}\n".format(self.deck))
-        print("Hand:\n{}\n".format(self.hand))
-        print("Grave:\n{}\n".format(self.grave))
-        print("Banished:\n{}\n".format(self.banished))
-        print("Monster Zone:\n{}\n".format(self.m_zone))
-        print("ST Zones:\n{}\n".format(self.st_zone))
-        print("Extra Deck:\n{}".format(self.extra))
+        self.print_zone(self.deck, "Deck")
+        self.print_zone(self.hand, "Hand")
+        self.print_zone(self.grave, "Grave")
+        self.print_zone(self.banished, "Banished")
+        self.print_zone(self.m_zone, "M_zone")
+        self.print_zone(self.st_zone, "St_zone")
+        self.print_zone(self.extra, "Extra")
