@@ -33,8 +33,10 @@ class Combo_Analyzer():
                 if os.path.isfile("./combos/{}/{}".format(d.combo_folder, element)):
                     name = element.split(".")[0]
                     c = Combo.Combo()
+                    print name
                     c.load(name, d.combo_folder)
                     if self.can_combo(d, c):
+                        print name
                         combo_names[name] = deepcopy(c)
                         combo_chance[name] = 0
 
@@ -64,6 +66,7 @@ class Combo_Analyzer():
                 for type in d.main_deck:
                     if key in d.main_deck[type]:
                         if d.main_deck[type][key] < req[key]:
+                            print 1
                             return False
                         else:
                             card_found = True
@@ -71,12 +74,15 @@ class Combo_Analyzer():
                 for type in d.extra_deck:
                     if key in d.extra_deck[type]:
                         if d.extra_deck[type][key] < req[key]:
+                            print 2
                             return False
                         else:
                             card_found = True
 
                 if key != "ANYCARD" and not card_found:
+                    print 3
                     return False
+        print 4
         return True
 
     def time_combo(self, c, d):

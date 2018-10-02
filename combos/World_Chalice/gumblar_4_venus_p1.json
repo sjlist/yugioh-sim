@@ -29,7 +29,6 @@
   "hand_or_deck": {},
   "field": {},
   "movement": [
-    "movement": [
     ["special_summon",         "Mystical Shine Ball", "deck",               1],
     ["special_summon",         "Mystical Shine Ball", "deck",               2],
     ["special_summon",         "Mystical Shine Ball", "deck",               4],
