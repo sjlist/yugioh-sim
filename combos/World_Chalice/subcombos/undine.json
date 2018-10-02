@@ -24,6 +24,6 @@
     ["TOKEN",              "summon",                    2],
     ["TOKEN",              "remove",                    2],
     ["special_summon",     "Link Spider",      "extra", 6],
-    ["special_summon",     "Genex Controller", "hand",  4]
+    ["special_summon",     "Genex Controller", "hand",  3]
   ]
 }

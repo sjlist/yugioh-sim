@@ -39,7 +39,7 @@ class Field:
                 raise
 
             try:
-                self._move_card(draw.name, self.deck, self.hand)
+                self._move_card(draw, self.deck, self.hand)
             except CardMissing:
                 raise
             i += 1
@@ -72,9 +72,8 @@ class Field:
     def _move_card(self, card, src, dest):
         found_card = False
         for element in src:
-            if card == element.name:
+            if card == element:
                 found_card = True
-                card = element
 
         if not found_card:
             raise CardMissing("Missing a card from the src pile", card.name, src)
@@ -87,8 +86,7 @@ class Field:
         if src_loc == -1:
             found_card = False
             for element in src:
-                if card == element.name:
-                    card = element
+                if card == element:
                     src.remove(card)
                     found_card = True
 
@@ -137,7 +135,7 @@ class Field:
         else:
             raise ZoneError("Zone {} does not exist".format(zone), zone, pile)
 
-        raise CardMissing("Could not find card {}".format(name), name. pile)
+        raise CardMissing("Could not find card {}".format(name), name, pile)
 
     # do an action
     def do_action(self, action):
@@ -170,14 +168,16 @@ class Field:
             try:
                 if action[1] == self.m_zone[action[2]].name:
                     pile = self.m_zone
-                elif action[1] == self.st_zone[action[2]].name:
-                    pile = self.st_zone
-                else:
-                    raise CardMissing("Cannot location card", action[1], self.st_zone + self.m_zone)
+            except AttributeError:
+                try:
+                    if action[1] == self.st_zone[action[2]].name:
+                        pile = self.st_zone
+                except AttributeError:
+                    raise CardMissing("Card not in the Field", card, self.m_zone + self.st_zone)
 
+            try:
                 card = self.get_card(action[1], pile, action[2])
                 self.field_to_pile(card, action[2], pile, self.banished)
-
             except (ZoneError, CardMissing):
                 raise
 
@@ -200,7 +200,7 @@ class Field:
                 raise SummonError("Normal Summons used up")
             try:
                 pile = self.get_pile(action[2])
-                card = self.get_card(action[1], pile, action[3])
+                card = self.get_card(action[1], pile)
                 self.summon(card, pile, action[3])
                 self.normal_summons[0] += 1
             except (ZoneError, CardMissing):
@@ -212,7 +212,7 @@ class Field:
             # action: ['special_summon', CARD, pile, M_ZONE_LOC]
             try:
                 pile = self.get_pile(action[2])
-                card = self.get_card(action[1], pile, action[3])
+                card = self.get_card(action[1], pile)
                 self.summon(card, pile, action[3])
             except (ZoneError, CardMissing):
                 raise
@@ -235,10 +235,15 @@ class Field:
             try:
                 if action[1] == self.m_zone[action[2]].name:
                     pile = self.m_zone
-                elif action[1] == self.st_zone[action[2]].name:
-                    pile = self.st_zone
+            except AttributeError:
+                try:
+                    if action[1] == self.st_zone[action[2]].name:
+                        pile = self.st_zone
+                except AttributeError:
+                    raise CardMissing("Card not in the Field", card, self.m_zone + self.st_zone)
 
-                card = self.get_card(action[1], pile)
+            try:
+                card = self.get_card(action[1], pile, action[2])
                 self.field_to_pile(card, action[2], pile, self.grave)
             except (ZoneError, CardMissing):
                 raise
@@ -258,8 +263,7 @@ class Field:
 
             if action[1] == 'remove':
                 try:
-                    pile = self.get_pile(action[2])
-                    token_card = self.get_card('TOKEN', self.m_zone, pile)
+                    token_card = self.get_card('TOKEN', self.m_zone, action[2])
                     self._put_card(token_card, self.m_zone, action[2], [], -1)
                 except (ZoneError, CardMissing):
                     raise
@@ -290,7 +294,8 @@ class Field:
             # action: ['add_to_hand', CARD, pile]
             try:
                 pile = self.get_pile(action[2])
-                self._move_card(action[1], pile, self.hand)
+                card = self.get_card(action[1], pile)
+                self._move_card(card, pile, self.hand)
             except CardMissing:
                 raise
 

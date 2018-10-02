@@ -29,7 +29,7 @@
   "hand_or_deck": {},
   "field": {},
   "movement": [
-    ["send_to_grave_zone",      "Genex Controller",                          4],
+    ["send_to_grave_zone",      "Genex Controller",                          3],
     ["special_summon",          "Imduk the World Chalice Dragon",   "extra", 4],
     ["send_to_grave_zone",      "Link Spider",                               6],
     ["special_summon",          "World Legacy - \"World Chalice\"", "hand",  3],

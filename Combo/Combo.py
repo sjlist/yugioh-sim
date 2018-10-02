@@ -89,7 +89,6 @@ class Combo():
     def play_combo(self, f):
         # for every action in the movements
         for action in self.movement:
-            #f.print_field()
             # if the action is empty, return true
             if not action:
                 return True, action
@@ -110,9 +109,10 @@ class Combo():
                     # try to do the action, catch any errors, return false if errored
             try:
                 f.do_action(action)
-            except (CardMissing, ValueError, ZoneError, SummonError):
+            except (CardMissing, ValueError, ZoneError, SummonError) :
                 return False, action
             except (InvalidOption, PileError):
+                print 2
                 raise
 
             # Undoing hacky discard

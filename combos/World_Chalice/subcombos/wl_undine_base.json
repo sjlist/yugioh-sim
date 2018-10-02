@@ -29,7 +29,7 @@
     ["undine",         "r"]
   ],
   "movement": [
-    ["send_to_grave_zone",     "Genex Controller",                            4],
+    ["send_to_grave_zone",     "Genex Controller",                            3],
     ["special_summon",         "Imduk the World Chalice Dragon",     "extra", 3],
     ["increase_normal_summons"                                                 ],
     ["send_to_grave_zone",     "Genex Undine",                                1],
