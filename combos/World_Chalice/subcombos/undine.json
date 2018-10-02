@@ -17,13 +17,13 @@
   "hand_or_deck": {},
   "field": {},
   "movement": [
-    ["normal_summon", "Genex Undine", "hand", "1"],
-    ["send_to_grave_pile", "Crystron Rosenix", "deck"],
-    ["add_to_hand", "Genex Controller", "deck"],
-    ["banish_pile", "Crystron Rosenix", "grave"],
-    ["TOKEN", "summon", "2"],
-    ["TOKEN", "remove", "2"],
-    ["special_summon", "Link Spider", "extra", "6"],
-    ["special_summon", "Genex Controller", "hand", "4"]
+    ["normal_summon",      "Genex Undine",     "hand",  1],
+    ["send_to_grave_pile", "Crystron Rosenix", "deck"    ],
+    ["add_to_hand",        "Genex Controller", "deck"    ],
+    ["banish_pile",        "Crystron Rosenix", "grave"   ],
+    ["TOKEN",              "summon",                    2],
+    ["TOKEN",              "remove",                    2],
+    ["special_summon",     "Link Spider",      "extra", 6],
+    ["special_summon",     "Genex Controller", "hand",  4]
   ]
 }

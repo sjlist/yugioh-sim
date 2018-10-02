@@ -14,8 +14,8 @@
   "hand_or_deck": {},
   "field": {},
   "movement": [
-    ["Upstart Goblin", "hand", "st_zone", "-1", "0"],
-    ["draw", "1"],
-    ["send_to_grave_zone", "Upstart Goblin", "0"]
+    ["play_spell",         "Upstart Goblin", 0],
+    ["draw",                                 1],
+    ["send_to_grave_zone", "Upstart Goblin", 0]
   ]
 }
