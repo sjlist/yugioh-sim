@@ -26,6 +26,7 @@ class Field:
 
     # Send a card from the field (either m_zone or st_zone) to the grave
     def field_to_pile(self, card, loc, pile, target):
+        card = pile[loc]
         try:
             self._put_card(card, pile, loc, target, -1)
         except (ZoneError, CardMissing):
@@ -41,7 +42,7 @@ class Field:
                 raise
 
             try:
-                self._move_card(draw, self.deck, self.hand)
+                self._move_card(draw.name, self.deck, self.hand)
             except CardMissing:
                 raise
             i += 1
@@ -51,23 +52,35 @@ class Field:
         banish = random.sample(pile, num)
         for element in banish:
             try:
-                self._move_card(element, pile, self.banished)
+                self._move_card(element.name, pile, self.banished)
             except CardMissing:
                 raise
+
+    def discard(self, card):
+        try:
+            self._move_card(card, self.hand, self.grave)
+        except CardMissing:
+            raise
 
     # discard num random cards from the hand
     def discard_rand(self, num):
         hand = random.sample(self.hand, num)
         for element in hand:
             try:
-                self._move_card(element, self.hand, self.grave)
+                self.discard(element.name)
             except CardMissing:
                 raise
 
     # move a card from src pile to dest pile
     def _move_card(self, card, src, dest):
-        if card not in src:
-            raise CardMissing("Missing a card from the src pile", card, src)
+        found_card = False
+        for element in src:
+            if card == element.name:
+                found_card = True
+                card = element
+
+        if not found_card:
+            raise CardMissing("Missing a card from the src pile", card.name, src)
 
         src.remove(card)
         dest.append(card)
@@ -75,10 +88,15 @@ class Field:
     # put a card from a zone to a dest zone
     def _put_card(self, card, src, src_loc, dest, dest_loc):
         if src_loc == -1:
-            if card in src:
-                src.remove(card)
-            else:
-                raise CardMissing("Missing a card from the src pile", card, src)
+            found_card = False
+            for element in src:
+                if card == element.name:
+                    card = element
+                    src.remove(card)
+                    found_card = True
+
+            if not found_card:
+                raise CardMissing("Missing a card from the src pile", card.name, src)
         else:
             if src[src_loc] != "":
                 src[src_loc] = ""
@@ -144,7 +162,6 @@ class Field:
         if action[0] == 'normal_summon':
             # action: ['normal_summon', CARD, M_ZONE_LOC]
             if self.normal_summons[0] == self.normal_summons[1]:
-                print self.normal_summons
                 raise SummonError("Normal Summons used up")
             try:
                 self.summon(action[1], action[2], int(action[3]))
@@ -176,9 +193,9 @@ class Field:
             # action: ['send_to_grave', card, zone_location/pile]
             try:
                 loc = int(action[2])
-                if action[1] == self.m_zone[loc]:
+                if action[1] == self.m_zone[loc].name:
                     pile = self.m_zone
-                elif action[1] == self.st_zone[loc]:
+                elif action[1] == self.st_zone[loc].name:
                     pile = self.st_zone
 
                 self.field_to_pile(action[1], int(action[2]), pile, self.grave)
@@ -230,7 +247,7 @@ class Field:
                     card = action[1]
 
                 try:
-                    self._move_card(card, src, dest)
+                    self.discard(card)
                 except CardMissing:
                     raise
 
@@ -309,8 +326,10 @@ class Field:
     def print_zone(self, zone, name):
         l = []
         for card in zone:
-            if card != "":
+            try:
                 l.append(card.name)
+            except AttributeError:
+                l.append(card)
         print("{}:\n{}\n".format(name, l))
 
 

@@ -9,6 +9,7 @@ from tabulate import tabulate
 import cProfile
 import pstats
 import StringIO
+import random
 
 class Combo_Analyzer():
     def __init__(self, deck_name, MAX_TRIES, combo="", time_combos=False, calculate_chances=True):
@@ -33,9 +34,7 @@ class Combo_Analyzer():
                     name = element.split(".")[0]
                     c = Combo.Combo()
                     c.load(name, d.combo_folder)
-                    print c.name
                     if self.can_combo(d, c):
-                        print c.name
                         combo_names[name] = deepcopy(c)
                         combo_chance[name] = 0
 
@@ -78,7 +77,6 @@ class Combo_Analyzer():
 
                 if key != "ANYCARD" and not card_found:
                     return False
-
         return True
 
     def time_combo(self, c, d):
@@ -189,7 +187,7 @@ class Combo_Analyzer():
             for key in combo_names.keys():
                 f = Field.Field(d)
                 f.draw_num(5)
-                if combo_names[key].is_combo(f, False):
+                if combo_names[key].is_combo(f, True):
                     combo_chance[key] += 1
                     was_combo = True
 

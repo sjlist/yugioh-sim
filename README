@@ -2,7 +2,7 @@ TODO:
  - Adjust anycard combo checking to be smarter on what cards to discard
  - Super combos (analytics)
  - Add toggable debugging stuff
- - Redo editors
+ - Redo editors - eh
  - Speed up is_combo
     - Do timing analysis of is_combo
     - Discarding is slow
@@ -17,3 +17,4 @@ TODO:
  - Zone targets vs Card targets
  - Action should all be in a function that calls a function, should always assume card was passed in
  - Get card function
+ - Card types in combo

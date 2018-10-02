@@ -1,18 +1,20 @@
 {
   "extra_deck": {
-    "Imduk the World Chalice Dragon": 3,
-    "Knightmare Goblin": 1,
-    "Firewall Dragon": 1,
-    "Ningirsu the World Chalice Warrior": 1,
-    "Auram the World Chalice Blademaster": 1,
-    "Link Spider": 1,
-    "Summon Sorceress": 1,
-    "Gem-Knight Seraphinite": 1,
-    "Linkuriboh": 1,
-    "Saryuja Skull Dread": 1,
-    "Topologic Gumblar Dragon": 1,
-    "Ib the World Chalice Priestess": 1,
-    "Knightmare Pheonix": 1
+    "link": {
+      "Imduk the World Chalice Dragon": 3,
+      "Knightmare Goblin": 1,
+      "Firewall Dragon": 1,
+      "Ningirsu the World Chalice Warrior": 1,
+      "Auram the World Chalice Blademaster": 1,
+      "Link Spider": 1,
+      "Summon Sorceress": 1,
+      "Gem-Knight Seraphinite": 1,
+      "Linkuriboh": 1,
+      "Saryuja Skull Dread": 1,
+      "Topologic Gumblar Dragon": 1,
+      "Ib the World Chalice Priestess": 1,
+      "Knightmare Pheonix": 1
+    }
   },
   "main_deck": {
     "Upstart Goblin": 1,
@@ -38,7 +40,7 @@
     "Called by the Grave": 3,
     "Herald of Orange Light": 2
   },
-  "Name": "World_Chalice_Undine",
+  "Name": "World_Chalice_1",
   "combo_folder": "World_Chalice",
   "side_deck": {}
 }
