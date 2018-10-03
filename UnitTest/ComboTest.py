@@ -2,6 +2,7 @@ import Combo.Combo as Combo
 import Deck.Deck as Deck
 import Field.Field as Field
 import Common.Common as Common
+import Deck.Card as Card
 from Common.Common import bcolors
 from itertools import combinations
 import cPickle as pickle
@@ -17,12 +18,13 @@ class ComboTest:
         for i in xrange(1, len(req_list) + 1):
             perms = list(combinations(req_list, i))
             for p in perms:
-                result = self.combo.all_there(req, list(p))
+                card_list = Common.list2card(p, "COMBO")
+                result = self.combo.all_there(req, card_list)
                 if result and i < len(req_list):
-                    return False, list(p)
+                    return False, card_list
 
                 if not result and i == len(req_list):
-                    return False, list(p)
+                    return False, card_list
 
         return True, []
 
@@ -55,12 +57,12 @@ class ComboTest:
                     print("{}Failed testing {}/{} on movement check, action {}{}".format(bcolors.FAIL, self.combo.folder, self.combo.name, error_state, bcolors.ENDC))
                     return False, field
 
-        if self.combo.movement != [[]]:
-            field.hand = field.hand + Common.dict2List(self.combo.hand)
-            field.deck = field.deck + Common.dict2List(self.combo.deck) + Common.dict2List(self.combo.hand_or_deck)
-            field.extra = field.extra + Common.dict2List(self.combo.extra)
-            field.grave = field.grave + Common.dict2List(self.combo.grave)
+        field.hand = field.hand + Common.dict2card(self.combo.hand)
+        field.deck = field.deck + Common.dict2card(self.combo.deck) + Common.dict2card(self.combo.hand_or_deck)
+        field.extra = field.extra + Common.dict2card(self.combo.extra)
+        field.grave = field.grave + Common.dict2card(self.combo.grave)
 
+        if self.combo.movement != [[]]:
             result, error_state = self.combo.play_combo(field)
             if not result:
                 print("{}Failed testing {}/{} on movement check, action {}{}".format(bcolors.FAIL, self.combo.folder, self.combo.name, error_state, bcolors.ENDC))
