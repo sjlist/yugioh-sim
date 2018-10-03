@@ -89,6 +89,7 @@ class Field:
                 if card == element:
                     src.remove(card)
                     found_card = True
+                    break
 
             if not found_card:
                 raise CardMissing("Missing a card from the src pile", card.name, src)
@@ -155,13 +156,15 @@ class Field:
 
             return True
 
-        if action[0] == "play_spell":
+        if action[0] == 'play_spell':
             # action ['play_spell', card, zone], implied from hand
             try:
-                card = self.get_card(action[0], self.hand)
+                card = self.get_card(action[1], self.hand)
                 self._put_card(card, self.hand, -1, self.st_zone, action[2])
             except (ZoneError, CardMissing):
                 raise
+
+            return True
 
         if action[0] == 'banish_zone':
             # action: ['banish', CARD, zone]
@@ -232,15 +235,12 @@ class Field:
 
         if action[0] == 'send_to_grave_zone':
             # action: ['send_to_grave', card, zone_location]
-            try:
-                if action[1] == self.m_zone[action[2]].name:
-                    pile = self.m_zone
-            except AttributeError:
-                try:
-                    if action[1] == self.st_zone[action[2]].name:
-                        pile = self.st_zone
-                except AttributeError:
-                    raise CardMissing("Card not in the Field", card, self.m_zone + self.st_zone)
+            if hasattr(self.m_zone[action[2]], 'name') and action[1] == self.m_zone[action[2]].name:
+                pile = self.m_zone
+            elif hasattr(self.st_zone[action[2]], 'name') and action[1] == self.st_zone[action[2]].name:
+                pile = self.st_zone
+            else:
+                raise CardMissing("Card not in the Field", card, self.m_zone + self.st_zone)
 
             try:
                 card = self.get_card(action[1], pile, action[2])

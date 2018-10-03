@@ -109,7 +109,9 @@ class Combo():
                     # try to do the action, catch any errors, return false if errored
             try:
                 f.do_action(action)
-            except (CardMissing, ValueError, ZoneError, SummonError) :
+            except (CardMissing, ValueError, ZoneError, SummonError) as e:
+                print e.message
+                raise
                 return False, action
             except (InvalidOption, PileError):
                 print 2

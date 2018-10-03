@@ -33,10 +33,8 @@ class Combo_Analyzer():
                 if os.path.isfile("./combos/{}/{}".format(d.combo_folder, element)):
                     name = element.split(".")[0]
                     c = Combo.Combo()
-                    print name
                     c.load(name, d.combo_folder)
                     if self.can_combo(d, c):
-                        print name
                         combo_names[name] = deepcopy(c)
                         combo_chance[name] = 0
 
@@ -47,7 +45,7 @@ class Combo_Analyzer():
         combo_chance["Brick"] = 0
 
         if self.calculate_chances:
-            self.calculate_combo_changes(combo_names, combo_chance, d)
+            self.calculate_combo_chances(combo_names, combo_chance, d)
 
     def print_chances(self, combo_chance):
         l = []
@@ -170,7 +168,7 @@ class Combo_Analyzer():
         else:
             print "No timing data for combo {}".format(c.name)
 
-    def calculate_combo_changes(self, combo_names, combo_chance, d):
+    def calculate_combo_chances(self, combo_names, combo_chance, d):
         pr = cProfile.Profile()
         pr.enable()
 
