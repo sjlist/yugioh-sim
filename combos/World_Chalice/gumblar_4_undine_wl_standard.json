@@ -19,9 +19,7 @@
   "hand_or_deck": {},
   "field": {},
   "movement": [
-    ["send_to_grave_zone",      "Ningirsu the World Chalice Warrior",          3],
-    ["send_to_grave_zone",      "Ib the World Chalice Priestess",              2],
-    ["special_summon",          "Topologic Gumblar Dragon",           "extra", 2],
+    ["link_summon",             "Topologic Gumblar Dragon",                    2, [["Ib the World Chalice Priestess", 2], ["Ningirsu the World Chalice Warrior", 3]]],
     ["special_summon",          "Eva",                                "hand",  3],
     ["discard",                 "random",                                      2],
     ["send_to_grave_zone",      "Eva",                                         3],

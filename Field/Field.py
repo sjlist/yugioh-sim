@@ -310,8 +310,19 @@ class Field:
                 self.do_action(['normal_summon', action[1], action[2], action[3]])
             except (ZoneError, CardMissing, SummonError):
                 raise
+
             return True
 
+        if action[0] == "link_summon":
+            # action: ['link_summon', CARD, zone, (materials)[[CARD, zone]]]
+            try:
+                for material in action[3]:
+                    self.do_action(['send_to_grave_zone', material[0], material[1]])
+                self.do_action(['special_summon', action[1], 'extra', action[2]])
+            except (ZoneError, CardMissing, SummonError):
+                raise
+
+            return True
         raise InvalidOption("Invalid option passed into do_action", action)
 
     # combine two fields

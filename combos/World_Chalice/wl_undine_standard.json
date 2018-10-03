@@ -17,13 +17,9 @@
     ["wl_undine_base", "r"]
   ],
   "movement": [
-    ["send_to_grave_zone", "Imduk the World Chalice Dragon",               4],
-    ["send_to_grave_zone", "Imduk the World Chalice Dragon",               6],
-    ["special_summon",     "Auram the World Chalice Blademaster", "extra", 6],
+    ["link_summon",        "Auram the World Chalice Blademaster",          6, [["Imduk the World Chalice Dragon", 6], ["Imduk the World Chalice Dragon", 4]]],
     ["special_summon",     "World Chalice Gaurdragon",            "hand",  1],
-    ["send_to_grave_zone", "Ningirsu the World Chalice Warrior",           3],
-    ["send_to_grave_zone", "The Agent of Creation - Venus",                0],
-    ["special_summon",     "Topologic Gumblar Dragon",            "extra", 3],
+    ["link_summon",        "Topologic Gumblar Dragon",                     3, [["Ningirsu the World Chalice Warrior", 3], ["The Agent of Creation - Venus", 0]]],
     ["send_to_grave_zone", "Ib the World Chalice Priestess",               2],
     ["special_summon",     "Firewall Dragon",                     "grave", 2],
     ["discard",            "random",                                       2],
