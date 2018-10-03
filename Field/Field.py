@@ -240,7 +240,7 @@ class Field:
             elif hasattr(self.st_zone[action[2]], 'name') and action[1] == self.st_zone[action[2]].name:
                 pile = self.st_zone
             else:
-                raise CardMissing("Card not in the Field", card, self.m_zone + self.st_zone)
+                raise CardMissing("Card not in the Field", action[1], self.m_zone + self.st_zone)
 
             try:
                 card = self.get_card(action[1], pile, action[2])

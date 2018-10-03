@@ -11,7 +11,7 @@ for path, subdirs, files in os.walk("./combos/"):
         print "Next Combo: {}".format(name)
         ct = CT.ComboTest(name.split(".")[0], folder)
         res, f = ct.testCombo()
-        # f.print_field()
+        f.print_field()
         if not res:
             sys.exit()
         print

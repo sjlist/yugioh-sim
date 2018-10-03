@@ -5,7 +5,9 @@
     "Auram the World Chalice Blademaster": 1,
     "Topologic Gumblar Dragon": 1
   },
-  "hand": {},
+  "hand": {
+    "ANYCARD": 1
+  },
   "deck": {},
   "hand_or_deck": {},
   "field": {},

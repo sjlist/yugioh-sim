@@ -43,15 +43,16 @@ def string2DictInt(string):
 
 
 def dict2card(pile_dict, type):
-    pile_list = Common.dict2List(pile_dict)
+    pile_list = dict2List(pile_dict)
     return list2card(pile_list, type)
 
 
 def list2card(pile_list, type):
+    card_list = []
     for element in pile_list:
-        element = Card.Card(element, type)
+        card_list.append(Card.Card(element, type))
 
-    return pile_list
+    return card_list
 
 
 # Convert a string into a dictionary with a string as a value
