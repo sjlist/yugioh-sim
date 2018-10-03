@@ -68,6 +68,14 @@ class Field:
             except CardMissing:
                 raise
 
+    def get_field_pile(self, name, zone):
+        if hasattr(self.m_zone[zone], 'name') and name == self.m_zone[zone].name:
+            return self.m_zone
+        elif hasattr(self.st_zone[zone], 'name') and name == self.st_zone[zone].name:
+            return self.st_zone
+        else:
+            raise CardMissing("Card not in the Field", name, self.m_zone + self.st_zone)
+
     # move a card from src pile to dest pile
     def _move_card(self, card, src, dest):
         found_card = False
@@ -168,12 +176,10 @@ class Field:
 
         if action[0] == 'banish_zone':
             # action: ['banish', CARD, zone]
-            if hasattr(self.m_zone[action[2]], 'name') and action[1] == self.m_zone[action[2]].name:
-                pile = self.m_zone
-            elif hasattr(self.st_zone[action[2]], 'name') and action[1] == self.st_zone[action[2]].name:
-                pile = self.st_zone
-            else:
-                raise CardMissing("Card not in the Field", action[1], self.m_zone + self.st_zone)
+            try:
+                self.get_field_pile(action[1], action[2])
+            except CardMissing:
+                raise
 
             try:
                 card = self.get_card(action[1], pile, action[2])
@@ -232,12 +238,10 @@ class Field:
 
         if action[0] == 'send_to_grave_zone':
             # action: ['send_to_grave', card, zone_location]
-            if hasattr(self.m_zone[action[2]], 'name') and action[1] == self.m_zone[action[2]].name:
-                pile = self.m_zone
-            elif hasattr(self.st_zone[action[2]], 'name') and action[1] == self.st_zone[action[2]].name:
-                pile = self.st_zone
-            else:
-                raise CardMissing("Card not in the Field", action[1], self.m_zone + self.st_zone)
+            try:
+                self.get_field_pile(action[1], action[2])
+            except CardMissing:
+                raise
 
             try:
                 card = self.get_card(action[1], pile, action[2])
