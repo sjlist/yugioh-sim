@@ -168,15 +168,12 @@ class Field:
 
         if action[0] == 'banish_zone':
             # action: ['banish', CARD, zone]
-            try:
-                if action[1] == self.m_zone[action[2]].name:
-                    pile = self.m_zone
-            except AttributeError:
-                try:
-                    if action[1] == self.st_zone[action[2]].name:
-                        pile = self.st_zone
-                except AttributeError:
-                    raise CardMissing("Card not in the Field", card, self.m_zone + self.st_zone)
+            if hasattr(self.m_zone[action[2]], 'name') and action[1] == self.m_zone[action[2]].name:
+                pile = self.m_zone
+            elif hasattr(self.st_zone[action[2]], 'name') and action[1] == self.st_zone[action[2]].name:
+                pile = self.st_zone
+            else:
+                raise CardMissing("Card not in the Field", action[1], self.m_zone + self.st_zone)
 
             try:
                 card = self.get_card(action[1], pile, action[2])
