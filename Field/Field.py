@@ -177,7 +177,7 @@ class Field:
         if action[0] == 'banish_zone':
             # action: ['banish', CARD, zone]
             try:
-                self.get_field_pile(action[1], action[2])
+                pile = self.get_field_pile(action[1], action[2])
             except CardMissing:
                 raise
 
@@ -239,7 +239,7 @@ class Field:
         if action[0] == 'send_to_grave_zone':
             # action: ['send_to_grave', card, zone_location]
             try:
-                self.get_field_pile(action[1], action[2])
+                pile = self.get_field_pile(action[1], action[2])
             except CardMissing:
                 raise
 
@@ -300,6 +300,16 @@ class Field:
             except CardMissing:
                 raise
 
+            return True
+
+        if action[0] == 'tribute_summon':
+            # action ['tribute_summon', CARD, pile, zone, (tributes)[[CARD, zone]]]
+            try:
+                for tribute in action[4]:
+                    self.do_action(['send_to_grave_zone', tribute[0], tribute[1]])
+                self.do_action(['normal_summon', action[1], action[2], action[3]])
+            except (ZoneError, CardMissing, SummonError):
+                raise
             return True
 
         raise InvalidOption("Invalid option passed into do_action", action)

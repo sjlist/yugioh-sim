@@ -1,0 +1,33 @@
+{
+  "Name": "gumblar_4_undine_wl_standard",
+  "extra": {
+    "Topologic Gumblar Dragon": 1
+  },
+  "hand": {
+    "ANYCARD": 3
+  },
+  "hand_or_field": {},
+  "Folder": "World_Chalice",
+  "grave": {},
+  "subcombos": [
+    ["upstart_goblin", "o"],
+    ["gumblar_4_undine_wl_base", "r"]
+  ],
+  "deck": {
+    "Herald of Orange Light": 1
+  },
+  "hand_or_deck": {},
+  "field": {},
+  "movement": [
+    ["send_to_grave_zone",      "Ningirsu the World Chalice Warrior",          3],
+    ["send_to_grave_zone",      "Ib the World Chalice Priestess",              2],
+    ["special_summon",          "Topologic Gumblar Dragon",           "extra", 2],
+    ["special_summon",          "Eva",                                "hand",  3],
+    ["discard",                 "random",                                      2],
+    ["send_to_grave_zone",      "Eva",                                         3],
+    ["special_summon",          "Linkuriboh",                         "grave", 3],
+    ["discard",                 "random",                                      2],
+    ["banish_pile",             "Watapon",                            "grave"   ],
+    ["add_to_hand",             "Herald of Orange Light",             "deck"    ]
+  ]
+}

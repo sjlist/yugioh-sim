@@ -42,11 +42,13 @@ def string2DictInt(string):
     return d
 
 
+# Convert a dictionary of card names to a list of Cards of a type
 def dict2card(pile_dict, type):
     pile_list = dict2List(pile_dict)
     return list2card(pile_list, type)
 
 
+# Convert a list of card names to a list of Cards of a type
 def list2card(pile_list, type):
     card_list = []
     for element in pile_list:
