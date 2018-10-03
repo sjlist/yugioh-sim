@@ -9,6 +9,7 @@ from tabulate import tabulate
 import cProfile
 import pstats
 import StringIO
+import random
 
 class Combo_Analyzer():
     def __init__(self, deck_name, MAX_TRIES, combo="", time_combos=False, calculate_chances=True):
@@ -44,7 +45,7 @@ class Combo_Analyzer():
         combo_chance["Brick"] = 0
 
         if self.calculate_chances:
-            self.calculate_combo_changes(combo_names, combo_chance, d)
+            self.calculate_combo_chances(combo_names, combo_chance, d)
 
     def print_chances(self, combo_chance):
         l = []
@@ -59,13 +60,22 @@ class Combo_Analyzer():
     def can_combo(self, d, c):
         for req in c.combo_reqs:
             for key in req.keys():
-                if key in d.main_deck:
-                    if d.main_deck[key] < req[key]:
-                        return False
-                elif key in d.extra_deck:
-                    if d.extra_deck[key] < req[key]:
-                        return False
-                elif key != "ANYCARD":
+                card_found = False
+                for type in d.main_deck:
+                    if key in d.main_deck[type]:
+                        if d.main_deck[type][key] < req[key]:
+                            return False
+                        else:
+                            card_found = True
+
+                for type in d.extra_deck:
+                    if key in d.extra_deck[type]:
+                        if d.extra_deck[type][key] < req[key]:
+                            return False
+                        else:
+                            card_found = True
+
+                if key != "ANYCARD" and not card_found:
                     return False
 
         return True
@@ -158,7 +168,7 @@ class Combo_Analyzer():
         else:
             print "No timing data for combo {}".format(c.name)
 
-    def calculate_combo_changes(self, combo_names, combo_chance, d):
+    def calculate_combo_chances(self, combo_names, combo_chance, d):
         pr = cProfile.Profile()
         pr.enable()
 
@@ -178,7 +188,7 @@ class Combo_Analyzer():
             for key in combo_names.keys():
                 f = Field.Field(d)
                 f.draw_num(5)
-                if combo_names[key].is_combo(f, False):
+                if combo_names[key].is_combo(f, True):
                     combo_chance[key] += 1
                     was_combo = True
 

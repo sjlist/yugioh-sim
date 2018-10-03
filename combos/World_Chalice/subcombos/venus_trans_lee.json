@@ -16,11 +16,11 @@
   "hand_or_deck": {},
   "field": {},
   "movement": [
-    ["normal_summon", "Lee the World Chalice Fairy", "hand", "0"],
-    ["add_to_hand", "World Legacy - \"World Chalice\"", "deck"],
-    ["Transmodify", "hand", "st_zone", "-1", "0"],
-    ["send_to_grave_zone", "Lee the World Chalice Fairy", "0"],
-    ["special_summon", "The Agent of Creation - Venus", "deck", "0"],
-    ["send_to_grave_zone", "Transmodify", "0"]
+    ["normal_summon",      "Lee the World Chalice Fairy",      "hand", 0],
+    ["add_to_hand",        "World Legacy - \"World Chalice\"", "deck"   ],
+    ["play_spell",         "Transmodify",                              0],
+    ["send_to_grave_zone", "Lee the World Chalice Fairy",              0],
+    ["special_summon",     "The Agent of Creation - Venus",    "deck", 0],
+    ["send_to_grave_zone", "Transmodify",                              0]
   ]
 }

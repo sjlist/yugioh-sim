@@ -1,34 +1,18 @@
-TO DO:
-
- - Shuffle decks in place and draw from the top of the deck
- - Break up deck analysis into different files based of functions
- - Create a file system that relates files to functionality aka base functionality like drawing in one folder set and higher level functionality in other folders
- - Create Card Class
- - Create Field Class
- - Create Card database that is expandable!!
- - Create analysis system that plays decks based off of options available and not based off of known combos
-   - Unless the analysis figures out combos?
-
-
-TO DO (ALTON/ANALYSIS):
-
- - Come up with useful metrics
- - Save, Visualize, and Analyize decision trees?
- - Measure consistency-power payoff (Consistent but weak? Inconsistent but strong when it works? Neither? Both?)
- - Be able to compare different decks
-
-
-
-
-
 TODO:
  - Adjust anycard combo checking to be smarter on what cards to discard
- - super combos (analytics)
- - add toggable debugging stuff
- - redo editors
- - speed up is_combo
-    - do timing analysis of is_combo
-    - dicarding is slow
-#  - implement new actions and update combos to use them
- - add end states for combo unit tests
- - load in combos once and not every time the combo is called
+ - Super combos (analytics)
+ - Add toggable debugging stuff
+ - Redo editors - eh
+ - Speed up is_combo
+    - Do timing analysis of is_combo
+    - Discarding is slow
+ - Implement new actions and update combos to use them
+    - Link summon
+    - Tribute Summon
+ - Add end states for combo unit tests
+ - Load in combos once and not every time the combo is called
+ - CARD DATABASE
+ - Implement card effects
+ - Zone targets vs Card targets
+ - Action should all be in a function that calls a function, should always assume card was passed in
+ - Card types in combo

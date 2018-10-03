@@ -5,6 +5,8 @@ import os
 import cPickle as pickle
 import json
 from Common.Errors import *
+import sys
+import Field.Field as Field
 
 
 class Combo():
@@ -50,11 +52,7 @@ class Combo():
                         pass
 
         # Do all requirement checks for pile state
-        if not self.all_there(self.hand, f.hand):
-            return False
         if not self.all_there(self.extra, f.extra):
-            return False
-        if not self.all_there(self.deck, f.deck):
             return False
         if not self.all_there(self.field, f.m_zone + f.st_zone):
             return False
@@ -64,16 +62,20 @@ class Combo():
             return False
         if not self.all_there(self.grave, f.grave):
             return False
+        if not self.all_there(self.deck, f.deck):
+            return False
+        if not self.all_there(self.hand, f.hand):
+            return False
 
         # if there are no movement actions, return true
         # if runMoves is true, run the current combos moves
         # Else return true
         if self.movement == [] or self.movement == [[]]:
-            return True
+            return True, []
         elif run_moves:
             return self.play_combo(f)[0]
         else:
-            return True
+            return True, []
 
     # Check to see if the card is in the combo
     def in_combo(self, card):
@@ -98,18 +100,21 @@ class Combo():
                     if count == len(f.hand):
                         return False, action
 
-                    if not self.in_combo(f.hand[count]) or f.hand[count] == 'ANYCARD':
-                        action[1] = f.hand[count]
+                    if not self.in_combo(f.hand[count].name) or f.hand[count].name == 'ANYCARD':
+                        action[1] = f.hand[count].name
                         break
 
                     count += 1
 
-            # try to do the action, catch any errors, return false if errored
+                    # try to do the action, catch any errors, return false if errored
             try:
                 f.do_action(action)
-            except (CardMissing, ValueError, ZoneError, SummonError):
+            except (CardMissing, ValueError, ZoneError, SummonError) as e:
+                print e.message
+                raise
                 return False, action
             except (InvalidOption, PileError):
+                print 2
                 raise
 
             # Undoing hacky discard
@@ -124,8 +129,13 @@ class Combo():
             if element == 'ANYCARD':
                 if common.numItemsDict(combo_req) > len(combo_ava):
                     return False
-            elif combo_req[element] > combo_ava.count(element):
-                return False
+            else:
+                count = 0
+                for card in combo_ava:
+                    if card.name == element:
+                        count += 1
+                if combo_req[element] > count:
+                    return False
 
         return True
 

@@ -1,0 +1,51 @@
+{
+  "extra_deck": {
+    "link": {
+      "Imduk the World Chalice Dragon": 3,
+      "Link Spider": 1,
+      "Linkuriboh": 1,
+      "Reprodocus": 1,
+      "Ib the World Chalice Priestess": 1,
+      "Knightmare Pheonix": 1,
+      "Auram the World Chalice Blademaster": 1,
+      "Ningirsu the World Chalice Warrior": 1,
+      "Summon Sorceress": 1,
+      "Tri-Gate Wizard": 1,
+      "Firewall Dragon": 1,
+      "Topologic Gumblar Dragon": 1,
+      "Gem-Knight Seraphinite": 1
+    }
+  },
+  "main_deck": {
+    "monster": {
+      "Lee the World Chalice Fairy": 3,
+      "World Legacy - \"World Chalice\"": 3,
+      "World Chalice Gaurdragon": 2,
+      "The Agent of Creation - Venus": 3,
+      "Mystical Shine Ball": 3,
+      "Genex Undine": 3,
+      "Genex Controller": 1,
+      "Crystron Rosenix": 1,
+      "Gem-Knight Garnet": 1,
+      "Exodus the Ultimate Forbidden Lord": 2,
+      "Eva": 1,
+      "Herald of Orange Light": 2,
+      "Ash Blossom & Joyous Spring": 2
+    },
+    "spell": {
+      "Magical Mid-Breaker Field": 3,
+      "Called by the Grave": 2,
+      "Brilliant Fusion": 3,
+      "Transmodify": 2,
+      "World Legacy Succession": 1,
+      "Soul Charge": 1,
+      "Monster Reborn": 1
+    },
+    "trap": {
+      "The Phantom of Shade Brigandine": 2
+    }
+  },
+  "Name": "World_Chalice_3",
+  "combo_folder": "World_Chalice",
+  "side_deck": {}
+}
