@@ -31,22 +31,9 @@ class Combo_Analyzer():
             combo_names[self.combo].load(self.combo, d.combo_folder)
             combo_chance[self.combo] = 0
         else:
-            for element in os.listdir("./combos/{}".format(d.combo_folder)):
-                if os.path.isfile("./combos/{}/{}".format(d.combo_folder, element)):
-                    name = element.split(".")[0]
-                    c = Combo.Combo()
-                    c.load(name, d.combo_folder)
-                    if self.can_combo(d, c):
-                        combo_names[name] = deepcopy(c)
-                        combo_chance[name] = 0
-            for element in os.listdir("./combos/{}/obsolete".format(d.combo_folder)):
-                if os.path.isfile("./combos/{}/obsolete/{}".format(d.combo_folder, element)):
-                    name = element.split(".")[0]
-                    c = Combo.Combo()
-                    c.load(name, "{}/obsolete".format(d.combo_folder))
-                    if self.can_combo(d, c):
-                        obsolete_combo_names[name] = deepcopy(c)
-                        obsolete_combo_chance[name] = 0
+            combo_names, combo_chance = self.load_combos(d)
+            obsolete_combo_names, obsolete_combo_chance = self.load_combos(d, "obsolete")
+
         if self.time_combos:
             for value in combo_names.values():
                 self.analyze_combo_timing(d, value)
@@ -55,8 +42,10 @@ class Combo_Analyzer():
         obsolete_combo_chance["Brick"] = 0
 
         if self.calculate_chances:
-            self.calculate_combo_chances(obsolete_combo_names, obsolete_combo_chance, d, "Obsolete")
-            self.calculate_combo_chances(combo_names, combo_chance, d, "Combo")
+            if len(obsolete_combo_chance) > 1:
+                self.calculate_combo_chances(obsolete_combo_names, obsolete_combo_chance, d, "Obsolete")
+            if len(combo_chance) > 1:
+                self.calculate_combo_chances(combo_names, combo_chance, d, "Combo")
 
     def print_chances(self, combo_chance, name):
         l = []
@@ -68,7 +57,26 @@ class Combo_Analyzer():
         l.append(['Brick', combo_chance['Brick']*100])
         print tabulate(l, headers=[name, '% Chance'])
 
+    def load_combos(self, d, subfolder=""):
+        combo_names = {}
+        combo_chance = {}
+        for element in os.listdir("./combos/{}/{}".format(d.combo_folder, subfolder)):
+            if os.path.isfile("./combos/{}/{}/{}".format(d.combo_folder, subfolder, element)):
+                name = element.split(".")[0]
+                c = Combo.Combo()
+                c.load(name, "{}/{}".format(d.combo_folder, subfolder))
+                if self.can_combo(d, c):
+                    combo_names[name] = deepcopy(c)
+                    combo_chance[name] = 0
+        return combo_names, combo_chance
+
     def can_combo(self, d, c):
+        for subcombo in c.subcombos:
+            if subcombo[1] == 'r':
+                sc = Combo.Combo()
+                sc.load(subcombo[0], "{}/subcombos".format(c.folder))
+                if not self.can_combo(d, sc):
+                    return False
         for req in c.combo_reqs:
             for key in req.keys():
                 card_found = False

@@ -67,6 +67,7 @@ class Combo():
         if not self.all_there(self.hand, f.hand):
             return False
 
+
         # if there are no movement actions, return true
         # if runMoves is true, run the current combos moves
         # Else return true

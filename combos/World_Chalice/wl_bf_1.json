@@ -8,8 +8,7 @@
     "World Chalice Gaurdragon": 1,
     "Mystical Shine Ball": 3,
     "Lee the World Chalice Fairy": 1,
-    "World Legacy - \"World Chalice\"": 1,
-    "Beckoned by the World Chalice": 1
+    "World Legacy - \"World Chalice\"": 1
   },
   "hand_or_deck": {},
   "field": {},
@@ -20,12 +19,6 @@
     ["upstart_goblin", "o"],
     ["brilliant_fusion", "r"]
   ],
-  "deck": {
-    "World Chalice Gaurdragon": 1,
-    "Beckoned by the World Chalice": 1
-  },
-  "hand_or_deck": {},
-  "field": {},
   "movement": [
     []
   ]

@@ -69,11 +69,14 @@ class Field:
                 raise
 
     def get_field_pile(self, name, zone):
-        if hasattr(self.m_zone[zone], 'name') and name == self.m_zone[zone].name:
-            return self.m_zone
-        elif hasattr(self.st_zone[zone], 'name') and name == self.st_zone[zone].name:
-            return self.st_zone
-        else:
+        try:
+            if hasattr(self.m_zone[zone], 'name') and name == self.m_zone[zone].name:
+                return self.m_zone
+            elif hasattr(self.st_zone[zone], 'name') and name == self.st_zone[zone].name:
+                return self.st_zone
+            else:
+                raise CardMissing("Card not in the Field", name, self.m_zone + self.st_zone)
+        except IndexError:
             raise CardMissing("Card not in the Field", name, self.m_zone + self.st_zone)
 
     # move a card from src pile to dest pile
@@ -173,7 +176,6 @@ class Field:
 
     # do an action
     def do_action(self, action):
-
         # No card actions
         if action[0] == 'draw':
             # action ['draw', NUM]

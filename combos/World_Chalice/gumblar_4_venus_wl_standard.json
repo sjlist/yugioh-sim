@@ -1,12 +1,10 @@
 {
-  "Name": "gumblar_4_venus_p1",
+  "Name": "gumblar_4_venus_wl_standard",
   "extra": {
-    "Knightmare Goblin": 1,
-    "Firewall Dragon": 1,
-    "Summon Sorceress": 1,
-    "Linkuriboh": 1,
-    "Imduk the World Chalice Dragon": 1,
-    "Topologic Gumblar Dragon": 1
+    "Auram the World Chalice Blademaster": 1,
+    "Topologic Gumblar Dragon": 1,
+    "Tri-Gate Wizard": 1,
+    "Link Spider": 1
   },
   "hand": {
     "ANYCARD": 4
@@ -15,50 +13,33 @@
   "Folder": "World_Chalice",
   "grave": {},
   "subcombos": [
-    ["upstart_goblin", "o"],
-    ["venus_3", "r"]
+    ["gumblar_4_venus_wl_base", "r"],
+    ["upstart_goblin", "o"]
   ],
   "deck": {
-    "Herald of Orange Light": 2,
-    "Eva": 1,
-    "World Chalice Gaurdragon": 1,
-    "Lee the World Chalice Fairy": 2,
-    "Beckoned by the World Chalice": 1,
-    "World Legacy - \"World Chalice\"": 1
+    "Herald of Orange Light": 1,
+    "Lee the World Chalice Fairy": 1
   },
   "hand_or_deck": {},
   "field": {},
   "movement": [
-    ["special_summon",         "Mystical Shine Ball", "deck",               1],
-    ["special_summon",         "Mystical Shine Ball", "deck",               2],
-    ["special_summon",         "Mystical Shine Ball", "deck",               4],
-    ["link_summon",            "Summon Sorceress",                          6, [["Mystical Shine Ball",  4], ["Mystical Shine Ball", 1], ["The Agent of Creation - Venus", 0]]],
-    ["special_summon",         "Eva",                              "deck",  4],
-    ["link_summon",            "Linkuriboh",                                4, [["Eva", 4]]],
-    ["banish_pile",            "The Agent of Creation - Venus",    "grave"   ],
-    ["banish_pile",            "Mystical Shine Ball",              "grave"   ],
-    ["add_to_hand",            "Herald of Orange Light",           "deck"    ],
-    ["add_to_hand",            "Lee the World Chalice Fairy",      "deck"    ],
-    ["link_summon",            "Imduk the World Chalice Dragon",            2, [["Mystical Shine Ball", 2]]],
-    ["link_summon",            "Knightmare Goblin",                         2, [["Linkuriboh", 4], ["Imduk the World Chalice Dragon", 2]]],
-    ["special_summon",         "Lee the World Chalice Fairy",      "hand",  3],
-    ["discard",                "ANYCARD"                                     ],
-    ["increase_normal_summons"                                               ],
-    ["add_to_hand",            "World Legacy - \"World Chalice\"", "deck"   ],
-    ["tribute_summon",         "World Legacy - \"World Chalice\"", "hand",  3, [["Lee the World Chalice Fairy", 3]]],
-    ["link_summon",            "Firewall Dragon",                           3, [["Summon Sorceress", 6], ["World Legacy - \"World Chalice\"", 3]]],
-    ["special_summon",         "Beckoned by the World Chalice",    "deck",  5],
-    ["special_summon",         "World Chalice Gaurdragon",         "deck",  1],
-    ["add_to_hand",            "Eva",                              "grave"   ],
-    ["link_summon",            "Topologic Gumblar Dragon",                  2, [["Knightmare Goblin", 2], ["World Chalice Gaurdragon", 1], ["Beckoned by the World Chalice", 5]]],
-    ["special_summon",         "Eva",                              "hand",  1],
-    ["discard",                "random",                                    2],
-    ["send_to_grave_zone",     "Eva",                                       1],
-    ["special_summon",         "Linkuriboh",                       "grave", 1],
-    ["discard",                "random",                                    2],
-    ["banish_pile",            "Mystical Shine Ball",              "grave"   ],
-    ["banish_pile",            "Mystical Shine Ball",              "grave"   ],
-    ["add_to_hand",            "Lee the World Chalice Fairy",      "deck"    ],
-    ["add_to_hand",            "Herald of Orange Light",           "deck"    ]
+    ["link_summon",        "Auram the World Chalice Blademaster",          5, [["World Legacy - \"World Chalice\"", 4], ["Imduk the World Chalice Dragon", 6]]],
+    ["link_summon",        "Topologic Gumblar Dragon",                     4, [["Firewall Dragon", 1], ["Ningirsu the World Chalice Warrior", 3]]],
+    ["send_to_grave_zone", "Ib the World Chalice Priestess",               2],
+    ["special_summon",     "Firewall Dragon",                     "grave", 2],
+    ["discard",            "random",                                       2],
+    ["link_summon",        "Tri-Gate Wizard",                              3, [["Eva", 0], ["Auram the World Chalice Blademaster", 5]]],
+    ["banish_pile",        "World Chalice Gaurdragon",            "grave"   ],
+    ["special_summon",     "Beckoned by the World Chalice",       "grave", 1],
+    ["add_to_hand",        "Eva",                                 "grave"   ],
+    ["link_summon",        "Link Spider",                                  6, [["Beckoned by the World Chalice", 1]]],
+    ["special_summon",     "Eva",                                 "hand",  1],
+    ["send_to_grave_zone", "Eva",                                          1],
+    ["special_summon",     "Linkuriboh",                          "grave", 1],
+    ["discard",            "random",                                       2],
+    ["banish_pile",        "Lee the World Chalice Fairy",         "grave"   ],
+    ["banish_pile",        "Herald of Orange Light",              "grave"   ],
+    ["add_to_hand",        "Lee the World Chalice Fairy",         "deck"    ],
+    ["add_to_hand",        "Herald of Orange Light",              "deck"    ]
   ]
 }

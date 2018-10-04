@@ -2,15 +2,12 @@ TODO:
  - Super combos (analytics)
  - Add toggable debugging stuff
  - Redo editors - eh
- - Speed up is_combo
-    - Do timing analysis of is_combo
-    - Discarding is slow
  - Implement new actions and update combos to use them
  - Add end states for combo unit tests
  - Load in combos once and not every time the combo is called
  - CARD DATABASE
  - Implement card effects
- - Zone targets vs Card targets
- - Card types in combo
+ - Card types in combo?
  - send to grave tokens instead of being its own thing
- - can_combo doesnt check subcombos
+ - Venus variants
+

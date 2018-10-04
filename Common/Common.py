@@ -52,7 +52,10 @@ def dict2card(pile_dict, type):
 def list2card(pile_list, type):
     card_list = []
     for element in pile_list:
-        card_list.append(Card.Card(element, type))
+        if element[:3] == "ANY":
+            card_list.append(Card.Card(element, element[3:].lower()))
+        else:
+            card_list.append(Card.Card(element, type))
 
     return card_list
 
