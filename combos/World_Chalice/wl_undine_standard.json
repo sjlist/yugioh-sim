@@ -14,7 +14,8 @@
   "hand_or_field": {},
   "grave": {},
   "subcombos": [
-    ["wl_undine_base", "r"]
+    ["wl_undine_base", "r"],
+    ["upstart_goblin", "o"]
   ],
   "movement": [
     ["link_summon",        "Auram the World Chalice Blademaster",          6, [["Imduk the World Chalice Dragon", 6], ["Imduk the World Chalice Dragon", 4]]],

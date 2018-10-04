@@ -35,6 +35,7 @@ class Combo_Analyzer():
                     c = Combo.Combo()
                     c.load(name, d.combo_folder)
                     if self.can_combo(d, c):
+                        print c.name
                         combo_names[name] = deepcopy(c)
                         combo_chance[name] = 0
 
@@ -75,7 +76,7 @@ class Combo_Analyzer():
                         else:
                             card_found = True
 
-                if key != "ANYCARD" and not card_found:
+                if key[:3] != "ANY" and not card_found:
                     return False
 
         return True

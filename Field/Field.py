@@ -115,6 +115,25 @@ class Field:
             else:
                 raise ZoneError("Field Zone is full", dest_loc, dest)
 
+    # returns first card of ANY* type in given pile
+    def get_any_type_card(self, card, pile, zone):
+        if zone == -1:
+            if card == "ANYCARD":
+                return pile[0]
+
+            type = card[3:].lower()
+            for card in pile:
+                if card.type == type:
+                    return card
+        else:
+            type = card[3:].lower()
+            if type == self.m_zone[zone].type:
+                return self.m_zone[zone]
+            elif type == self.st_zone[zone].type:
+                return self.st_zone[zone]
+            else:
+                raise CardMissing("Missing {} from zone {}".format(card, zone), Card.Card(card, type), self.st_zone + self.m_zone)
+
     # get the pile from a pile name
     def get_pile(self, pile):
         if pile == 'deck':
@@ -135,6 +154,12 @@ class Field:
         raise PileError(pile)
 
     def get_card(self, name, pile, zone=-1):
+        if name[:3] == "ANY":
+            try:
+                return self.get_any_type_card(name, pile, zone)
+            except CardMissing:
+                raise
+
         if zone == -1:
             for element in pile:
                 if element.name == name:
@@ -178,10 +203,6 @@ class Field:
             # action: ['banish', CARD, zone]
             try:
                 pile = self.get_field_pile(action[1], action[2])
-            except CardMissing:
-                raise
-
-            try:
                 card = self.get_card(action[1], pile, action[2])
                 self.field_to_pile(card, action[2], pile, self.banished)
             except (ZoneError, CardMissing):
@@ -216,6 +237,7 @@ class Field:
 
         if action[0] == 'special_summon':
             # action: ['special_summon', CARD, pile, M_ZONE_LOC]
+
             try:
                 pile = self.get_pile(action[2])
                 card = self.get_card(action[1], pile)
@@ -239,12 +261,13 @@ class Field:
         if action[0] == 'send_to_grave_zone':
             # action: ['send_to_grave', card, zone_location]
             try:
-                pile = self.get_field_pile(action[1], action[2])
-            except CardMissing:
-                raise
+                if action[1][:3] != "ANY":
+                    pile = self.get_field_pile(action[1], action[2])
+                    card = self.get_card(action[1], pile, action[2])
+                else:
+                    card = self.get_card(action[1], [], action[2])
+                    pile = self.get_field_pile(card.name, action[2])
 
-            try:
-                card = self.get_card(action[1], pile, action[2])
                 self.field_to_pile(card, action[2], pile, self.grave)
             except (ZoneError, CardMissing):
                 raise
@@ -324,29 +347,6 @@ class Field:
 
             return True
         raise InvalidOption("Invalid option passed into do_action", action)
-
-    # combine two fields
-    def combine(self, f):
-        self.deck = self.deck + f.deck
-        self.hand = self.hand + f.hand
-        self.grave = self.grave + f.grave
-        self.extra = self.extra + f.extra
-        self.banished = self.banished + f.banished
-        for i in range(0, len(self.m_zone)):
-            if self.m_zone[i] != "" and f.m_zone[i] != "":
-                print("{}Failed to combine fields, m_zone {} was full on both fields{}".format(bcolors.FAIL, i, bcolors.ENDC))
-                return False
-            if self.m_zone[i] == "":
-                self.m_zone[i] = f.m_zone[i]
-
-        for i in range(0, len(self.st_zone)):
-            if self.st_zone[i] != "" and f.st_zone[i] != "":
-                print("{}Failed to combine fields, st_zone {} was full on both fields{}".format(bcolors.FAIL, i, bcolors.ENDC))
-                return False
-            if self.st_zone[i] == "":
-                self.st_zone[i] = f.st_zone[i]
-
-        return True
 
     def print_zone(self, zone, name):
         l = []

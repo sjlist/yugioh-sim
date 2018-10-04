@@ -59,7 +59,7 @@ class ComboTest:
                     print("{}Failed testing {}/{} on movement check, action {}{}".format(bcolors.FAIL, self.combo.folder, self.combo.name, error_state, bcolors.ENDC))
                     return False, field
 
-        field.hand = field.hand + Common.dict2card(self.combo.hand, "COMBO")
+        field.hand = Common.dict2card(self.combo.hand, "COMBO") + field.hand
         field.deck = field.deck + Common.dict2card(self.combo.deck, "COMBO") + Common.dict2card(self.combo.hand_or_deck, "COMBO")
         field.extra = field.extra + Common.dict2card(self.combo.extra, "COMBO")
         field.grave = field.grave + Common.dict2card(self.combo.grave, "COMBO")

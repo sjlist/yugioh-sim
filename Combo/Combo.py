@@ -92,21 +92,8 @@ class Combo():
             # if the action is empty, return true
             if not action:
                 return True, action
-            # Hacky way to do discarding... maybe handle in field?
-            # Trying to not discard a card that is in the combo if the discarding is a choice
-            if action[0] == 'discard' and action[1] == 'ANYCARD':
-                count = 0
-                while action[1] == 'ANYCARD':
-                    if count == len(f.hand):
-                        return False, action
 
-                    if not self.in_combo(f.hand[count].name) or f.hand[count].name == 'ANYCARD':
-                        action[1] = f.hand[count].name
-                        break
-
-                    count += 1
-
-                    # try to do the action, catch any errors, return false if errored
+            # try to do the action, catch any errors, return false if errored
             try:
                 f.do_action(action)
             except (CardMissing, ValueError, ZoneError, SummonError):
@@ -114,18 +101,23 @@ class Combo():
             except (InvalidOption, PileError):
                 raise
 
-            # Undoing hacky discard
-            if len(action) == 2 and action[0] == 'discard':
-                action[1] = 'ANYCARD'
-
         return True, []
 
     # Check that all cards in the combo_req are in the combo_ava pile(s)
     def all_there(self, combo_req, combo_ava):
         for element in combo_req.keys():
-            if element == 'ANYCARD':
-                if common.numItemsDict(combo_req) > len(combo_ava):
-                    return False
+            if element[:3] == "ANY":
+                if element == 'ANYCARD':
+                    if common.numItemsDict(combo_req) > len(combo_ava):
+                        return False
+                else:
+                    type = element[3:].lower()
+                    count = 0
+                    for card in combo_ava:
+                        if card.type == type:
+                            count += 1
+                    if combo_req[element] > count:
+                        return False
             else:
                 count = 0
                 for card in combo_ava:
