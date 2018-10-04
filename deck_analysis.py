@@ -24,6 +24,8 @@ class Combo_Analyzer():
         d.load(self.deck_name)
         combo_names = {}
         combo_chance = {}
+        obsolete_combo_names = {}
+        obsolete_combo_chance = {}
         if os.path.isfile("./combos/{}/{}.json".format(d.combo_folder, self.combo)):
             combo_names[self.combo] = Combo.Combo()
             combo_names[self.combo].load(self.combo, d.combo_folder)
@@ -35,20 +37,28 @@ class Combo_Analyzer():
                     c = Combo.Combo()
                     c.load(name, d.combo_folder)
                     if self.can_combo(d, c):
-                        print c.name
                         combo_names[name] = deepcopy(c)
                         combo_chance[name] = 0
-
+            for element in os.listdir("./combos/{}/obsolete".format(d.combo_folder)):
+                if os.path.isfile("./combos/{}/obsolete/{}".format(d.combo_folder, element)):
+                    name = element.split(".")[0]
+                    c = Combo.Combo()
+                    c.load(name, "{}/obsolete".format(d.combo_folder))
+                    if self.can_combo(d, c):
+                        obsolete_combo_names[name] = deepcopy(c)
+                        obsolete_combo_chance[name] = 0
         if self.time_combos:
             for value in combo_names.values():
                 self.analyze_combo_timing(d, value)
 
         combo_chance["Brick"] = 0
+        obsolete_combo_chance["Brick"] = 0
 
         if self.calculate_chances:
-            self.calculate_combo_chances(combo_names, combo_chance, d)
+            self.calculate_combo_chances(obsolete_combo_names, obsolete_combo_chance, d, "Obsolete")
+            self.calculate_combo_chances(combo_names, combo_chance, d, "Combo")
 
-    def print_chances(self, combo_chance):
+    def print_chances(self, combo_chance, name):
         l = []
         sorted_chances = sorted(combo_chance, key=combo_chance.__getitem__)
         sorted_chances.reverse()
@@ -56,7 +66,7 @@ class Combo_Analyzer():
             if combo_chance[key] != 0 and key != 'Brick':
                 l.append([key, combo_chance[key]*100])
         l.append(['Brick', combo_chance['Brick']*100])
-        print tabulate(l, headers=['Combo', '% Chance'])
+        print tabulate(l, headers=[name, '% Chance'])
 
     def can_combo(self, d, c):
         for req in c.combo_reqs:
@@ -97,29 +107,10 @@ class Combo_Analyzer():
             pr = cProfile.Profile()
             pr.enable()
 
-
-            # Hacky way to do discarding... maybe handle in field?
-            # Trying to not discard a card that is in the combo if the discarding is a choice
-            if action[0] == 'discard' and action[1] == 'ANYCARD':
-                count = 0
-                while action[1] == 'ANYCARD':
-                    if count == len(f.hand):
-                        return move_times
-
-                    if not c.in_combo(f.hand[count]) or f.hand[count] == 'ANYCARD':
-                        action[1] = f.hand[count]
-                        break
-
-                    count += 1
-
             try:
                 f.do_action(action)
             except (CardMissing, ValueError, InvalidOption, ZoneError, PileError, SummonError):
                 raise
-
-            # Undoing hacky discard
-            if len(action) == 2 and action[0] == 'discard':
-                action[1] = 'ANYCARD'
 
             pr.disable()
             s = StringIO.StringIO()
@@ -169,7 +160,7 @@ class Combo_Analyzer():
         else:
             print "No timing data for combo {}".format(c.name)
 
-    def calculate_combo_chances(self, combo_names, combo_chance, d):
+    def calculate_combo_chances(self, combo_names, combo_chance, d, name):
         pr = cProfile.Profile()
         pr.enable()
 
@@ -196,15 +187,16 @@ class Combo_Analyzer():
             if not was_combo:
                 combo_chance["Brick"] += 1
 
-
         pr.disable()
         s = StringIO.StringIO()
         sortby = 'cumtime'
         ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
         ps.print_stats(20)
 
+        print
+
         for key in combo_chance.keys():
             combo_chance[key] = combo_chance[key] / self.MAX_TRIES
+        self.print_chances(combo_chance, name)
 
-        self.print_chances(combo_chance)
         print s.getvalue()
