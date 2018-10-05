@@ -22,7 +22,7 @@
     ["add_to_hand",        "Genex Controller", "deck"    ],
     ["banish_pile",        "Crystron Rosenix", "grave"   ],
     ["TOKEN",              "summon",                    2],
-    ["TOKEN",              "remove",                    2],
+    ["send_to_grave_zone", "TOKEN",                     2],
     ["special_summon",     "Link Spider",      "extra", 6],
     ["special_summon",     "Genex Controller", "hand",  3]
   ]

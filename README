@@ -1,8 +1,8 @@
 TODO:
-- Save gamestate during combo analysis
 - send to grave tokens instead of being its own thing
 - Load in combos once and not every time the combo is called
 - Add end states for combo unit tests
+- Add more combos (focus on two card starters)
 - Implement new actions and update combos to use them
 - CARD DATABASE
 - Implement card effects

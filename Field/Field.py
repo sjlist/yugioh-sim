@@ -239,8 +239,12 @@ class Field:
 
         if action[0] == 'special_summon':
             # action: ['special_summon', CARD, pile, M_ZONE_LOC]
+            # TOKEN action: ['special_summon', 'TOKEN', M_ZONE_LOC]
 
             try:
+                if action[1] == "TOKEN":
+                    self.do_action([action[1], "summon", action[2]])
+                    return True
                 pile = self.get_pile(action[2])
                 card = self.get_card(action[1], pile)
                 self.summon(card, pile, action[3])
@@ -263,6 +267,9 @@ class Field:
         if action[0] == 'send_to_grave_zone':
             # action: ['send_to_grave', card, zone_location]
             try:
+                if action[1] == "TOKEN":
+                    self.do_action([action[1], "remove", action[2]])
+                    return True
                 if action[1][:3] != "ANY":
                     pile = self.get_field_pile(action[1], action[2])
                     card = self.get_card(action[1], pile, action[2])
