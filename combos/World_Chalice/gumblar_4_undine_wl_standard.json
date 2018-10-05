@@ -10,8 +10,8 @@
   "Folder": "World_Chalice",
   "grave": {},
   "subcombos": [
-    ["gumblar_4_undine_wl_base", "r"],
-    ["upstart_goblin", "o"]
+    ["r", "gumblar_4_undine_wl_base"],
+    ["o", "upstart_goblin"]
   ],
   "deck": {
     "Herald of Orange Light": 1

@@ -15,24 +15,20 @@
   "Folder": "World_Chalice",
   "grave": {},
   "subcombos": [
-    ["upstart_goblin", "o"],
-    ["venus_trans_lee", "r"]
+    ["o", "upstart_goblin"],
+    ["r", "venus_trans_lee_wl"],
+    ["r", "venus_3"]
   ],
   "deck": {
     "Beckoned by the World Chalice": 1,
     "Eva": 1,
     "World Chalice Gaurdragon": 1,
-    "Mystical Shine Ball": 3,
     "Lee the World Chalice Fairy": 2,
-    "World Legacy - \"World Chalice\"": 1,
     "Herald of Orange Light": 2
   },
   "hand_or_deck": {},
   "field": {},
   "movement": [
-    ["special_summon",          "Mystical Shine Ball", "deck",               1],
-    ["special_summon",          "Mystical Shine Ball", "deck",               2],
-    ["special_summon",          "Mystical Shine Ball", "deck",               4],
     ["link_summon",             "Summon Sorceress",                          6, [["Mystical Shine Ball",  4], ["Mystical Shine Ball", 1], ["The Agent of Creation - Venus", 0]]],
     ["special_summon",          "Eva",                              "deck",  4],
     ["link_summon",             "Linkuriboh",                                4, [["Eva", 4]]],

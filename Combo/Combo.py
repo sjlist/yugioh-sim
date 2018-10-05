@@ -32,24 +32,33 @@ class Combo():
         for combo in self.subcombos:
             if combo:
                 # If required combo
-                if combo[1] == 'r':
+                if combo[0] == 'r':
                     # Create and test combo
                     c = Combo()
-                    c.load(combo[0], "{}/subcombos".format(self.folder))
-                    if not c.is_combo(f):
+                    combo_completed = False
+                    for sc in combo[1:]:
+                        c.load(sc, "{}/subcombos".format(self.folder))
+                        if c.is_combo(f):
+                            combo_completed = True
+                            break
+                    if not combo_completed:
                         return False
+
                 # Optional combo handling, make a deep copy of the field. Test to see if the combo works,
                 # if it doesnt, do nothing to the main combo path.
                 # If it does work, pass the field state back to the main combo path
                 elif combo[1] == 'o':
                     pickle.dump(f, open('field_temp.pkl', 'wb'), protocol=pickle.HIGHEST_PROTOCOL)
                     c = Combo()
-                    c.load(combo[0], "{}/subcombos".format(self.folder))
-                    try:
-                        c.is_combo(f)
-                    except (CardMissing, ZoneError):
-                        f = pickle.load(open("field_temp.pkl"))
-                        pass
+                    combo_completed = False
+                    for sc in combo[1:]:
+                        c.load(combo[0], "{}/subcombos".format(self.folder))
+                        try:
+                            c.is_combo(f)
+                            break
+                        except (CardMissing, ZoneError):
+                            f = pickle.load(open("field_temp.pkl"))
+                            pass
 
         # Do all requirement checks for pile state
         if not self.all_there(self.extra, f.extra):
@@ -88,8 +97,13 @@ class Combo():
 
     # play the combo
     def play_combo(self, f):
+        OPTIONAL = False
         # for every action in the movements
         for action in self.movement:
+            if len(action) > 1 and action[1] == "optional":
+                action = action[0]
+                OPTIONAL = True
+
             # if the action is empty, return true
             if not action:
                 return True, action
@@ -98,9 +112,15 @@ class Combo():
             try:
                 f.do_action(action)
             except (CardMissing, ValueError, ZoneError, SummonError):
-                return False, action
+                if OPTIONAL:
+                    pass
+                else:
+                    return False, action
             except (InvalidOption, PileError):
                 raise
+
+            if OPTIONAL:
+                OPTIONAL = False
 
         return True, []
 

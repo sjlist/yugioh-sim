@@ -1,13 +1,12 @@
 TODO:
- - Super combos (analytics)
- - Add toggable debugging stuff
- - Redo editors - eh
- - Implement new actions and update combos to use them
- - Add end states for combo unit tests
- - Load in combos once and not every time the combo is called
- - CARD DATABASE
- - Implement card effects
- - Card types in combo?
- - send to grave tokens instead of being its own thing
- - Venus variants
-
+- Save gamestate during combo analysis
+- send to grave tokens instead of being its own thing
+- Load in combos once and not every time the combo is called
+- Add end states for combo unit tests
+- Implement new actions and update combos to use them
+- CARD DATABASE
+- Implement card effects
+- Add toggable debugging stuff
+- Super combos (analytics)
+- Card types in combo?
+- Redo editors - eh

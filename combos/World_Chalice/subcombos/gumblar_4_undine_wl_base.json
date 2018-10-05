@@ -19,11 +19,11 @@
   "Folder": "World_Chalice",
   "grave": {},
   "subcombos": [
-    ["upstart_goblin", "o"],
-    ["undine", "r"]
+    ["o", "upstart_goblin"],
+    ["r", "undine"]
   ],
   "deck": {
-    "Lee the World Chalice Fairy": 2,
+    "Lee the World Chalice Fairy": 1,
     "Eva": 1,
     "Watapon": 1,
     "World Chalice Gaurdragon": 2,

@@ -68,6 +68,7 @@ class Combo_Analyzer():
                 if self.can_combo(d, c):
                     combo_names[name] = deepcopy(c)
                     combo_chance[name] = 0
+                    
         return combo_names, combo_chance
 
     def can_combo(self, d, c):

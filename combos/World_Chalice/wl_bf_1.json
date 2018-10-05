@@ -16,8 +16,8 @@
   "Folder": "World_Chalice",
   "grave": {},
   "subcombos": [
-    ["upstart_goblin", "o"],
-    ["brilliant_fusion", "r"]
+    ["o", "upstart_goblin"],
+    ["r", "brilliant_fusion"]
   ],
   "movement": [
     []

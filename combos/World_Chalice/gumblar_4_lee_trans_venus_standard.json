@@ -1,5 +1,5 @@
 {
-  "Name": "gumblar_4_venus_standard",
+  "Name": "gumblar_4_lee_trans_venus_standard",
   "Folder": "World_Chalice",
   "extra": {
     "Auram the World Chalice Blademaster": 1,
@@ -19,8 +19,8 @@
   "hand_or_field": {},
   "grave": {},
   "subcombos": [
-    ["r", "gumblar_4_venus_base"],
-    ["o", "upstart_goblin"      ]
+    ["r", "gumblar_4_lee_trans_venus_base"],
+    ["o", "upstart_goblin"                ]
   ],
   "movement": [
     ["link_summon",        "Auram the World Chalice Blademaster",          5, [["Lee the World Chalice Fairy", 3], ["World Chalice Gaurdragon", 0]]],

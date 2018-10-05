@@ -43,19 +43,19 @@ class ComboTest:
             field = Field.Field(deck)
 
         for subcombo in self.combo.subcombos:
-            if subcombo[0]:
-                subcombo_test = ComboTest(subcombo[0], "{}/subcombos".format(self.combo.folder))
+            if subcombo[1]:
+                subcombo_test = ComboTest(subcombo[1], "{}/subcombos".format(self.combo.folder))
                 pickle.dump(field, open('field_temp.pkl', 'wb'), protocol=pickle.HIGHEST_PROTOCOL)
                 result, error_state = subcombo_test.testCombo(field)
                 if result:
-                    if subcombo[1] == 'o':
+                    if subcombo[0] == 'o':
                         print("{}Ignoring field state from {}/{} due to optional subcombo{}".format(bcolors.WARNING, subcombo_test.combo.folder, subcombo_test.combo.name, bcolors.ENDC))
                         field = pickle.load(open("field_temp.pkl"))
                     else:
                         field = error_state
-                elif subcombo[1] == 'o':
+                elif subcombo[0] == 'o':
                     print("{}Failed movement check on {}/{} ignoring due to optional subcombo{}".format(bcolors.WARNING, self.combo.folder, self.combo.name, bcolors.ENDC))
-                elif subcombo[1] == 'r':
+                elif subcombo[0] == 'r':
                     print("{}Failed testing {}/{} on movement check, action {}{}".format(bcolors.FAIL, self.combo.folder, self.combo.name, error_state, bcolors.ENDC))
                     return False, field
 

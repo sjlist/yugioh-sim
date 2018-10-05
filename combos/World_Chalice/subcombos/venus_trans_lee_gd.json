@@ -1,0 +1,26 @@
+{
+  "Name": "venus_trans_lee_gd",
+  "extra": {},
+  "hand": {
+    "Lee the World Chalice Fairy": 1,
+    "Transmodify": 1
+  },
+  "hand_or_field": {},
+  "Folder": "World_Chalice/subcombos",
+  "grave": {},
+  "subcombos": [],
+  "deck": {
+    "The Agent of Creation - Venus": 1,
+    "World Chalice Gaurdragon": 1
+  },
+  "hand_or_deck": {},
+  "field": {},
+  "movement": [
+    ["normal_summon",      "Lee the World Chalice Fairy",      "hand", 0],
+    ["add_to_hand",        "World Chalice Gaurdragon",         "deck"   ],
+    ["play_spell",         "Transmodify",                              0],
+    ["send_to_grave_zone", "Lee the World Chalice Fairy",              0],
+    ["special_summon",     "The Agent of Creation - Venus",    "deck", 0],
+    ["send_to_grave_zone", "Transmodify",                              0]
+  ]
+}

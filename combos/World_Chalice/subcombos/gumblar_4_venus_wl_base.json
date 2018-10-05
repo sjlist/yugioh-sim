@@ -16,8 +16,8 @@
   "Folder": "World_Chalice",
   "grave": {},
   "subcombos": [
-    ["upstart_goblin", "o"],
-    ["venus_3", "r"]
+    ["o", "upstart_goblin"               ],
+    ["r", "venus_3", "venus_2", "venus_1"]
   ],
   "deck": {
     "Eva": 1,
@@ -31,9 +31,6 @@
   "hand_or_deck": {},
   "field": {},
   "movement": [
-    ["special_summon",         "Mystical Shine Ball", "deck",              1],
-    ["special_summon",         "Mystical Shine Ball", "deck",              2],
-    ["special_summon",         "Mystical Shine Ball", "deck",              4],
     ["link_summon",            "Summon Sorceress",                         5, [["Mystical Shine Ball",  4], ["Mystical Shine Ball", 1], ["The Agent of Creation - Venus", 0]]],
     ["special_summon",         "Eva",                              "deck", 0],
     ["link_summon",            "Linkuriboh",                               4, [["Eva", 0]]],

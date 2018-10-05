@@ -27,8 +27,8 @@
   "hand_or_field": {},
   "grave": {},
   "subcombos": [
-    ["upstart_goblin", "o"],
-    ["undine",         "r"]
+    ["o", "upstart_goblin"],
+    ["r", "undine"]
   ],
   "movement": [
     ["link_summon",            "Imduk the World Chalice Dragon",              4, [["Genex Controller", 3]]],

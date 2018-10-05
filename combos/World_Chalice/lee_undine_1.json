@@ -8,8 +8,8 @@
   "Folder": "World_Chalice",
   "grave": {},
   "subcombos": [
-    ["upstart_goblin", "o"],
-    ["undine", "r"]
+    ["o", "upstart_goblin"],
+    ["r", "undine"]
   ],
   "deck": {
     "Beckoned by the World Chalice": 1,
