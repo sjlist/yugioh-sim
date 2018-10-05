@@ -134,11 +134,8 @@ class Combo_Analyzer():
 
     def analyze_combo_timing(self, d, c):
         move_times = {}
-        t = {}
-        tries = 0
-        for element in c.movement:
+        for tries in range(0, len(c.movement)):
             move_times[tries] = 0
-            tries += 1
 
         tries = 0
         successes = 0
@@ -183,10 +180,10 @@ class Combo_Analyzer():
                 percent += 1
             i += 1
             was_combo = False
-            f = Field.Field(d)
-            f.draw_num(5)
+            state = random.getstate()
 
             for key in combo_names.keys():
+                random.setstate(state)
                 f = Field.Field(d)
                 f.draw_num(5)
                 if combo_names[key].is_combo(f, True):
@@ -198,7 +195,7 @@ class Combo_Analyzer():
 
         pr.disable()
         s = StringIO.StringIO()
-        sortby = 'cumtime'
+        sortby = 'tottime'
         ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
         ps.print_stats(20)
 
