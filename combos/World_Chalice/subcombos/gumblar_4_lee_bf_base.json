@@ -1,0 +1,75 @@
+{
+  "Name": "gumblar_4_lee_bf_base",
+  "Folder": "World_Chalice",
+  "extra": {
+    "Auram the World Chalice Blademaster": 1,
+    "Summon Sorceress": 1,
+    "Ib the World Chalice Priestess": 1,
+    "Linkuriboh": 1,
+    "Firewall Dragon": 1,
+    "Imduk the World Chalice Dragon": 1,
+    "Topologic Gumblar Dragon": 1
+
+  },
+  "hand": {
+    "Lee the World Chalice Fairy": 1
+  },
+  "deck": {
+    "The Agent of Creation - Venus": 1,
+    "World Legacy - \"World Chalice\"": 1,
+    "World Chalice Gaurdragon": 2,
+    "Mystical Shine Ball": 3,
+    "Eva": 1,
+    "Lee the World Chalice Fairy": 2,
+    "Herald of Orange Light": 2
+  },
+  "hand_or_deck": {},
+  "field": {},
+  "hand_or_field": {},
+  "grave": {},
+  "subcombos": [
+    ["o", "upstart_goblin"  ],
+    ["r", "brilliant_fusion"]
+  ],
+  "movement": [
+    ["play_spell",              "Brilliant Fusion",                            0],
+    ["send_to_grave_pile",      "Gem-Knight Garnet",                  "deck"    ],
+    ["send_to_grave_pile",      "The Agent of Creation - Venus",      "deck"    ],
+    ["special_summon",          "Gem-Knight Seraphinite",             "extra", 6],
+    ["increase_normal_summons"                                                  ],
+    ["normal_summon",           "Lee the World Chalice Fairy",        "hand",  0],
+    ["add_to_hand",             "World Legacy - \"World Chalice\"",   "deck"    ],
+    ["tribute_summon",          "World Legacy - \"World Chalice\"",   "hand",  3, [["Gem-Knight Seraphinite", 6]]],
+    ["link_summon",             "Auram the World Chalice Blademaster",         6, [["World Legacy - \"World Chalice\"", 3], ["Lee the World Chalice Fairy", 0]]],
+    ["special_summon",          "World Chalice Gaurdragon",           "deck",  2],
+    ["special_summon",          "World Chalice Gaurdragon",           "deck",  4],
+    ["send_to_grave_zone",      "World Chalice Gaurdragon",                    2],
+    ["special_summon",          "The Agent of Creation - Venus",      "grave", 2],
+    ["special_summon",          "Mystical Shine Ball",                "deck",  0],
+    ["special_summon",          "Mystical Shine Ball",                "deck",  1],
+    ["link_summon",             "Summon Sorceress",                            6, [["World Chalice Gaurdragon", 4], ["Auram the World Chalice Blademaster", 6]]],
+    ["special_summon",          "Mystical Shine Ball",                "deck",  3],
+    ["special_summon",          "Eva",                                "deck",  4],
+    ["link_summon",             "Ib the World Chalice Priestess",              2, [["The Agent of Creation - Venus", 2], ["Mystical Shine Ball", 3]]],
+    ["link_summon",             "Firewall Dragon",                             3, [["Summon Sorceress", 6], ["Mystical Shine Ball", 1]]],
+    ["link_summon",             "Linkuriboh",                                  6, [["Eva", 4]]],
+    ["banish_pile",             "The Agent of Creation - Venus",      "grave"   ],
+    ["banish_pile",             "Mystical Shine Ball",                "grave"   ],
+    ["add_to_hand",             "Lee the World Chalice Fairy",        "deck"    ],
+    ["add_to_hand",             "Herald of Orange Light",             "deck"    ],
+    ["link_summon",             "Imduk the World Chalice Dragon",              1, [["Mystical Shine Ball", 0]]],
+    ["special_summon",          "Lee the World Chalice Fairy",        "hand",  4],
+    ["add_to_hand",             "Eva",                                "grave"   ],
+    ["add_to_hand",             "World Legacy - \"World Chalice\"",   "grave"   ],
+    ["link_summon",             "Topologic Gumblar Dragon",                    2, [["Ib the World Chalice Priestess", 2], ["Lee the World Chalice Fairy", 4], ["Linkuriboh", 6]]],
+    ["special_summon",          "Eva",                                "hand",  4],
+    ["discard",                 "random",                                      2],
+    ["send_to_grave_zone",      "Eva",                                         4],
+    ["special_summon",          "Linkuriboh",                         "grave", 4],
+    ["banish_pile",             "Lee the World Chalice Fairy",        "grave"   ],
+    ["banish_pile",             "Lee the World Chalice Fairy",        "grave"   ],
+    ["add_to_hand",             "Lee the World Chalice Fairy",        "deck"    ],
+    ["add_to_hand",             "Herald of Orange Light",             "deck"    ],
+    ["discard",                 "random",                                      2]
+  ]
+}

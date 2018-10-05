@@ -176,6 +176,10 @@ class Field:
 
     # do an action
     def do_action(self, action):
+        if action[0] == "pause":
+            raw_input()
+            return True
+
         # No card actions
         if action[0] == 'draw':
             # action ['draw', NUM]

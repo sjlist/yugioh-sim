@@ -100,6 +100,7 @@ class Combo():
         OPTIONAL = False
         # for every action in the movements
         for action in self.movement:
+
             if len(action) > 1 and action[1] == "optional":
                 action = action[0]
                 OPTIONAL = True

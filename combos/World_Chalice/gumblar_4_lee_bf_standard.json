@@ -1,0 +1,15 @@
+{
+  "Name": "gumblar_4_lee_bf_standard",
+  "Folder": "World_Chalice",
+  "extra": {},
+  "hand": {},
+  "deck": {},
+  "hand_or_deck": {},
+  "field": {},
+  "hand_or_field": {},
+  "grave": {},
+  "subcombos": [
+    ["r", "gumblar_4_lee_bf_base"]
+  ],
+  "movement": []
+}
