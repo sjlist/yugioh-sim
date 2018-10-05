@@ -35,7 +35,7 @@
     ["play_spell",              "Brilliant Fusion",                            0],
     ["send_to_grave_pile",      "Gem-Knight Garnet",                  "deck"    ],
     ["send_to_grave_pile",      "The Agent of Creation - Venus",      "deck"    ],
-    ["special_summon",          "Gem-Knight Seraphinite",             "extra", 6],
+    ["fusion_summon",           "Gem-Knight Seraphinite",                      6],
     ["increase_normal_summons"                                                  ],
     ["normal_summon",           "Lee the World Chalice Fairy",        "hand",  0],
     ["add_to_hand",             "World Legacy - \"World Chalice\"",   "deck"    ],

@@ -177,6 +177,7 @@ class Field:
     # do an action
     def do_action(self, action):
         if action[0] == "pause":
+            # action: ["pause"]
             raw_input()
             return True
 
@@ -351,6 +352,9 @@ class Field:
 
         if action[0] == "link_summon":
             # action: ['link_summon', CARD, zone, (materials)[[CARD, zone]]]
+            card = self.get_card(action[1], self.extra)
+            if card.type != "link":
+                raise SummonError("{} is not a link monster, cannot link summon".format(action[1]))
             try:
                 for material in action[3]:
                     self.do_action(['send_to_grave_zone', material[0], material[1]])
@@ -359,6 +363,19 @@ class Field:
                 raise
 
             return True
+
+        if action[0] == "fusion_summon":
+            # action: ['fusion_summon', CARD, zone]
+            card = self.get_card(action[1], self.extra)
+            if card.type != "fusion":
+                raise SummonError("{} is not a fusion monster, cannot fusion summon".format(action[1]))
+            try:
+                self.do_action(['special_summon', action[1], 'extra', action[2]])
+            except (ZoneError, CardMissing, SummonError):
+                raise
+
+            return True
+
         raise InvalidOption("Invalid option passed into do_action", action)
 
     def print_zone(self, zone, name):

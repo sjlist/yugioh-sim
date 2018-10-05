@@ -21,9 +21,8 @@
     ["send_to_grave_pile", "Crystron Rosenix", "deck"    ],
     ["add_to_hand",        "Genex Controller", "deck"    ],
     ["banish_pile",        "Crystron Rosenix", "grave"   ],
-    ["TOKEN",              "summon",                    2],
-    ["send_to_grave_zone", "TOKEN",                     2],
-    ["special_summon",     "Link Spider",      "extra", 6],
+    ["special_summon",     "TOKEN",                     2],
+    ["link_summon",        "Link Spider",               6, [["TOKEN", 2]]],
     ["special_summon",     "Genex Controller", "hand",  3]
   ]
 }
