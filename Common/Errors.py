@@ -42,3 +42,8 @@ class InvalidEffect(Error):
     """ Exception thrown when an invalid effect is attempted """
     def __init__(self, message):
         self.message = message
+
+class InvalidActivation(Error):
+    """ Exception thrown when an effect is activated when the cost cannot be paid """
+    def __init__(self, message):
+        self.message = message

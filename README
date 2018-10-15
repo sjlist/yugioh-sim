@@ -4,8 +4,12 @@ TODO:
 - Add more combos (focus on two card starters)
 - Implement new actions and update combos to use them
 - CARD DATABASE
+    - Load cards into the field by querying the database
 - Implement card effects
+    - in the begining stages, more thought needs to be put into who handles the actions
+    - inital json file for a card and effect is created for the database
 - Add toggable debugging stuff
 - Super combos (analytics)
 - Card types in combo?
 - Redo editors - eh
+- field pickle saves should be unique for recursive optional effects

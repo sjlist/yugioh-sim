@@ -14,6 +14,62 @@ class Field:
         self.m_zone = ["", "", "", "", "", "", ""]
         self.st_zone = ["", "", "", "", ""]
         self.normal_summons = [0, 1]
+        self.lifepoints = 8000
+
+    def check_activation(self, effect):
+        for field_element in effect["activation"]:
+            pile = self.get_field_element(field_element)
+
+            if field_element == 'lifepoints':
+                print effect["activation"][field_element]
+                if pile < effect["activation"][field_element]:
+                    return False
+
+            else:
+                for req in effect["activation"][field_element]:
+                    count = 0
+                    for card in pile:
+                        if card.name == req:
+                            count += 1
+                    if count < effect["activation"][field_element][req]:
+                        return False
+
+        return True
+
+    def pay_cost(self, effect):
+        for element in effect["cost"]:
+            try:
+                self.do_action(element)
+            except (ZoneError, CardMissing, PileError, InvalidOption, SummonError):
+                return False
+
+        return True
+
+    # Run the effect, raise any errors
+    def do_effect(self, effect, options):
+        option=0
+        print options[0]
+        for element in effect["actions"]:
+            try:
+                if "OPTION{}".format(option) in element:
+                    element[element.index("OPTION{}".format(option))] = options[option]
+
+                self.do_action(element)
+            except (ZoneError, CardMissing, SummonError):
+                raise
+
+    def activate_effect(self, card, effect_number, options=[]):
+        effect = card.effects[effect_number]
+        if not self.check_activation(effect):
+            return False
+        can_pay = self.pay_cost(effect)
+        if not can_pay:
+            return False
+
+        try:
+            self.do_effect(effect, options)
+        except (ZoneError, CardMissing, SummonError):
+            raise
 
     # summon a card from a pile into a zone number
     def summon(self, card, pile, zone):
@@ -138,7 +194,7 @@ class Field:
                 raise CardMissing("Missing {} from zone {}".format(card, zone), Card.Card(card, type), self.st_zone + self.m_zone)
 
     # get the pile from a pile name
-    def get_pile(self, pile):
+    def get_field_element(self, pile):
         if pile == 'deck':
             return self.deck
         if pile == 'hand':
@@ -153,6 +209,8 @@ class Field:
             return self.m_zone
         if pile == 'st_zone':
             return self.st_zone
+        if pile == 'lifepoints':
+            return self.lifepoints
 
         raise PileError(pile)
 
@@ -220,7 +278,7 @@ class Field:
         if action[0] == 'banish_pile':
             # action: ['banish', CARD, pile]
             try:
-                pile = self.get_pile(action[2])
+                pile = self.get_field_element(action[2])
                 card = self.get_card(action[1], pile)
                 self._move_card(card, pile, self.banished)
             except (ZoneError, CardMissing):
@@ -233,7 +291,7 @@ class Field:
             if self.normal_summons[0] == self.normal_summons[1]:
                 raise SummonError("Normal Summons used up")
             try:
-                pile = self.get_pile(action[2])
+                pile = self.get_field_element(action[2])
                 card = self.get_card(action[1], pile)
                 self.summon(card, pile, action[3])
                 self.normal_summons[0] += 1
@@ -250,7 +308,7 @@ class Field:
                 if action[1] == "TOKEN":
                     self.do_action([action[1], "summon", action[2]])
                     return True
-                pile = self.get_pile(action[2])
+                pile = self.get_field_element(action[2])
                 card = self.get_card(action[1], pile)
                 self.summon(card, pile, action[3])
             except (ZoneError, CardMissing):
@@ -261,7 +319,7 @@ class Field:
         if action[0] == 'send_to_grave_pile':
             # action: ['send_to_grave_pile', CARD, pile]
             try:
-                pile = self.get_pile(action[2])
+                pile = self.get_field_element(action[2])
                 card = self.get_card(action[1], pile)
                 self._move_card(card, pile, self.grave)
             except (ZoneError, CardMissing):
@@ -331,7 +389,7 @@ class Field:
         if action[0] == 'add_to_hand':
             # action: ['add_to_hand', CARD, pile]
             try:
-                pile = self.get_pile(action[2])
+                pile = self.get_field_element(action[2])
                 card = self.get_card(action[1], pile)
                 self._move_card(card, pile, self.hand)
             except CardMissing:
@@ -365,12 +423,37 @@ class Field:
             return True
 
         if action[0] == "fusion_summon":
-            # action: ['fusion_summon', CARD, zone]
+            # action: ['fusion_summon', CARD, zone, (materials)[[CARD, zone]]]
             card = self.get_card(action[1], self.extra)
             if card.type != "fusion":
                 raise SummonError("{} is not a fusion monster, cannot fusion summon".format(action[1]))
             try:
                 self.do_action(['special_summon', action[1], 'extra', action[2]])
+            except (ZoneError, CardMissing, SummonError):
+                raise
+
+            return True
+
+        if action[0] == "lifepoints":
+            # action: ['lifepoints', LP_CHANGE]
+            if self.lifepoints + action[1] < 0:
+                raise InvalidEffect("Can't pay cost of {} LP".format(action[1]))
+
+            self.lifepoints += action[1]
+
+            return True
+
+        if action[0] == "activate_effect":
+            # action: ['activate_effect', CARD, pile, effect_number, [OPTIONS], zone]
+            pile = self.get_field_element(action[2])
+
+            try:
+                if len(action) == 6:
+                    card = self.get_card(action[1], pile, action[5])
+                    self.activate_effect(card, action[3], action[4])
+                else:
+                    card = self.get_card(action[1], pile)
+                    self.activate_effect(card, action[3], action[4])
             except (ZoneError, CardMissing, SummonError):
                 raise
 
@@ -397,3 +480,4 @@ class Field:
         self.print_zone(self.m_zone, "M_zone")
         self.print_zone(self.st_zone, "St_zone")
         self.print_zone(self.extra, "Extra")
+        print("Lifepoints: {}".format(self.lifepoints))

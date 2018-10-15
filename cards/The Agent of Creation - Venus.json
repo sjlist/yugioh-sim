@@ -1,0 +1,20 @@
+{
+  "name": "The Agent of Creation - Venus",
+  "type": "monster",
+  "effects": [
+    {
+      "activation": {
+        "deck": {
+          "Mystical Shine Ball": 1
+        },
+        "lifepoints": 500
+      },
+      "cost": [
+        ["lifepoints", -500]
+      ],
+      "actions": [
+        ["special_summon", "Mystical Shine Ball", "deck", "OPTION0"]
+      ]
+    }
+  ]
+}
