@@ -3,6 +3,7 @@
   "type": "monster",
   "effects": [
     {
+      "location": "m_zone",
       "activation": {
         "deck": {
           "Mystical Shine Ball": 1
@@ -13,7 +14,7 @@
         ["lifepoints", -500]
       ],
       "actions": [
-        ["special_summon", "Mystical Shine Ball", "deck", "OPTION0"]
+        ["special_summon", "Mystical Shine Ball", "OPTION0", "OPTION1"]
       ]
     }
   ]

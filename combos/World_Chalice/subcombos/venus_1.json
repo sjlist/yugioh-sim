@@ -15,9 +15,9 @@
   "hand_or_deck": {},
   "field": {},
   "movement": [
-   [["normal_summon",  "The Agent of Creation - Venus", "hand", 0], "optional"],
-    ["special_summon", "Mystical Shine Ball",           "deck", 1],
-    ["special_summon", "Mystical Shine Ball",           "hand", 2],
-    ["special_summon", "Mystical Shine Ball",           "hand", 4]
+   [["normal_summon",   "The Agent of Creation - Venus", "hand",   0], "optional"],
+    ["activate_effect", "The Agent of Creation - Venus", "m_zone", 0, ["hand", 1], 0],
+    ["activate_effect", "The Agent of Creation - Venus", "m_zone", 0, ["hand", 2], 0],
+    ["activate_effect", "The Agent of Creation - Venus", "m_zone", 0, ["deck", 4], 0]
   ]
 }

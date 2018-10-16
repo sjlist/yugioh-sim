@@ -1,0 +1,23 @@
+{
+  "name": "Lee the World Chalice Fairy",
+  "type": "monster",
+  "effects": [
+    {
+      "location": "m_zone",
+      "activation": {},
+      "cost": [],
+      "actions": [
+        ["add_to_hand", "OPTION0", "deck"]
+      ]
+    },
+    {
+      "location": "grave",
+      "activation": {},
+      "cost": [],
+      "actions": [
+        ["send_to_grave_pile", "OPTION0",                     "hand" ],
+        ["add_to_hand",        "Lee the World Chalice Fairy", "grave"]
+      ]
+    }
+  ]
+}

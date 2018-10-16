@@ -38,7 +38,12 @@ class Deck(object):
         main_list = []
         for type in self.main_deck:
             for element in self.main_deck[type]:
-                main_list += self.main_deck[type][element] * [Card.Card(element, type)]
+                try:
+                    c = Card.Card(element)
+                    c.load()
+                    main_list += self.main_deck[type][element] * [c]
+                except IOError:
+                    main_list += self.main_deck[type][element] * [Card.Card(element, type)]
 
         return main_list
 
@@ -46,7 +51,12 @@ class Deck(object):
         extra_list = []
         for type in self.extra_deck:
             for element in self.extra_deck[type]:
-                extra_list += self.extra_deck[type][element] * [Card.Card(element, type)]
+                try:
+                    c = Card.Card(element)
+                    c.load()
+                    extra_list += self.extra_deck[type][element] * [c]
+                except IOError:
+                    extra_list += self.extra_deck[type][element] * [Card.Card(element, type)]
 
         return extra_list
 

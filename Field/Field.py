@@ -16,13 +16,16 @@ class Field:
         self.normal_summons = [0, 1]
         self.lifepoints = 8000
 
-    def check_activation(self, effect):
+    def check_activation(self, effect, location):
+        activation_location = effect["location"]
+        if activation_location != location:
+            return False
+
         for field_element in effect["activation"]:
             pile = self.get_field_element(field_element)
 
             if field_element == 'lifepoints':
-                print effect["activation"][field_element]
-                if pile < effect["activation"][field_element]:
+                 if pile < effect["activation"][field_element]:
                     return False
 
             else:
@@ -48,19 +51,29 @@ class Field:
     # Run the effect, raise any errors
     def do_effect(self, effect, options):
         option=0
-        print options[0]
         for element in effect["actions"]:
             try:
-                if "OPTION{}".format(option) in element:
-                    element[element.index("OPTION{}".format(option))] = options[option]
-
+                searching = True
+                found_indexes = []
+                while searching:
+                    if "OPTION{}".format(option) in element:
+                        option_index = element.index("OPTION{}".format(option))
+                        found_indexes.append(option_index)
+                        element[option_index] = options[option]
+                        option += 1
+                    else:
+                        searching = False
                 self.do_action(element)
+
+                for count in range(0, len(found_indexes)):
+                    element[found_indexes[count]] = 'OPTION{}'.format(option - (len(found_indexes) - count))
+
             except (ZoneError, CardMissing, SummonError):
                 raise
 
-    def activate_effect(self, card, effect_number, options=[]):
+    def activate_effect(self, card, location, effect_number, options=[]):
         effect = card.effects[effect_number]
-        if not self.check_activation(effect):
+        if not self.check_activation(effect, location):
             return False
         can_pay = self.pay_cost(effect)
         if not can_pay:
@@ -214,6 +227,7 @@ class Field:
 
         raise PileError(pile)
 
+    # get the card from the field
     def get_card(self, name, pile, zone=-1):
         if name[:3] == "ANY":
             try:
@@ -225,7 +239,7 @@ class Field:
             for element in pile:
                 if element.name == name:
                     return element
-        elif 0 <= zone <= len(pile):
+        elif 0 <= zone <= len(pile) and pile[zone].name == name:
             return pile[zone]
         else:
             raise ZoneError("Zone {} does not exist".format(zone), zone, pile)
@@ -450,26 +464,16 @@ class Field:
             try:
                 if len(action) == 6:
                     card = self.get_card(action[1], pile, action[5])
-                    self.activate_effect(card, action[3], action[4])
+                    self.activate_effect(card, action[2], action[3], action[4])
                 else:
                     card = self.get_card(action[1], pile)
-                    self.activate_effect(card, action[3], action[4])
+                    self.activate_effect(card, action[2], action[3], action[4])
             except (ZoneError, CardMissing, SummonError):
                 raise
 
             return True
 
         raise InvalidOption("Invalid option passed into do_action", action)
-
-    def print_zone(self, zone, name):
-        l = []
-        for card in zone:
-            try:
-                l.append(card.name)
-            except AttributeError:
-                l.append(card)
-        print("{}:\n{}\n".format(name, l))
-
 
 # Print the field state
     def print_field(self):
@@ -481,3 +485,12 @@ class Field:
         self.print_zone(self.st_zone, "St_zone")
         self.print_zone(self.extra, "Extra")
         print("Lifepoints: {}".format(self.lifepoints))
+
+    def print_zone(self, zone, name):
+        l = []
+        for card in zone:
+            try:
+                l.append(card.name)
+            except AttributeError:
+                l.append(card)
+        print("{}:\n{}\n".format(name, l))
