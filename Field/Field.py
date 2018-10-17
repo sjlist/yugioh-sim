@@ -6,10 +6,10 @@ import Deck.Card as Card
 
 class Field:
     def __init__(self, deck):
-        self.deck = deck.init_main()
+        self.deck = deck.init_pile(deck.main_deck)
         self.hand = []
         self.grave = []
-        self.extra = deck.init_extra()
+        self.extra = deck.init_pile(deck.extra_deck)
         self.banished = []
         self.m_zone = ["", "", "", "", "", "", ""]
         self.st_zone = ["", "", "", "", ""]

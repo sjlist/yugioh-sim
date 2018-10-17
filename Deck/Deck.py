@@ -34,31 +34,18 @@ class Deck(object):
         self.extra_deck_size = extra_size
         self.side_deck_size = side_size
 
-    def init_main(self):
-        main_list = []
-        for type in self.main_deck:
-            for element in self.main_deck[type]:
+    def init_pile(self, pile):
+        pile_list = []
+        for type in pile:
+            for element in pile[type]:
                 try:
                     c = Card.Card(element)
                     c.load()
-                    main_list += self.main_deck[type][element] * [c]
+                    pile_list += pile[type][element] * [c]
                 except IOError:
-                    main_list += self.main_deck[type][element] * [Card.Card(element, type)]
+                    pile_list += pile[type][element] * [Card.Card(element, type)]
 
-        return main_list
-
-    def init_extra(self):
-        extra_list = []
-        for type in self.extra_deck:
-            for element in self.extra_deck[type]:
-                try:
-                    c = Card.Card(element)
-                    c.load()
-                    extra_list += self.extra_deck[type][element] * [c]
-                except IOError:
-                    extra_list += self.extra_deck[type][element] * [Card.Card(element, type)]
-
-        return extra_list
+        return pile_list
 
 # SAVE LOAD AND EDITOR FUNCTIONS
     def delete_deck(self):
