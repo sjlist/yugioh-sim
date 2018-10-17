@@ -16,7 +16,32 @@ class Field:
         self.normal_summons = [0, 1]
         self.lifepoints = 8000
 
-    def check_activation(self, effect, location):
+    def option_find_list(self, struct):
+        found_options = []
+        index = 0
+        for element in struct:
+            if "OPTION" in element:
+                found_options.append([element[6:], index])
+            index += 1
+
+        return found_options
+
+    def option_find_dict(self, struct):
+        found_options = []
+        for element in struct:
+            if "OPTION" in element:
+                found_options.append([element[6:], struct[element]])
+
+        return found_options
+
+    def option_find(self, struct):
+        if type(struct) == list:
+            return self.option_find_list(struct)
+
+        if type(struct) == dict:
+            return self.option_find_dict(struct)
+
+    def check_activation(self, effect, location, options):
         activation_location = effect["location"]
         if activation_location != location:
             return False
@@ -30,9 +55,13 @@ class Field:
 
             else:
                 for req in effect["activation"][field_element]:
+                    req_extracted = req
+                    if "OPTION" in req:
+                        req_extracted = options[int(req[6:])]
+
                     count = 0
                     for card in pile:
-                        if card.name == req:
+                        if card.name == req_extracted:
                             count += 1
                     if count < effect["activation"][field_element][req]:
                         return False
@@ -50,30 +79,27 @@ class Field:
 
     # Run the effect, raise any errors
     def do_effect(self, effect, options):
-        option=0
         for element in effect["actions"]:
             try:
-                searching = True
                 found_indexes = []
-                while searching:
-                    if "OPTION{}".format(option) in element:
-                        option_index = element.index("OPTION{}".format(option))
-                        found_indexes.append(option_index)
-                        element[option_index] = options[option]
-                        option += 1
-                    else:
-                        searching = False
+                for action in element:
+                    if "OPTION" in action:
+                        option_index = element.index(action)
+                        found_indexes.append([option_index, int(action[6:])])
+                        element[option_index] = options[int(action[6:])]
+
                 self.do_action(element)
 
                 for count in range(0, len(found_indexes)):
-                    element[found_indexes[count]] = 'OPTION{}'.format(option - (len(found_indexes) - count))
+                    element[found_indexes[count][0]] = 'OPTION{}'.format(found_indexes[count][1])
 
             except (ZoneError, CardMissing, SummonError):
                 raise
 
     def activate_effect(self, card, location, effect_number, options=[]):
         effect = card.effects[effect_number]
-        if not self.check_activation(effect, location):
+
+        if not self.check_activation(effect, location, options):
             return False
         can_pay = self.pay_cost(effect)
         if not can_pay:

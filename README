@@ -6,7 +6,6 @@ TODO:
 - CARD DATABASE
     - Load cards into the field by querying the database
 - Implement card effects
-    - in the begining stages, more thought needs to be put into who handles the actions
     - inital json file for a card and effect is created for the database
 - Add toggable debugging stuff
 - Super combos (analytics)

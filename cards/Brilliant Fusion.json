@@ -1,0 +1,25 @@
+{
+  "name": "Brilliant Fusion",
+  "type": "spell",
+  "effects": [
+    {
+      "location": "hand",
+      "activation": {
+        "deck":{
+          "OPTION2": 1,
+          "OPTION3": 1
+        },
+        "extra": {
+          "OPTION0": 1
+        }
+      },
+      "cost": [],
+      "actions": [
+        ["play_spell",         "Brilliant Fusion",          "OPTION4"],
+        ["send_to_grave_pile", "OPTION2",          "deck"  ],
+        ["send_to_grave_pile", "OPTION3",          "deck"  ],
+        ["special_summon",     "OPTION0",          "extra", "OPTION1"]
+      ]
+    }
+  ]
+}
