@@ -6,15 +6,10 @@ I'm using a MongoDB set-up. A good reference to get started and find commands is
 
 1. Install mongo
 2. Install Node and npm
+3. cd into cardapi
+4. run `npm install`
 
 ## Using API
-
-### Set up API
-
-1. cd into cardapi
-2. run `npm install`
-
-### Using API
 
 To start, I'm just making a simple webpage entry form with the given fields. Later, I want this to let you browse all the cards and make edits to them. Additionally, this could be one way to construct the decks. 
 
