@@ -5,4 +5,8 @@
 *pyc
 *.idea
 *.pkl
+
 db/journal/*
+db/diagnostic.data/*
+db/*.wt
+db/WiredTiger.turtle
