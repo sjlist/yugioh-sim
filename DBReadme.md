@@ -13,7 +13,9 @@ I'm using a MongoDB set-up. A good reference to get started and find commands is
 
 To start, I'm just making a simple webpage entry form with the given fields. Later, I want this to let you browse all the cards and make edits to them. Additionally, this could be one way to construct the decks. 
 
-After the api is installed (as specified above) you should be able to run it with the command `npm start`, then naviage to: localhost:8888/ in your webbrowser of choice. 
+After the api is installed (as specified above) you should be able to run it with the command `npm start`, then naviage to: localhost:3000/ in your webbrowser of choice. 
+
+If you want to use just the terminal api, it runs on localhost:5656/api/cards. 
 
 
 ## Using DB

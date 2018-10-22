@@ -10,3 +10,5 @@ db/journal/*
 db/diagnostic.data/*
 db/*.wt
 db/WiredTiger.turtle
+
+cardapi/node_modules/*
