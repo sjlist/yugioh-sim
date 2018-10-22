@@ -23,9 +23,9 @@ class Deck(object):
             for element in self.main_deck[type]:
                 main_size += self.main_deck[type][element]
 
-        for type in self.extra_deck:
-            for element in self.extra_deck[type]:
-                extra_size += self.extra_deck[type][element]
+        for type in self.extra_deck["monster"]:
+            for element in self.extra_deck["monster"][type]:
+                extra_size += self.extra_deck["monster"][type][element]
 
         for element in self.side_deck:
             side_size += self.side_deck[element]
@@ -36,16 +36,27 @@ class Deck(object):
 
     def init_pile(self, pile):
         pile_list = []
-        for type in pile:
-            for element in pile[type]:
+        for card_type in pile:
+            for element in pile[card_type]:
                 try:
-                    c = Card.Card(element)
-                    c.load()
-                    pile_list += pile[type][element] * [c]
-                except IOError:
-                    pile_list += pile[type][element] * [Card.Card(element, type)]
+                    len(pile[card_type][element])
+                    for card_name in pile[card_type][element]:
+                        card = self.load_card(card_name, card_type, element)
+                        pile_list += [card] * pile[card_type][element][card_name]
+                except TypeError:
+                    card = self.load_card(element, card_type)
+                    pile_list += [card] * pile[card_type][element]
 
         return pile_list
+
+    def load_card(self, card_name, card_type="", card_subtype=""):
+        try:
+            c = Card.Card(card_name)
+            c.load()
+            return c
+        except IOError:
+            c = Card.Card(card_name, card_type, card_subtype)
+            return c
 
 # SAVE LOAD AND EDITOR FUNCTIONS
     def delete_deck(self):
@@ -73,19 +84,19 @@ class Deck(object):
 # Editor Functions
     def print_deck(self):
         self.count_size()
-        print "Deck Name: " + self.deck_name
-        print "Combo Folder : " + self.combo_folder
-        print "\nMain Deck: " + str(self.main_deck_size) + " cards"
-        for type in self.main_deck:
-            for element in self.main_deck[type]:
-                print element + ": " + str(self.main_deck[type][element])
-        print "\nExtra Deck: " + str(self.extra_deck_size) + " cards"
-        for type in self.extra_deck:
-            for element in self.extra_deck[type]:
-                print element + ": " + str(self.extra_deck[type][element])
-        print "\nSide Deck: " + str(self.side_deck_size) + " cards"
+        print("Deck Name: {}".format(self.deck_name))
+        print("Combo Folder : {}".format(self.combo_folder))
+        print("\nMain Deck: {} cards".format(str(self.main_deck_size)))
+        for card_type in self.main_deck:
+            for element in self.main_deck[card_type]:
+                print("{}: {}".format(element, str(self.main_deck[card_type][element])))
+        print("\nExtra Deck: {} cards".format(str(self.extra_deck_size)))
+        for card_type in self.extra_deck["monster"]:
+            for element in self.extra_deck["monster"][card_type]:
+                print("{}: {}".format(element, str(self.extra_deck["monster"][card_type][element])))
+        print("\nSide Deck: {} cards".format(str(self.side_deck_size)))
         for element in self.side_deck:
-            print element + ": " + str(self.side_deck[element])
+            print("{}: {}".format(element, str(self.side_deck[element])))
 
     def add_card(self, pile, name, number):
         if name in pile.keys():

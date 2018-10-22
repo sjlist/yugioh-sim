@@ -1,21 +1,23 @@
 {
   "extra_deck": {
-    "link": {
-      "Imduk the World Chalice Dragon": 3,
-      "Linkuriboh": 1,
-      "Link Spider": 1,
-      "Knightmare Pheonix": 1,
-      "Knightmare Goblin": 1,
-      "Auram the World Chalice Blademaster": 1,
-      "Ib the World Chalice Priestess": 1,
-      "Summon Sorceress": 1,
-      "Ningirsu the World Chalice Warrior": 1,
-      "Firewall Dragon": 1,
-      "Saryuja Skull Dread": 1,
-      "Topologic Gumblar Dragon": 1,
-    },
-    "fusion":{
-      "Gem-Knight Seraphinite": 1
+    "monster": {
+      "link": {
+        "Imduk the World Chalice Dragon": 3,
+        "Linkuriboh": 1,
+        "Link Spider": 1,
+        "Knightmare Pheonix": 1,
+        "Knightmare Goblin": 1,
+        "Auram the World Chalice Blademaster": 1,
+        "Ib the World Chalice Priestess": 1,
+        "Summon Sorceress": 1,
+        "Ningirsu the World Chalice Warrior": 1,
+        "Firewall Dragon": 1,
+        "Saryuja Skull Dread": 1,
+        "Topologic Gumblar Dragon": 1
+      },
+      "fusion": {
+        "Gem-Knight Seraphinite": 1
+      }
     }
   },
   "main_deck": {

@@ -1,21 +1,24 @@
 {
   "extra_deck": {
-    "link": {
-      "Imduk the World Chalice Dragon": 3,
-      "Link Spider": 1,
-      "Linkuriboh": 1,
-      "Knightmare Goblin": 1,
-      "Knightmare Pheonix": 1,
-      "Reprodocus": 1,
-      "Ib the World Chalice Priestess": 1,
-      "Auram the World Chalice Blademaster": 1,
-      "Summon Sorceress": 1,
-      "Ningirsu the World Chalice Warrior": 1,
-      "Topologic Gumblar Dragon": 1,
-      "Firewall Dragon": 1,
-    },
-    "fusion":{
-      "Gem-Knight Seraphinite": 1
+    "monster": {
+      "link": {
+        "Imduk the World Chalice Dragon": 3,
+        "Link Spider": 1,
+        "Linkuriboh": 1,
+        "Knightmare Goblin": 1,
+        "Knightmare Pheonix": 1,
+        "Reprodocus": 1,
+        "Ib the World Chalice Priestess": 1,
+        "Auram the World Chalice Blademaster": 1,
+        "Summon Sorceress": 1,
+        "Ningirsu the World Chalice Warrior": 1,
+        "Tri-Gate Wizard": 1,
+        "Topologic Gumblar Dragon": 1,
+        "Firewall Dragon": 1
+      },
+      "fusion": {
+        "Gem-Knight Seraphinite": 1
+      }
     }
   },
   "main_deck": {
@@ -38,11 +41,12 @@
       "Herald of Orange Light": 2
     },
     "spell": {
-      "World Legacy Succession": 1,
-      "Soul Charge": 1,
-      "Monster Reborn": 1,
-      "Transmodify": 2,
-      "Called by the Grave": 3
+      "World Legacy Succession": 0,
+      "Soul Charge": 0,
+      "Monster Reborn": 0,
+      "Transmodify": 3,
+      "Called by the Grave": 3,
+      "Upstart Goblin": 1
     },
     "trap": {
       "The Phantom of Shade Brigandine": 1

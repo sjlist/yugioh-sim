@@ -1,5 +1,5 @@
 TODO:
-- Load in combos once and not every time the combo is called
+- Load in combos once and not every time the combo is called, including sub combos
 - Add end states for combo unit tests
 - Add more combos (focus on two card starters)
 - Implement new actions and update combos to use them
@@ -9,6 +9,4 @@ TODO:
     - inital json file for a card and effect is created for the database
 - Add toggable debugging stuff
 - Super combos (analytics)
-- Card types in combo?
 - Redo editors - eh
-- field pickle saves should be unique for recursive optional effects
