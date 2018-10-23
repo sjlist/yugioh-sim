@@ -1,13 +1,19 @@
 import React from 'react';
+import alasql from 'alasql';
 import 'whatwg-fetch';
+
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			cards: []
+			cards: [],
+			currCard: ""
 		};
+
+		this.updateCards = this.updateCards.bind(this);
+		this.updateCurrCard = this.updateCurrCard.bind(this);
 	}
 
 	componentDidMount() {
@@ -21,28 +27,91 @@ class App extends React.Component {
 		})
 	}
 
+	updateCards(newCards) {
+		this.setState({
+			cards: newCards
+		})
+	}
+
+	updateCurrCard(newid) {
+		this.setState({ currCard: newid })
+	}
+
 	render() {
 		return (
 			<div className="App">
-				<CardList cards={this.state.cards} />
+				<CardList cards={this.state.cards} handleCurrCardChange={this.updateCurrCard} />
+				<ActiveCard cards={this.state.cards} currCard={this.state.currCard} handleCardsChange={this.updateCards} />
 			</div>
 		);
 	}
 }
 
-class CardList extends React.Component {
+
+class ActiveCard extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			activeCard: {}
+		};
+	}
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.currCard !== this.props.currCard) {
+			const card = alasql("SELECT * FROM ? WHERE _id = ?", [this.props.cards, this.props.currCard]);
+			// console.log("alasql active card:", card);
+			this.setState({ activeCard: card });
+		}
+	}
+
 	render() {
-		console.log(this.props.cards);
+		return(
+			<div className="ActiveCard" style={{float: "right", width: "50%"}}>
+				Active card: { JSON.stringify(this.state.activeCard) }
+			</div>
+		);
+	}
+}
+
+
+class CardList extends React.Component {
+	typeToColor(cardType) {
+		var color = "";
+
+		switch (cardType) {
+			case "monster": 
+				color = "orange";
+				break;
+			case "spell":
+				color = "green";
+				break;
+			case "trap":
+				color = "purple";
+				break;
+			default:
+				color = "red";
+				break;
+		}
+
+		return color;
+	}
+
+	render() {
 		return (
-			<div className="CardList">
+			<div className="CardList" style={{float: "left", width: "50%"}}>
 				<h2>
 					Cards: 
 				</h2>
-				<ul>
-					{
-						this.props.cards.map(card => <li key={card._id}> { card.name } </li>)
-					}
-				</ul>
+				{
+					this.props.cards.map(card => {
+						return(
+							<div key={card._id} onClick={() => this.props.handleCurrCardChange(card._id)} style={{color: this.typeToColor(card.type)}}>
+								{card.name}
+							</div>
+						);
+					})
+				}
 			</div>
 		);
 	}
