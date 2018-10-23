@@ -1,28 +1,51 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import 'whatwg-fetch';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+class App extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			cards: []
+		};
+	}
+
+	componentDidMount() {
+		fetch('/api/cards', {
+			method: 'GET'
+		})
+		.then(data => data.json())
+		.then(res => {
+			//console.log(res);
+			this.setState({ cards: res });
+		})
+	}
+
+	render() {
+		return (
+			<div className="App">
+				<CardList cards={this.state.cards} />
+			</div>
+		);
+	}
+}
+
+class CardList extends React.Component {
+	render() {
+		console.log(this.props.cards);
+		return (
+			<div className="CardList">
+				<h2>
+					Cards: 
+				</h2>
+				<ul>
+					{
+						this.props.cards.map(card => <li key={card._id}> { card.name } </li>)
+					}
+				</ul>
+			</div>
+		);
+	}
 }
 
 export default App;
