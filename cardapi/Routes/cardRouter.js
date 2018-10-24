@@ -4,25 +4,28 @@ var Card = require('../Models/cardModel');
 const cardRouter = express.Router();
 
 cardRouter.route('/')
-    .get((req, res) => {
-        Card.find({}, (err, card) => {
-            res.json(card)
-        })  
-    })
-    .post((req, res) => {
-    	let card = new Card(req.body);
-    	card.save()
-    	res.status(201).send(card)
-    })
+	.get((req, res) => {
+		Card.find({}, (err, card) => {
+			res.json(card)
+		})  
+	})
+	.post((req, res) => {
+		let card = new Card(req.body);
+		card.save()
+		res.status(201).send(card)
+	})
 
 // Middleware to find card before opperations
-cardRouter.use('/:cardName', (req, res, next) => {
-	Card.findById(req.params.cardName, (err, card) => {
+// Card name is a unique field (by schema), so there should
+// only ever be one card returned.
+cardRouter.use('/cardName/:cardName', (req, res, next) => {
+	Card.find({name: req.params.cardName}, (err, card) => {
+		//console.log(card);
 		if (err) {
 			res.status(500).send(err)
 		}
 		else {
-			req.card = card;
+			req.card = card[0];
 			next()
 		}
 	})
@@ -30,16 +33,18 @@ cardRouter.use('/:cardName', (req, res, next) => {
 
 // See and modify a specific card by name
 // Later I might do this by _id after getting all initially
-cardRouter.route('/:cardName')
-    .get((req, res) => {
-    	res.json(req.card)
-    })
-    .put((req, res) => {
-    	req.card.type = req.body.type;
+cardRouter.route('/cardName/:cardName')
+	.get((req, res) => {
+		res.json(req.card)
+	})
+	.put((req, res) => {
+		req.card.type = req.body.type;
 		req.card.save()
 		res.json(req.card)
-    })
-    .patch((req, res) => {
+	}) //not needed b/c patch?
+	.patch((req, res) => {
+		console.log(req.card);
+		// Don't change id
 		if (req.body._id) {
 			delete req.body._id;
 		}
@@ -49,8 +54,8 @@ cardRouter.route('/:cardName')
 		}
 		req.card.save()
 		res.json(req.card)
-    })
-    .delete((req, res) => {
+	})
+	.delete((req, res) => {
 		req.card.remove(err => {
 			if (err) {
 				res.status(500).send(err)
@@ -59,6 +64,6 @@ cardRouter.route('/:cardName')
 				res.status(204).send("card removed")
 			}
 		})
-    })
+	})
 
 module.exports = cardRouter;
