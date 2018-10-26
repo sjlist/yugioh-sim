@@ -63,6 +63,7 @@ class ActiveCard extends React.Component {
 
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleActiveCardChange = this.handleActiveCardChange.bind(this);
+		this.handleEffectChange = this.handleEffectChange.bind(this);
 	}
 
 	componentDidUpdate(prevProps) {
@@ -76,7 +77,7 @@ class ActiveCard extends React.Component {
 	handleSubmit(event) {
 		event.preventDefault();
 
-		console.log("Submitted Form, task:", this.state.task)
+		console.log("Submitted Form");
 	}
 
 	handleActiveCardChange (event) {
@@ -89,6 +90,10 @@ class ActiveCard extends React.Component {
 		activeCard[event.target.name] = event.target.value;
 
 		this.setState({ activeCard: activeCard });
+	}
+
+	handleEffectChange (event, index) {
+		console.log("handleEffectChange:", event.target, index);
 	}
 
 	render() {
@@ -104,11 +109,39 @@ class ActiveCard extends React.Component {
 					<label> Name:
 						<input name="name" type="text" value={this.state.activeCard.name} onChange={this.handleActiveCardChange} />
 					</label> 
+					<br />
 					<label> Type:
 						<input name="type" type="text" value={this.state.activeCard.type} onChange={this.handleActiveCardChange} />
 					</label> 
-
-					<input type="submit" value="Submit" />
+					<br />
+					{
+						this.state.activeCard.effects.map((effect, i) => {
+							return(
+								<div key={i}>
+									<label> Effect { i }:
+										<br />
+										<label> Location:
+											<input name="location" type="text" />
+										</label>
+										<br />
+										<label> Activation:
+											<input name="activation" type="text" />
+										</label>
+										<br />
+										<label> cost:
+											<input name="cost" type="text" />
+										</label>
+										<br />
+										<label> actions:
+											<input name="actions" type="text" />
+										</label>
+									</label>
+								</div>
+							);
+						})
+					}
+					<br />
+					<input type="submit" value="Update" />
 				</form>
 			</div>
 		);
