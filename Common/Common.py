@@ -1,7 +1,4 @@
 import os
-import glob
-import Deck.Card as Card
-
 
 # Color class for pretty printing
 class bcolors:
@@ -50,6 +47,8 @@ def dict2card(pile_dict, type):
 
 # Convert a list of card names to a list of Cards of a type
 def list2card(pile_list, type):
+    import Deck.Card as Card
+
     card_list = []
     for element in pile_list:
         if element[:3] == "ANY":
@@ -144,3 +143,11 @@ def numItemsDict(d):
     for key in d.keys():
         num += d[key]
     return num
+
+
+# Given a JSON obj return the attribute field if it has it, else return None
+def get_json_attr(jsonOBJ, attr):
+    try:
+        return jsonOBJ[attr]
+    except KeyError:
+        return None

@@ -7,7 +7,7 @@ import json
 from Common.Errors import *
 import sys
 import Field.Field as Field
-
+import uuid
 
 class Combo():
     def __init__(self, name="", hand_req={}, hand_or_deck={}, deck_req={}, extra_req={},\
@@ -44,20 +44,20 @@ class Combo():
                     if not combo_completed:
                         return False
 
-                # Optional combo handling, make a deep copy of the field. Test to see if the combo works,
+                # Optional combo handling, make a pkl of the field. Test to see if the combo works,
                 # if it doesnt, do nothing to the main combo path.
                 # If it does work, pass the field state back to the main combo path
-                elif combo[1] == 'o':
-                    pickle.dump(f, open('field_temp.pkl', 'wb'), protocol=pickle.HIGHEST_PROTOCOL)
+                elif combo[0] == 'o':
+                    file_name = uuid.uuid4().hex[:6].upper()
+                    pickle.dump(f, open('temp/{}.pkl'.format(file_name), 'wb'), protocol=pickle.HIGHEST_PROTOCOL)
                     c = Combo()
-                    combo_completed = False
                     for sc in combo[1:]:
-                        c.load(combo[0], "{}/subcombos".format(self.folder))
+                        c.load(sc, "{}/subcombos".format(self.folder))
                         try:
                             c.is_combo(f)
                             break
                         except (CardMissing, ZoneError):
-                            f = pickle.load(open("field_temp.pkl"))
+                            f = pickle.load(open("temp/{}.pkl".format(file_name)))
                             pass
 
         # Do all requirement checks for pile state
@@ -75,7 +75,6 @@ class Combo():
             return False
         if not self.all_there(self.hand, f.hand):
             return False
-
 
         # if there are no movement actions, return true
         # if runMoves is true, run the current combos moves

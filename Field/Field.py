@@ -1,5 +1,4 @@
 import random
-from Common.Common import bcolors
 from Common.Errors import *
 import Deck.Card as Card
 
@@ -50,21 +49,34 @@ class Field:
             pile = self.get_field_element(field_element)
 
             if field_element == 'lifepoints':
-                 if pile < effect["activation"][field_element]:
+                if pile < effect["activation"][field_element]:
                     return False
-
             else:
                 for req in effect["activation"][field_element]:
                     req_extracted = req
                     if "OPTION" in req:
                         req_extracted = options[int(req[6:])]
 
-                    count = 0
-                    for card in pile:
-                        if card.name == req_extracted:
-                            count += 1
-                    if count < effect["activation"][field_element][req]:
-                        return False
+                    if req_extracted[:3] == "ANY":
+
+                        if req_extracted == 'ANYCARD':
+                            if effect["activation"][field_element][req] > len(pile):
+                                return False
+                        else:
+                            card_type = req_extracted[3:].lower()
+                            count = 0
+                            for card in pile:
+                                if card.type == card_type:
+                                    count += 1
+                            if effect["activation"][field_element][req] > count:
+                                return False
+                    else:
+                        count = 0
+                        for card in pile:
+                            if card.name == req_extracted:
+                                count += 1
+                        if count < effect["activation"][field_element][req]:
+                            return False
 
         return True
 
@@ -276,6 +288,7 @@ class Field:
     def do_action(self, action):
         if action[0] == "pause":
             # action: ["pause"]
+            self.print_field()
             raw_input()
             return True
 
@@ -451,7 +464,7 @@ class Field:
         if action[0] == "link_summon":
             # action: ['link_summon', CARD, zone, (materials)[[CARD, zone]]]
             card = self.get_card(action[1], self.extra)
-            if card.type != "link":
+            if card.subtype != "link":
                 raise SummonError("{} is not a link monster, cannot link summon".format(action[1]))
             try:
                 for material in action[3]:
@@ -465,7 +478,7 @@ class Field:
         if action[0] == "fusion_summon":
             # action: ['fusion_summon', CARD, zone, (materials)[[CARD, zone]]]
             card = self.get_card(action[1], self.extra)
-            if card.type != "fusion":
+            if card.subtype != "fusion":
                 raise SummonError("{} is not a fusion monster, cannot fusion summon".format(action[1]))
             try:
                 self.do_action(['special_summon', action[1], 'extra', action[2]])

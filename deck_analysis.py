@@ -10,6 +10,8 @@ import cProfile
 import pstats
 import StringIO
 import random
+from subprocess import call
+
 
 class Combo_Analyzer():
     def __init__(self, deck_name, MAX_TRIES, combo="", time_combos=False, calculate_chances=True):
@@ -22,6 +24,7 @@ class Combo_Analyzer():
     def analyze_combos(self):
         d = Deck.Deck()
         d.load(self.deck_name)
+        d.print_deck()
         combo_names = {}
         combo_chance = {}
         obsolete_combo_names = {}
@@ -55,7 +58,7 @@ class Combo_Analyzer():
             if combo_chance[key] != 0 and key != 'Brick':
                 l.append([key, combo_chance[key]*100])
         l.append(['Brick', combo_chance['Brick']*100])
-        print tabulate(l, headers=[name, '% Chance'])
+        print(tabulate(l, headers=[name, '% Chance']))
 
     def load_combos(self, d, subfolder=""):
         combo_names = {}
@@ -88,9 +91,9 @@ class Combo_Analyzer():
                         else:
                             card_found = True
 
-                for type in d.extra_deck:
-                    if key in d.extra_deck[type]:
-                        if d.extra_deck[type][key] < req[key]:
+                for type in d.extra_deck["monster"]:
+                    if key in d.extra_deck["monster"][type]:
+                        if d.extra_deck["monster"][type][key] < req[key]:
                             return False
                         else:
                             card_found = True
@@ -161,10 +164,10 @@ class Combo_Analyzer():
                 move_times[key] = move_times[key] / move_times[sorted_chances[0]]
 
             sorted_list.append(['Total Time for {}'.format(c.name), total_time])
-            print tabulate(sorted_list, headers=['Move', 'Movement Time'])
+            print(tabulate(sorted_list, headers=['Move', 'Movement Time']))
 
         else:
-            print "No timing data for combo {}".format(c.name)
+            print("No timing data for combo {}".format(c.name))
 
     def calculate_combo_chances(self, combo_names, combo_chance, d, name):
         pr = cProfile.Profile()
@@ -190,6 +193,8 @@ class Combo_Analyzer():
                     combo_chance[key] += 1
                     was_combo = True
 
+            call("rm temp/*", shell=True)
+
             if not was_combo:
                 combo_chance["Brick"] += 1
 
@@ -199,10 +204,10 @@ class Combo_Analyzer():
         ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
         ps.print_stats(20)
 
-        print
+        print("")
 
         for key in combo_chance.keys():
             combo_chance[key] = combo_chance[key] / self.MAX_TRIES
         self.print_chances(combo_chance, name)
 
-        print s.getvalue()
+        print(s.getvalue())
